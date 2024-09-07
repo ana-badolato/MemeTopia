@@ -17,18 +17,22 @@ const musicOffBtnNode = document.querySelector("#musicOffBtn");
 //* VARIABLES GLOBALES DEL JUEGO
 
 //Control del juego
-let isGameGoing = false;
+let isGameGoing = false; //para controlar el estado de ciertos elementos dentro del juego
 
 // Intervalos
 let gameIntervalId = null;
+let platformsIntervalId = null;
 
 //Objetos
 let playerObj = null;
+let platformsArray = [];
+let platformsFreq = 1500;
+
 
 // Audio
-let gameMusic = new Audio('./audio/marbleSodaMusic.mp3')
-gameMusic.loop = true;
-gameMusic.volume = 0.5;
+let gameMusic = new Audio('./audio/marbleSodaMusic.mp3') // cargamos la música
+gameMusic.loop = true; // la música dentro del juego se repite
+gameMusic.volume = 0.5; // ajustamos el volumen
 
 //* FUNCIONES GLOBALES DEL JUEGO
 
@@ -49,43 +53,57 @@ function startGame() {
   }, Math.round(1000/60)); // Para que el juego se ejecute a 60 fps
 
   // 4. (Opcional) Iniciaremos otrs intervalos que requiera el juego
+  platformsIntervalId = setInterval(() => { // Control de la aparición de plataformas
+    addPlatform();
+  }, platformsFreq);
 
 }
 
 function gameLoop() {
 
     // Se ejecuta 60 veces por segundo en el intervalo principal
-    playerObj.gravity();
 
+    // Aquí indicamos todas aquellas cosas que queremos que estén en constante "supervisión"
+    playerObj.gravity();
+    detectCollisionPlayerPlatform()
+
+    // Recorremos el array para indicar que se mueva cada una de las plataformas
+    platformsArray.forEach((eachPlatform)=>{
+      eachPlatform.automaticMovement();
+    })
 }
 
 function gameOver() {
-
-  // 1. Limpiar los intervalos
-  clearInterval(gameIntervalId);
-
-  // 2. Cambiar de pantalla
-  gameScreenNode.style.display = "none";
+  
+  cleanGame();
   gameOverScreenNode.style.display = "flex";
 
-  // 3. Parar y reiniciar elementos
-  stopMusicGame();
-  isGameGoing = false;
 }
 
-function openMenu() { //por ahora esta función y la de arriba son iguales
+function openMenu() { 
 
-  // 1. Limpiar los intervalos
-  clearInterval(gameIntervalId);
-
-  // 2. Cambiar de pantalla
-  gameScreenNode.style.display = "none";
+  cleanGame();
   splashScreenNode.style.display = "flex";
 
-  // 3. Parar audio perteneciente al juego
-  stopMusicGame();
-  isGameGoing = false;
 }
+
+function cleanGame (){
+    // 1. Limpiar los intervalos
+    clearInterval(gameIntervalId);
+    clearInterval(platformsIntervalId); 
+
+    // 2. Pantallas
+    gameScreenNode.style.display = "none";
+
+    // 3. Parar y reiniciar elementos
+    stopMusicGame();
+    isGameGoing = false;
+
+    gameBoxNode.innerHTML = ""
+    playerObj = null;
+    platformsArray = []; 
+}
+
 
 function initMusicGame() {
   gameMusic.play();
@@ -96,7 +114,34 @@ function stopMusicGame() {
   gameMusic.currentTime = 0; // Reiniciar la música si vuelves a reproducirla
 }
 
+function addPlatform() {
+  let randomPositionX = Math.floor(Math.random() * (-50));
 
+  let newPlatformLeft = new Platform(randomPositionX, "left");
+  platformsArray.push(newPlatformLeft);
+
+  let newPlatformRight = new Platform(randomPositionX + 500, "right");
+  platformsArray.push(newPlatformRight);
+
+}
+
+function detectCollisionPlayerPlatform() {
+
+  platformsArray.forEach((eachPlatform)=>{
+  
+    if(playerObj.x < eachPlatform.x + eachPlatform.w &&
+      playerObj.x + playerObj.w > eachPlatform.x &&
+      playerObj.y < eachPlatform.y + eachPlatform.h &&
+      playerObj.y + playerObj.h > eachPlatform.y){
+
+      // El jugador está sobre la plataforma
+      playerObj.y = eachPlatform.y - playerObj.h; // Ajustar la posición del jugador sobre la plataforma
+      playerObj.node.style.top = `${playerObj.y}px`; // Actualizar posición en el DOM
+      return true;
+    }
+  });
+
+  }
 
 //* EVENT LISTENERS
 //botón para iniciar el juego desde el menú principal

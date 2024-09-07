@@ -8,9 +8,11 @@ class Player {
     this.h = 64;
     this.w = 56;
     this.speed = 10;
-    this.gravitySpeed = 2;
-    this.jumpSpeed = 50;
-    this.isJumping = false;
+    this.gravitySpeed = 4;
+    this.jumpSpeed = 60;
+    //this.isJumping = false;
+    //! Esto es una referencia apra cuando necesite quitar el salto doble
+    //! También hay que 
 
     // Al crear el player:
 
@@ -30,27 +32,29 @@ class Player {
 
   // Efecto que recreará la gravedad sobre nuestro jugador
   gravity() {
-    
-    this.y+= this.gravitySpeed;
 
-    //nuestro elementos existen en dos entornos. El de JS y el DOM
-    this.node.style.top = `${this.y}px`
+     // Si el jugador no está sobre una plataforma, aplicamos la gravedad
+  if (!detectCollisionPlayerPlatform()) {
+    this.y += this.gravitySpeed; // Aumentamos la posición Y para simular la caída
 
-    // condicional para verificar si el player ha caído al fondo de la torre
-    if((this.y + this.h)>=gameBoxNode.offsetHeight){
+    // Actualizamos la posición en el DOM
+    this.node.style.top = `${this.y}px`;
+
+    // Comprobamos si el jugador toca el fondo del contenedor
+    if ((this.y + this.h) >= gameBoxNode.offsetHeight) {
+      // Si toca el fondo, activamos el Game Over
       gameOver();
     }
-
+  }
   }
 
     // El jugador saltará a la velocidad indicada la distancia indicada
     jump(){
       
       // Prevenimos solapamientos al pulsar teclas fuera de la pantalla principal de juego
-      if(isGameGoing && !this.isJumping){
+      if(isGameGoing){
         this.y -= this.jumpSpeed;
         this.node.style.top = `${this.y}px`;
-        //! jumping = true?
       }
 
     }
