@@ -1,0 +1,78 @@
+@font-face {
+  font-family: 'RetroBoldy';
+  src: url('/fonts/RetroBoldyRegular.otf') format('opentype'),
+       url('/fonts/RetroBoldyRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  /* Variables de colores */
+  --primary-color: #E6FE9C;
+  --secondary-color: #77063e;
+  --background-color: #f5f5f5;
+  --text-color: #333;
+
+  /* Definir variables de fuentes */
+  --main-font: 'Roboto', sans-serif;
+  --heading-font: 'Roboto', sans-serif;
+};
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 64px;
+  background-color: var(--primary-color);
+}
+
+h1{
+  font-family: var(--heading-font);
+  font-size: 64px;
+  color: var(--secondary-color);
+}
+
+#splash-screen {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 64px;
+}
+
+#splashScreenImg {
+  height: 260px;
+  width: 500px;
+  background-color: var(--background-color);
+  margin-bottom: 32px;
+}
+
+button {
+  height: 32px;
+  width: 128px;
+}
+
+#game-box {
+  background-color: darkgray;
+  width:600px;
+  height:720px;
+
+  position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
+  overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
+  user-select: none; /* previene que los elementos del game-box sean resaltados al hacer click */
+}
+
+#game-box * {
+  pointer-events: none; /* previene que todos los elementos del game-box sean arrastrados al clickar sobre ellos */
+}
+
+
+
+#game-screen, #game-over-screen {
+  display:none; /*Con visibility hidden seguirían ocupando espacio*/
+}
