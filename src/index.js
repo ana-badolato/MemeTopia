@@ -16,8 +16,6 @@ const musicOffBtnNode = document.querySelector("#musicOffBtn");
 
 //* VARIABLES GLOBALES DEL JUEGO
 
-//Control del juego
-let isGameGoing = false; //para controlar el estado de ciertos elementos dentro del juego
 
 // Intervalos
 let gameIntervalId = null;
@@ -26,13 +24,18 @@ let platformsIntervalId = null;
 //Objetos
 let playerObj = null;
 let platformsArray = [];
-let platformsFreq = 1500;
+let platformsFreq = 3000;
+
+//Control del juego
+let isGameGoing = false; // para controlar el estado de ciertos elementos dentro del juego
 
 
 // Audio
 let gameMusic = new Audio('./audio/marbleSodaMusic.mp3') // cargamos la música
 gameMusic.loop = true; // la música dentro del juego se repite
 gameMusic.volume = 0.5; // ajustamos el volumen
+
+
 
 //* FUNCIONES GLOBALES DEL JUEGO
 
@@ -45,6 +48,8 @@ function startGame() {
   // 2. Añadir todos los elementos iniciales del juego
   isGameGoing = true;
   playerObj = new Player();
+  addPlatform(-50, "left");
+  platformsArray[0].y = 50;
   initMusicGame();
 
   // 3. Iniciar el intervalo de juego
@@ -114,13 +119,14 @@ function stopMusicGame() {
   gameMusic.currentTime = 0; // Reiniciar la música si vuelves a reproducirla
 }
 
+
 function addPlatform() {
-  let randomPositionX = Math.floor(Math.random() * (-50));
+  let randomPositionX = Math.floor(Math.random() * (-75));
 
   let newPlatformLeft = new Platform(randomPositionX, "left");
   platformsArray.push(newPlatformLeft);
 
-  let newPlatformRight = new Platform(randomPositionX + 500, "right");
+  let newPlatformRight = new Platform(randomPositionX + 400, "right");
   platformsArray.push(newPlatformRight);
 
 }

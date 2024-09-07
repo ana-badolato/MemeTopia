@@ -4,9 +4,9 @@ class Player {
 
     // Todas las instancias del jugador se crearán con estos valores
     this.x = 50;
-    this.y = 400;
-    this.h = 64;
-    this.w = 56;
+    this.y = 50;
+    this.h = 56;
+    this.w = 80;
     this.speed = 10;
     this.gravitySpeed = 4;
     this.jumpSpeed = 60;
