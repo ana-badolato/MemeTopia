@@ -1,11 +1,3 @@
-@font-face {
-  font-family: 'RetroBoldy';
-  src: url('/fonts/RetroBoldyRegular.otf') format('opentype'),
-       url('/fonts/RetroBoldyRegular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 :root {
   /* Variables de colores */
   --primary-color: #E6FE9C;
@@ -57,10 +49,20 @@ button {
   width: 128px;
 }
 
+#topMenu {
+
+}
+
+#bottomMenu {
+  display: flex;
+  justify-content: space-between;
+  gap: 210px;
+}
+
 #game-box {
   background-color: darkgray;
   width:600px;
-  height:720px;
+  height:900px;
 
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
   overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
