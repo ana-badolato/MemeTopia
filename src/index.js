@@ -53,6 +53,7 @@ gameOverAudio.volume = 0.2;
 function startGame() {
 
   // 1. Cambiar las pantallas
+  gameOverScreenNode.style.display = "none";
   splashScreenNode.style.display = "none";
   gameScreenNode.style.display = "flex";
 
@@ -61,7 +62,9 @@ function startGame() {
   playerObj = new Player();
   addPlatform(-50, "left");
   platformsArray[0].y = 50;
+  stopMusicGameOver();
   initMusicGame();
+  
 
   // 3. Iniciar el intervalo de juego
   gameIntervalId = setInterval(() => {
@@ -91,47 +94,58 @@ function gameLoop() {
 
 function gameOver() {
   
-      // 1. Limpiar los intervalos
-      clearInterval(gameIntervalId);
-      clearInterval(platformsIntervalId); 
+// 1. Limpiar el estado del juego usando cleanGame
+cleanGame();
 
-      // 2. Pantallas
-      gameOverScreenNode.style.display = "flex";
-      gameScreenNode.style.display = "none";
-  
-      // 3. Parar y reiniciar elementos
-      stopMusicGame();
-      gameOverAudio.play();
+// 2. Mostrar la pantalla de Game Over
+gameOverScreenNode.style.display = "flex";
+gameScreenNode.style.display = "none";
 
-      isGameGoing = false;
-  
-      gameBoxNode.innerHTML = ""
-      playerObj = null;
-      platformsArray = []; 
-
+// 3. Reproducir la música de Game Over
+gameOverAudio.play();
 }
 
 
 function openMenu() { 
-      isGameGoing = false;
-
-      // 1. Limpiar los intervalos
-      clearInterval(gameIntervalId);
-      clearInterval(platformsIntervalId); 
-
-      // 2. Pantallas
-      splashScreenNode.style.display = "flex";
-      gameScreenNode.style.display = "none";
-      gameOverScreenNode.style.display = "none";
-  
-      // 3. Parar y reiniciar elementos
-      stopMusicGame();
       
-      gameBoxNode.innerHTML = ""
-      playerObj = null;
-      platformsArray = []; 
+  // 1. Limpiar el estado del juego usando cleanGame
+  cleanGame();
+
+  // 2. Mostrar la pantalla del menú
+  splashScreenNode.style.display = "flex";
+  gameScreenNode.style.display = "none";
+  gameOverScreenNode.style.display = "none";
 
 }
+
+function restartGame() {
+  // 1. Limpiar el estado actual del juego
+  cleanGame();
+
+  // 2. Reiniciar el juego desde cero
+  startGame();
+}
+
+// Función que limpia todo el estado del juego
+function cleanGame() {
+  // 1. Limpiar los intervalos
+  clearInterval(gameIntervalId);
+  clearInterval(platformsIntervalId);
+
+  // 2. Eliminar los elementos del DOM (jugador, plataformas)
+  gameBoxNode.innerHTML = "";
+
+  // 3. Reiniciar las variables globales
+  playerObj = null;
+  platformsArray = [];
+
+  // 4. Detener cualquier música que esté sonando
+  stopMusicGame();
+  stopMusicGameOver();
+  // 5. Reiniciar el estado del juego
+  isGameGoing = false;
+}
+
 
 function initMusicGame() {
   gameMusic.play();
@@ -140,6 +154,9 @@ function initMusicGame() {
 function stopMusicGame() {
   gameMusic.pause();
   gameMusic.currentTime = 0; // Reiniciar la música si vuelves a reproducirla
+}
+
+function stopMusicGameOver() {
   gameOverAudio.pause();
   gameOverAudio.currentTime=0;
 }
