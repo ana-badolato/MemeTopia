@@ -10,9 +10,8 @@ class Player {
     this.speed = 10;
     this.gravitySpeed = 4;
     this.jumpSpeed = 60;
-    //this.isJumping = false;
-    //! Esto es una referencia apra cuando necesite quitar el salto doble
-    //! También hay que 
+    this.isJumping = false;
+    //! Ahora mismo lo que no se es si el jugador podría vovler a saltar si toca una plataforma desde abajo
 
     // Al crear el player:
 
@@ -36,7 +35,7 @@ class Player {
      // Si el jugador no está sobre una plataforma, aplicamos la gravedad
   if (!detectCollisionPlayerPlatform()) {
     this.y += this.gravitySpeed; // Aumentamos la posición Y para simular la caída
-
+ 
     // Actualizamos la posición en el DOM
     this.node.style.top = `${this.y}px`;
 
@@ -51,10 +50,11 @@ class Player {
     // El jugador saltará a la velocidad indicada la distancia indicada
     jump(){
       
-      // Prevenimos solapamientos al pulsar teclas fuera de la pantalla principal de juego
+      if(!this.isJumping){
         this.y -= this.jumpSpeed;
         this.node.style.top = `${this.y}px`;
-
+        this.isJumping = true;
+      }
     }
 
     // Movimientos a izda y dcha

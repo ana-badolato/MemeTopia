@@ -21,6 +21,7 @@ const musicOffBtnNode = document.querySelector("#musicOffBtn");
 //btn game over
 const menuOverBtnNode = document.querySelector(".menuOverBtn");
 const restartBtnNode = document.querySelector(".restartBtn");
+
 //* VARIABLES GLOBALES DEL JUEGO
 
 
@@ -43,7 +44,7 @@ gameMusic.loop = true; // la música dentro del juego se repite
 gameMusic.volume = 0.5; // ajustamos el volumen
 let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
 gameOverAudio.loop = false;
-gameOverAudio.volume = 0.1;
+gameOverAudio.volume = 0.2;
 
 
 
@@ -170,12 +171,14 @@ function detectCollisionPlayerPlatform() {
     if(playerObj.x < eachPlatform.x + eachPlatform.w &&
       playerObj.x + playerObj.w > eachPlatform.x &&
       playerObj.y < eachPlatform.y + eachPlatform.h &&
-      playerObj.y + playerObj.h > eachPlatform.y){
+      playerObj.y + playerObj.h > eachPlatform.y){      
 
       // El jugador está sobre la plataforma
       playerObj.y = eachPlatform.y - playerObj.h; // Ajustar la posición del jugador sobre la plataforma
       playerObj.node.style.top = `${playerObj.y}px`; // Actualizar posición en el DOM
+      playerObj.isJumping = false;
       return true;
+
     }
   });
 
