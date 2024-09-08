@@ -112,14 +112,8 @@ function gameOver() {
 }
 
 
-function cleanGame (){
-
-    clearInterval(gameIntervalId);
-    clearInterval(platformsIntervalId); 
-}
-
 function openMenu() { 
-    isGameGoing = false;
+      isGameGoing = false;
 
       // 1. Limpiar los intervalos
       clearInterval(gameIntervalId);
@@ -133,8 +127,6 @@ function openMenu() {
       // 3. Parar y reiniciar elementos
       stopMusicGame();
       
-      
-  
       gameBoxNode.innerHTML = ""
       playerObj = null;
       platformsArray = []; 
@@ -165,9 +157,10 @@ function addPlatform() {
 }
 
 function detectCollisionPlayerPlatform() {
+  let collisionPlatformDetected =false;
 
   platformsArray.forEach((eachPlatform)=>{
-  
+    
     if(playerObj.x < eachPlatform.x + eachPlatform.w &&
       playerObj.x + playerObj.w > eachPlatform.x &&
       playerObj.y < eachPlatform.y + eachPlatform.h &&
@@ -177,11 +170,10 @@ function detectCollisionPlayerPlatform() {
       playerObj.y = eachPlatform.y - playerObj.h; // Ajustar la posición del jugador sobre la plataforma
       playerObj.node.style.top = `${playerObj.y}px`; // Actualizar posición en el DOM
       playerObj.isJumping = false;
-      return true;
-
+      collisionPlatformDetected = true;
     }
   });
-
+    return collisionPlatformDetected;
   }
 
 //* EVENT LISTENERS
@@ -210,7 +202,7 @@ menuOverBtnNode.addEventListener("click", () => {
 });
 
 restartBtnNode.addEventListener("click", () => {
-  restartGame();
+  startGame();
 });
 
 // movimientos del jugador
