@@ -52,31 +52,26 @@ class Player {
     jump(){
       
       // Prevenimos solapamientos al pulsar teclas fuera de la pantalla principal de juego
-      if(isGameGoing){
         this.y -= this.jumpSpeed;
         this.node.style.top = `${this.y}px`;
-      }
 
     }
 
     // Movimientos a izda y dcha
     moveLeft(){
 
-      if(isGameGoing){
         this.node.src = "./img/playerLeftImg.png"; // reasignamos la imagen
         this.x -= this.speed
         this.node.style.left = `${this.x}px`
       }
 
-    }
+    
 
     moveRight(){
 
-      if(isGameGoing){
         this.node.src = "./img/playerRightImg.png"; 
         this.x += this.speed
         this.node.style.left = `${this.x}px`
-      }
 
     }
 }

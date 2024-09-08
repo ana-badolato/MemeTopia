@@ -8,12 +8,19 @@ const gameOverScreenNode = document.querySelector("#game-over-screen")
 // game box
 const gameBoxNode = document.querySelector("#game-box")
 
-//botones
+// botones
+
+// btn inicio
 const playBtnNode = document.querySelector("#playBtn");
+
+//btn game
 const menuBtnNode = document.querySelector(".menuBtn");
 const musicOnBtnNode = document.querySelector("#musicOnBtn");
 const musicOffBtnNode = document.querySelector("#musicOffBtn");
 
+//btn game over
+const menuOverBtnNode = document.querySelector(".menuOverBtn");
+const restartBtnNode = document.querySelector(".restartBtn");
 //* VARIABLES GLOBALES DEL JUEGO
 
 
@@ -34,6 +41,9 @@ let isGameGoing = false; // para controlar el estado de ciertos elementos dentro
 let gameMusic = new Audio('./audio/marbleSodaMusic.mp3') // cargamos la música
 gameMusic.loop = true; // la música dentro del juego se repite
 gameMusic.volume = 0.5; // ajustamos el volumen
+let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
+gameOverAudio.loop = false;
+gameOverAudio.volume = 0.1;
 
 
 
@@ -80,35 +90,55 @@ function gameLoop() {
 
 function gameOver() {
   
-  cleanGame();
-  gameOverScreenNode.style.display = "flex";
+      // 1. Limpiar los intervalos
+      clearInterval(gameIntervalId);
+      clearInterval(platformsIntervalId); 
 
+      // 2. Pantallas
+      gameOverScreenNode.style.display = "flex";
+      gameScreenNode.style.display = "none";
+  
+      // 3. Parar y reiniciar elementos
+      stopMusicGame();
+      gameOverAudio.play();
+
+      isGameGoing = false;
+  
+      gameBoxNode.innerHTML = ""
+      playerObj = null;
+      platformsArray = []; 
+
+}
+
+
+function cleanGame (){
+
+    clearInterval(gameIntervalId);
+    clearInterval(platformsIntervalId); 
 }
 
 function openMenu() { 
-
-  cleanGame();
-  splashScreenNode.style.display = "flex";
-
-}
-
-function cleanGame (){
-    // 1. Limpiar los intervalos
-    clearInterval(gameIntervalId);
-    clearInterval(platformsIntervalId); 
-
-    // 2. Pantallas
-    gameScreenNode.style.display = "none";
-
-    // 3. Parar y reiniciar elementos
-    stopMusicGame();
     isGameGoing = false;
 
-    gameBoxNode.innerHTML = ""
-    playerObj = null;
-    platformsArray = []; 
-}
+      // 1. Limpiar los intervalos
+      clearInterval(gameIntervalId);
+      clearInterval(platformsIntervalId); 
 
+      // 2. Pantallas
+      splashScreenNode.style.display = "flex";
+      gameScreenNode.style.display = "none";
+      gameOverScreenNode.style.display = "none";
+  
+      // 3. Parar y reiniciar elementos
+      stopMusicGame();
+      
+      
+  
+      gameBoxNode.innerHTML = ""
+      playerObj = null;
+      platformsArray = []; 
+
+}
 
 function initMusicGame() {
   gameMusic.play();
@@ -117,6 +147,8 @@ function initMusicGame() {
 function stopMusicGame() {
   gameMusic.pause();
   gameMusic.currentTime = 0; // Reiniciar la música si vuelves a reproducirla
+  gameOverAudio.pause();
+  gameOverAudio.currentTime=0;
 }
 
 
@@ -126,7 +158,7 @@ function addPlatform() {
   let newPlatformLeft = new Platform(randomPositionX, "left");
   platformsArray.push(newPlatformLeft);
 
-  let newPlatformRight = new Platform(randomPositionX + 400, "right");
+  let newPlatformRight = new Platform(randomPositionX + 500, "right"); //ajustamos la posició nde las de la derecha en función de las de la izda para evitar plataformas en ubicaciones imposibles.
   platformsArray.push(newPlatformRight);
 
 }
@@ -169,13 +201,25 @@ musicOffBtnNode.addEventListener("click", () => {
   gameMusic.pause();
 });
 
+// botones de la pantalla game over
+menuOverBtnNode.addEventListener("click", () => {
+  openMenu();
+});
+
+restartBtnNode.addEventListener("click", () => {
+  restartGame();
+});
+
 // movimientos del jugador
 window.addEventListener("keydown", (event) => {
-  if (event.key === "d") {
-    playerObj.moveRight();
-  } else if (event.key === "a") {
-    playerObj.moveLeft();
-  } else if (event.key === " ") {
-    playerObj.jump();
+  if(isGameGoing){
+    if (event.key === "d") {
+      playerObj.moveRight();
+    } else if (event.key === "a") {
+      playerObj.moveLeft();
+    } else if (event.key === " ") {
+      playerObj.jump();
+    }
   }
+
 })

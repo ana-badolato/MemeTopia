@@ -60,9 +60,12 @@ button {
 }
 
 #game-box {
-  background-color: darkgray;
-  width:600px;
+  width:800px;
   height:900px;
+  background-image: url('../img/background.png'); /* Ruta de la imagen de fondo */
+  background-repeat: repeat-y; /* Repetir el fondo verticalmente */
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-position: 0 0; /* Comenzar en la parte superior */
 
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
   overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
@@ -77,4 +80,9 @@ button {
 
 #game-screen, #game-over-screen {
   display:none; /*Con visibility hidden seguirían ocupando espacio*/
+}
+
+#sadHamster {
+  width: 256px;
+  padding: 24px;
 }

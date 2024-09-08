@@ -5,17 +5,16 @@ class Platform {
     this.y = -50;
     //! Revisar la posición Y a la hora de intercalar. quizá haya que hacer ajustes o una clase para izda y otra apra derecha??? o en dos arrays diferentes?
     this.h = 48; 
-    this.w = 256;
+    this.w = 320;
     this.speed = 2;
     // Al crear cada plataforma
 
     // 1. añadir la plataforma al DOM
     this.node = document.createElement("img");
-    if(type === "left"){
-      this.node.src = "./img/platformLeftImg.png"; // asignamos la imagen
-    }else if(type === "right"){
+    this.node.src = "./img/platformImg.png"; 
+    
+    if(type === "right"){
       this.y = -200; //variamos la Y en la que aparecen las plataformas de los lados para así alternar y obligar al jugador a correr de izda a derecha
-      this.node.src = "./img/platformRightImg.png";
     }
  
     gameBoxNode.append(this.node);
