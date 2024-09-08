@@ -51,9 +51,20 @@ class Player {
     jump(){
       
       if(!this.isJumping){
-        this.y -= this.jumpSpeed;
-        this.node.style.top = `${this.y}px`;
-        this.isJumping = true;
+        
+        // this.y -= this.jumpSpeed;
+        // this.node.style.top = `${this.y}px`;
+
+        let jumpIntervalId = setInterval(() => {
+          this.isJumping = true;
+          this.y -=10;
+          this.node.style.top = `${this.y}px`;
+        }, 15);
+
+        setTimeout(()=>{
+          clearInterval(jumpIntervalId);
+          
+        }, 200)
       }
     }
 
