@@ -198,11 +198,14 @@ function detectCollisionPlayerPlatform() {
       playerObj.y < eachPlatform.y + eachPlatform.h &&
       playerObj.y + playerObj.h > eachPlatform.y){      
 
-      // El jugador está sobre la plataforma
+
       playerObj.y = eachPlatform.y - playerObj.h; // Ajustar la posición del jugador sobre la plataforma
-      playerObj.node.style.top = `${playerObj.y}px`; // Actualizar posición en el DOM
-      playerObj.isJumping = false;
+      playerObj.node.style.top = `${playerObj.y}px`; // 
+
+      playerObj.isGrounded = true;
       collisionPlatformDetected = true;
+    }else {
+      playerObj.isGrounded = false;
     }
   });
     return collisionPlatformDetected;

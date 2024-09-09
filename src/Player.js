@@ -7,10 +7,11 @@ class Player {
     this.y = 50;
     this.h = 56;
     this.w = 80;
-    this.speed = 10;
+    this.speed = 50;
     this.gravitySpeed = 4;
     this.jumpSpeed = 50;
     this.isJumping = false;
+    this.isGrounded = false;
 
     // Al crear el player:
 
@@ -78,12 +79,26 @@ class Player {
     // salto del jugador
     jump() {
 
-      if (!this.isJumping) {
-        this.isJumping = true;  // El jugador está saltando
-        this.y -= this.jumpSpeed;
-        this.node.style.top = `${this.y}px`;
+      // if (!this.isJumping) {
+      //   this.isJumping = true;  // El jugador está saltando
+      //   this.y -= this.jumpSpeed;
+      //   this.node.style.top = `${this.y}px`;
      
-        }
+      //   }
+
+       if (!this.isJumping && this.isGrounded) {
+      this.isJumping = true
+      // forma de salto fluida
+      let saltoIntervalId = setInterval(() => {
+        this.y -= 10
+        this.node.style.top = `${this.y}px`
+      }, 15)
+  
+      setTimeout(() => {
+        clearInterval(saltoIntervalId)
+        this.isJumping = false
+      }, 200)
+    }
 
       }
 }

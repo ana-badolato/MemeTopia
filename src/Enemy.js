@@ -1,5 +1,6 @@
 class Enemy {
   constructor(positionX, positionY, type, platformWidth) {
+    //! Hay que solucionar la aparición de personajes
     this.x = positionX;
     this.y = positionY;
     this.w = 75; // Ancho del enemigo
