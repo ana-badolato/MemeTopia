@@ -3,15 +3,19 @@ class Player {
   constructor() {
 
     // Todas las instancias del jugador se crearán con estos valores
-    this.x = 40;
-    this.y = 40;
+    this.x = 30;
+    this.y = 0;
     this.h = 46;
     this.w = 70;
     this.speed = 50;
-    this.gravitySpeed = 4;
-    this.jumpSpeed = 50;
+    this.acceleration = 0.98;
+    this.gravitySpeed = 6;
+    this.jumpSpeed = 30;
     this.isJumping = false;
     this.isGrounded = false;
+    this.isMovingRight = true
+    this.aux=0;
+  
     console.log("ground", this.isGrounded);
 
     // Al crear el player:
@@ -46,8 +50,11 @@ class Player {
     // Movimientos a izda y dcha
     moveLeft(){
         this.node.src = "./img/playerLeftImg.png"; // reasignamos la imagen
-        this.x -= this.speed; // Multiplicamos por la aceleración
+        this.x -= this.speed
+        this.speed += this.acceleration; // Multiplicamos por la aceleración
         this.node.style.left = `${this.x}px`
+        this.isMovingRight = false;
+
       }
 
     
@@ -55,13 +62,15 @@ class Player {
     moveRight(){
         this.node.src = "./img/playerRightImg.png"; 
         this.x += this.speed;
+        this.speed += this.acceleration;
         this.node.style.left = `${this.x}px`
+        this.isMovingRight = true;
     }
 
-    // // resetea la aceleración cuando se deja de mover el jugador
-    // resetAcceleration() {   
-    //   this.acceleration = 1;
-    // }
+    // resetea la aceleración cuando se deja de mover el jugador
+    resetAcceleration() {   
+      this.acceleration = 0.92;
+    }
 
     // salto del jugador
     jump() {
@@ -75,19 +84,31 @@ class Player {
     if (!this.isJumping && this.isGrounded) {
       this.isJumping = true;
       this.isGrounded = false;
-      console.log("salto1", this.isJumping);
+      //console.log("salto1", this.isJumping);
       // forma de salto fluida
+      console.log("velini", this.jumpSpeed)
+      
       let saltoIntervalId = setInterval(() => {
-        this.y -= 10
+        this.jumpSpeed *= this.acceleration; //! debería se this.acceleration
+        this.y -= this.jumpSpeed;
+        console.log("vel", this.jumpSpeed);
         this.node.style.top = `${this.y}px`
+         if(this.isMovingRight) {
+            this.x += 5
+            this.node.style.left = `${this.x}px`
+         }else{
+            this.x -= 5
+            this.node.style.left = `${this.x}px`
+         }
+        
       }, 15)
-  
+      
       setTimeout(() => {
         clearInterval(saltoIntervalId)
         this.isJumping = false
-        console.log("salto2", this.isJumping);
-      }, 250)
- 
+        //console.log("salto2", this.isJumping);
+      }, 350)
+      this.jumpSpeed = 30;
     }
     }
 }

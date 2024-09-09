@@ -32,7 +32,7 @@ let platformsIntervalId = null;
 //Objetos
 let playerObj = null;
 let platformsArray = [];
-let platformsFreq = 3000;
+let platformsFreq = 2200;
 let enemiesArray = [];
 
 //Control del juego
@@ -62,15 +62,16 @@ function startGame() {
   // 2. Añadir todos los elementos iniciales del juego
   isGameGoing = true;
   playerObj = new Player();
-  console.log("empezamos");
+  //console.log("empezamos");
   addPlatform(-50, "left");
   stopMusicGameOver();
   initMusicGame();
-  platformsArray[0].y = 50;
+  platformsArray[0].y = 0;
   // 3. Iniciar el intervalo de juego
   gameIntervalId = setInterval(() => {
     gameLoop();
   }, Math.round(1000/60)); // Para que el juego se ejecute a 60 fps
+
 
   // 4. (Opcional) Iniciaremos otrs intervalos que requiera el juego
   platformsIntervalId = setInterval(() => { 
@@ -95,6 +96,7 @@ function gameLoop() {
     });
 
     checkPlatformOut();
+     // 4. Iniciar el ciclo del juego con requestAnimationFrame
 }
 
 function gameOver() {
@@ -144,13 +146,13 @@ function stopMusicGameOver() {
 //* Funciones spawn plataformas, enemigos...
 
 function addPlatform() {
-  let randomPositionX = Math.floor(Math.random() * (-75));
+  let randomPositionX = Math.floor(Math.random() * (-150));
 
   let newPlatformLeft = new Platform(randomPositionX, "left");
   platformsArray.push(newPlatformLeft);
 
-  //let newPlatformRight = new Platform(randomPositionX + 300, "right"); //ajustamos la posició nde las de la derecha en función de las de la izda para evitar plataformas en ubicaciones imposibles.
-  //platformsArray.push(newPlatformRight);
+  let newPlatformRight = new Platform(randomPositionX + 450, "right"); //ajustamos la posició nde las de la derecha en función de las de la izda para evitar plataformas en ubicaciones imposibles.
+  platformsArray.push(newPlatformRight);
 
 }
 
@@ -196,7 +198,7 @@ function detectCollisionPlayerPlatform() {
       playerObj.node.style.top = `${playerObj.y}px`; 
       playerObj.isGrounded = true;
       playerIsTouchingPlatform = true; 
-      console.log("ha tocado suelo");
+      //console.log("ha tocado suelo");
       //playerObj.isJumping= false;
       //console.log("ground1", playerObj.isGrounded);
 
@@ -209,7 +211,7 @@ function detectCollisionPlayerPlatform() {
     // Si no está tocando ninguna plataforma, cambiamos isGrounded a false
     if (!playerIsTouchingPlatform) {
       playerObj.isGrounded = false;
-      console.log("suelo2", playerObj.isGrounded);
+      //console.log("suelo2", playerObj.isGrounded);
     }
   }
 
@@ -295,6 +297,8 @@ restartBtnNode.addEventListener("click", () => {
 });
 
 // movimientos del jugador
+let keysPressed = {};
+
 window.addEventListener("keydown", (event) => {
   if(isGameGoing){
     if (event.key === "d") {
@@ -305,12 +309,19 @@ window.addEventListener("keydown", (event) => {
       playerObj.jump();
       playerObj.isGrounded=false;
     }
+    keysPressed[event.key] = true;
   }
+
+
 })
 
 // Escuchamos el keyup para resetear la posibilidad de saltar
 window.addEventListener("keyup", (event) => {
+  if(isGameGoing){
+    keysPressed[event.key] = false;
+    playerObj.resetAcceleration(); // Restablecer la velocidad cuando se suelta la tecla
   if (event.key === " ") {
     canJump = true; // Permitimos saltar de nuevo cuando se suelta la tecla
   }
+}
 });
