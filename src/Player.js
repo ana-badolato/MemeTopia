@@ -7,11 +7,12 @@ class Player {
     this.y = 50;
     this.h = 56;
     this.w = 80;
-    this.speed = 20;
+    this.speed = 10;
     this.gravitySpeed = 4;
-    this.jumpSpeed = 150;
+    this.jumpSpeed = 50;
     this.isJumping = false;
-    //! Ahora mismo lo que no se es si el jugador podría vovler a saltar si toca una plataforma desde abajo
+    this.velocityX = 0;
+    this.velocityY = 0;
 
     // Al crear el player:
 
@@ -33,53 +34,30 @@ class Player {
   gravity() {
 
      // Si el jugador no está sobre una plataforma, aplicamos la gravedad
-  if (!detectCollisionPlayerPlatform()) {
-    this.y += this.gravitySpeed; // Aumentamos la posición Y para simular la caída
+    if (!detectCollisionPlayerPlatform()) {
+      this.y += this.gravitySpeed; // Aumentamos la posición Y para simular la caída
  
     // Actualizamos la posición en el DOM
-    this.node.style.top = `${this.y}px`;
+      this.node.style.top = `${this.y}px`;
 
     // Comprobamos si el jugador toca el fondo del contenedor
-    if ((this.y + this.h) >= gameBoxNode.offsetHeight) {
+      if ((this.y + this.h) >= gameBoxNode.offsetHeight) {
       // Si toca el fondo, activamos el Game Over
-      gameOver();
-    }
-  }
-  }
-
-    // El jugador saltará a la velocidad indicada la distancia indicada
-    jump(){
-      
-      if(!this.isJumping){
-        this.isJumping = true;
-        this.y -= this.jumpSpeed;
-        this.node.style.top = `${this.y}px`;
-
-        // let jumpIntervalId = setInterval(() => {
-          
-        //   this.y -=this.jumpSpeed;
-        //   this.node.style.top = `${this.y}px`;
-
-        //   if (detectCollisionPlayerPlatform()) {
-        //     clearInterval(jumpIntervalId);
-        //     this.isJumping = false;
-        //   }
-        // }, 15);
-
-
-        // setTimeout(()=>{
-        //   clearInterval(jumpIntervalId);
-        //   this.isJumping = false;
-        // }, 200)
+        gameOver();
       }
     }
+
+  }
+
 
     // Movimientos a izda y dcha
     moveLeft(){
 
         this.node.src = "./img/playerLeftImg.png"; // reasignamos la imagen
-        this.x -= this.speed
+        this.x -= this.speed; // Multiplicamos por la aceleración
         this.node.style.left = `${this.x}px`
+
+
       }
 
     
@@ -87,8 +65,27 @@ class Player {
     moveRight(){
 
         this.node.src = "./img/playerRightImg.png"; 
-        this.x += this.speed
+        this.x += this.speed;
         this.node.style.left = `${this.x}px`
 
     }
+
+    // resetea la aceleración cuando se deja de mover el jugador
+    resetAcceleration() {   
+
+      this.acceleration = 1;
+
+    }
+
+    // salto del jugador
+    jump() {
+
+      if (!this.isJumping) {
+        this.isJumping = true;  // El jugador está saltando
+        this.y -= this.jumpSpeed;
+        this.node.style.top = `${this.y}px`;
+     
+        }
+
+      }
 }
