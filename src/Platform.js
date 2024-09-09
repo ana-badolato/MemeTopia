@@ -4,7 +4,6 @@ class Platform {
     this.x = positionX; 
     this.type = type;
     this.y = -50;
-    //! Revisar la posición Y a la hora de intercalar. quizá haya que hacer ajustes o una clase para izda y otra apra derecha??? o en dos arrays diferentes?
     this.h = 48; 
     this.w = 320;
     this.speed = 2;

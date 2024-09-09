@@ -62,20 +62,18 @@ function startGame() {
   // 2. Añadir todos los elementos iniciales del juego
   isGameGoing = true;
   playerObj = new Player();
-  addPlatform(-50, "left");
-  addEnemy(200,200, "left", 250)
   platformsArray[0].y = 50;
+  addPlatform(-50, "left");
   stopMusicGameOver();
   initMusicGame();
   
-
   // 3. Iniciar el intervalo de juego
   gameIntervalId = setInterval(() => {
     gameLoop();
   }, Math.round(1000/60)); // Para que el juego se ejecute a 60 fps
 
   // 4. (Opcional) Iniciaremos otrs intervalos que requiera el juego
-  platformsIntervalId = setInterval(() => { // Control de la aparición de plataformas
+  platformsIntervalId = setInterval(() => { 
     addPlatform();
     addEnemy();
   }, platformsFreq);
@@ -86,40 +84,32 @@ function gameLoop() {
 
     // Se ejecuta 60 veces por segundo en el intervalo principal
 
-    // Aquí indicamos todas aquellas cosas que queremos que estén en constante "supervisión"
     playerObj.gravity();
     detectCollisionPlayerPlatform()
 
-    // Recorremos el array para indicar que se mueva cada una de las plataformas
     platformsArray.forEach((eachPlatform, index)=>{
       eachPlatform.automaticMovement();
       enemiesArray[index].automaticMovement(eachPlatform.y);
     })
-
 
     checkPlatformOut();
 }
 
 function gameOver() {
   
-// 1. Limpiar el estado del juego usando cleanGame
 cleanGame();
 
-// 2. Mostrar la pantalla de Game Over
 gameOverScreenNode.style.display = "flex";
 gameScreenNode.style.display = "none";
 
-// 3. Reproducir la música de Game Over
 gameOverAudio.play();
 }
 
 
 function openMenu() { 
       
-  // 1. Limpiar el estado del juego usando cleanGame
   cleanGame();
 
-  // 2. Mostrar la pantalla del menú
   splashScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
   gameOverScreenNode.style.display = "none";
@@ -127,10 +117,7 @@ function openMenu() {
 }
 
 function restartGame() {
-  // 1. Limpiar el estado actual del juego
   cleanGame();
-
-  // 2. Reiniciar el juego desde cero
   startGame();
 }
 
@@ -143,7 +130,7 @@ function initMusicGame() {
 
 function stopMusicGame() {
   gameMusic.pause();
-  gameMusic.currentTime = 0; // Reiniciar la música si vuelves a reproducirla
+  gameMusic.currentTime = 0; 
 }
 
 function stopMusicGameOver() {
@@ -172,13 +159,12 @@ function addEnemy() {
   let platformLeft = platformsArray[platformsArray.length - 2]; // Penúltima plataforma (izquierda)
   let platformRight = platformsArray[platformsArray.length - 1]; // Última plataforma (derecha)
 
-  // Asegúrate de que las plataformas tengan un ancho definido antes de crear el enemigo
+  // Aseguramos que las plataformas tengan un ancho definido antes de crear el enemigo
   if (platformLeft && platformRight) {
-    // Crear el enemigo en la plataforma izquierda y pasarle su ancho
+    
     let newEnemyLeft = new Enemy(randomPositionX, platformLeft.y, "left", platformLeft.w);
     enemiesArray.push(newEnemyLeft);
 
-    // Crear el enemigo en la plataforma derecha y pasarle su ancho
     let newEnemyRight = new Enemy(randomPositionX + 500, platformRight.y, "right", platformRight.w);
     enemiesArray.push(newEnemyRight);
 
@@ -189,8 +175,6 @@ function addEnemy() {
 
 //* Funciones colisiones
 function detectCollisionPlayerPlatform() {
-  let collisionPlatformDetected =false;
-
   platformsArray.forEach((eachPlatform)=>{
     
     if(playerObj.x < eachPlatform.x + eachPlatform.w &&
@@ -199,20 +183,17 @@ function detectCollisionPlayerPlatform() {
       playerObj.y + playerObj.h > eachPlatform.y){      
 
 
-      playerObj.y = eachPlatform.y - playerObj.h; // Ajustar la posición del jugador sobre la plataforma
-      playerObj.node.style.top = `${playerObj.y}px`; // 
-
+      playerObj.y = eachPlatform.y - playerObj.h; 
+      playerObj.node.style.top = `${playerObj.y}px`; 
       playerObj.isGrounded = true;
-      collisionPlatformDetected = true;
+
     }else {
       playerObj.isGrounded = false;
     }
   });
-    return collisionPlatformDetected;
   }
 
 function detectCollisionEnemyPlatform(){
-  let collisionPlatformDetected =false;
 
   platformsArray.forEach((eachPlatform)=>{
     enemiesArray.forEach((eachEnemy)=>{
@@ -225,10 +206,8 @@ function detectCollisionEnemyPlatform(){
         // El enemigo está sobre la plataforma
         eachEnemy.y = eachPlatform.y - eachEnemy.h; 
         eachEnemy.node.style.top = `${eachEnemy.y}px`; 
-        collisionPlatformDetected = true;
       }
     });
-    return collisionPlatformDetected;
   });
 }
 
@@ -250,24 +229,24 @@ function cleanGame() {
   // 4. Detener cualquier música que esté sonando
   stopMusicGame();
   stopMusicGameOver();
+
   // 5. Reiniciar el estado del juego
   isGameGoing = false;
 }
+
 function checkPlatformOut(){
   if (platformsArray.length === 0){
     return;
   }
 
   if((platformsArray[0].y + platformsArray[0].h) >= gameBoxNode.offsetHeight){
-    //console.log("removing platform");
     platformsArray[0].node.remove();// 1. sacar del DOM
     platformsArray.shift();// 2. Sacar de JS
-    //console.log(platformsArray.length);
   }
 }
 
 //* EVENT LISTENERS
-//botón para iniciar el juego desde el menú principal
+
 playBtnNode.addEventListener("click", () => {
   startGame();
 });
