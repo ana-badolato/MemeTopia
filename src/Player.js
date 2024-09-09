@@ -49,22 +49,25 @@ class Player {
 
     // Movimientos a izda y dcha
     moveLeft(){
+      if (!this.isJumping && this.isGrounded) {
         this.node.src = "./img/playerLeftImg.png"; // reasignamos la imagen
         this.x -= this.speed
         this.speed += this.acceleration; // Multiplicamos por la aceleración
         this.node.style.left = `${this.x}px`
         this.isMovingRight = false;
-
+      }
       }
 
     
 
     moveRight(){
+      if (!this.isJumping && this.isGrounded) {
         this.node.src = "./img/playerRightImg.png"; 
         this.x += this.speed;
         this.speed += this.acceleration;
         this.node.style.left = `${this.x}px`
         this.isMovingRight = true;
+      }
     }
 
     // resetea la aceleración cuando se deja de mover el jugador
@@ -94,10 +97,10 @@ class Player {
         console.log("vel", this.jumpSpeed);
         this.node.style.top = `${this.y}px`
          if(this.isMovingRight) {
-            this.x += 5
+            this.x += 7
             this.node.style.left = `${this.x}px`
          }else{
-            this.x -= 5
+            this.x -= 7
             this.node.style.left = `${this.x}px`
          }
         

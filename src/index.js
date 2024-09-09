@@ -151,7 +151,7 @@ function addPlatform() {
   let newPlatformLeft = new Platform(randomPositionX, "left");
   platformsArray.push(newPlatformLeft);
 
-  let newPlatformRight = new Platform(randomPositionX + 450, "right"); //ajustamos la posició nde las de la derecha en función de las de la izda para evitar plataformas en ubicaciones imposibles.
+  let newPlatformRight = new Platform(randomPositionX + 400, "right"); //ajustamos la posició nde las de la derecha en función de las de la izda para evitar plataformas en ubicaciones imposibles.
   platformsArray.push(newPlatformRight);
 
 }
