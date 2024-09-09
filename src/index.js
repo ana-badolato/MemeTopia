@@ -40,13 +40,16 @@ let isGameGoing = false; // para controlar el estado de ciertos elementos dentro
 
 
 // Audio
-let gameMusic = new Audio('./audio/marbleSodaMusic.mp3') // cargamos la música
+let gameMusic = new Audio('./audio/goMiau.mp3') // cargamos la música
 gameMusic.loop = true; // la música dentro del juego se repite
 gameMusic.volume = 0.2; // ajustamos el volumen
 let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
 gameOverAudio.loop = false;
 gameOverAudio.volume = 0.1;
-
+let splashMusic = new Audio('./audio/catPolka.mp3') // cargamos la música
+splashMusic.loop = true; 
+splashMusic.volume = 0.1; // ajustamos el volumen
+splashMusic.play();
 
 
 //* FUNCIONES GLOBALES DEL JUEGO
@@ -65,6 +68,7 @@ function startGame() {
   //console.log("empezamos");
   addPlatform(-50, "left");
   stopMusicGameOver();
+  stopMusicSplash();
   initMusicGame();
   platformsArray[0].y = 0;
   // 3. Iniciar el intervalo de juego
@@ -114,7 +118,7 @@ gameOverAudio.play();
 function openMenu() { 
       
   cleanGame();
-
+  splashMusic.play();
   splashScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
   gameOverScreenNode.style.display = "none";
@@ -141,6 +145,11 @@ function stopMusicGame() {
 function stopMusicGameOver() {
   gameOverAudio.pause();
   gameOverAudio.currentTime=0;
+}
+
+function stopMusicSplash() {
+  splashMusic.pause();
+  splashMusic.currentTime=0;
 }
 
 //* Funciones spawn plataformas, enemigos...
@@ -182,7 +191,6 @@ function addEnemy() {
 function detectCollisionPlayerPlatform() {
     // Verificar si playerObj está definido
     if (!playerObj) {
-      console.error("playerObj no está definido o es null");
       return; // Si no hay playerObj, salimos de la función
     }
   let playerIsTouchingPlatform = false;
@@ -251,6 +259,7 @@ function cleanGame() {
   // 4. Detener cualquier música que esté sonando
   stopMusicGame();
   stopMusicGameOver();
+  stopMusicSplash();
 
   // 5. Reiniciar el estado del juego
   isGameGoing = false;

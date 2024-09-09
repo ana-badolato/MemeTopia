@@ -11,7 +11,9 @@
   <!-- PANTALLA DE INICIO -->
   <div id="splash-screen" class="container">
     <h1>MemeTopia</h1>
-    <div id="splashScreenImg"></div>
+    <div >
+      <img id="splashScreenImg" src="./img/catPolka.gif" alt="">
+      </div>
     <div id="instructions"></div>
     <button id="playBtn">Play!</button>
   </div>
@@ -21,18 +23,21 @@
   <!-- PANTALLA DE JUEGO -->
   <div id="game-screen" class="container">
     <div id="topMenu">    
-      
+      <div class="menuContainerLeft"></div>
     </div>
-
+    
     <div id="game-box">
     </div>
-
+    
+    
     <div id="bottomMenu">
-      <button class="menuBtn">Menu</button>  <!-- botón para volver al menú -->
-      <div id="options">
+      <div class="menuContainerRight">
+        <button class="menuBtn">Menu</button>  <!-- botón para volver al menú -->
         <button id="musicOnBtn">Audio ON</button>  <!-- botón para encender el audio -->
         <button id="musicOffBtn">Audio OFF</button>  <!-- botón para apagar el audio -->
-      </div> 
+      </div>
+
+
     </div>
 
   </div>

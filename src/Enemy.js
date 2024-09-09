@@ -3,8 +3,8 @@ class Enemy {
     //! Hay que solucionar la aparición de personajes
     this.x = positionX;
     this.y = positionY;
-    this.w = 56; // Ancho del enemigo
-    this.h = 56; // Alto del enemigo
+    this.w = 40; // Ancho del enemigo
+    this.h = 40; // Alto del enemigo
     this.type = type;
     this.speed = 2;
     this.platformWidth = platformWidth; // Ancho de la plataforma que el enemigo debe respetar

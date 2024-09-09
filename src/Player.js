@@ -7,7 +7,7 @@ class Player {
     this.y = 0;
     this.h = 46;
     this.w = 70;
-    this.speed = 50;
+    this.speed = 20;
     this.acceleration = 0.98;
     this.gravitySpeed = 6;
     this.jumpSpeed = 30;

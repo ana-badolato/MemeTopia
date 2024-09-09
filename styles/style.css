@@ -1,18 +1,28 @@
+@font-face {
+  font-family: 'Custom'; /* Nombre personalizado de la fuente */
+  src: url('../fonts/LunarEcho-PersonalUse.woff2') format('woff2'), /* El más eficiente */   url('../fonts/LunarEcho-PersonalUse.woff') format('woff'),   /* Fallback */
+       url('../fonts/SuperGiggle.ttf') format('truetype'); /* Truetype como último recurso */
+  font-weight: normal; /* Puedes especificar peso */
+  font-style: normal;  /* Puedes especificar estilo */
+}
+@import url('https://fonts.googleapis.com/css2?family=Jockey+One&display=swap');
+
 :root {
   /* Variables de colores */
   --primary-color: #9cdffe;
-  --secondary-color: #000000;
+  --secondary-color: #330D3C;
   --background-color: #f5f5f5;
   --text-color: #333;
 
   /* Definir variables de fuentes */
-  --main-font: 'Roboto', sans-serif;
-  --heading-font: 'Roboto', sans-serif;
+  --main-font: "Jockey One", sans-serif;
+  --heading-font: 'Custom', sans-serif;
 };
 
 body {
   margin: 0;
   background-color: var(--background-color);
+  font-family: var(--main-font);
 }
 
 .container {
@@ -30,6 +40,8 @@ h1{
   font-family: var(--heading-font);
   font-size: 64px;
   color: var(--secondary-color);
+  text-shadow: rgb(128, 239, 243) 5px  5px;
+  margin-top: 64px;
 }
 
 #splash-screen {
@@ -41,31 +53,74 @@ h1{
 }
 
 #splashScreenImg {
-  height: 260px;
-  width: 500px;
-  background-color: var(--background-color);
-  margin-bottom: 32px;
+  width: 600px;
+  border-radius: 5px;
+  padding-bottom: 64px;
+}
+
+
+#game-screen {
+  display: flex;
+  flex-direction: row;
+}
+
+.menuContainerLeft{
+  background-color: rgba(112, 41, 166, 0.604);
+  height: 700px;
+  margin-right: 50px;
+  border: 10px, solid, rgba(7, 1, 12, 0.534);
+  border-radius: 10px;
+  box-shadow: 5px 3px 3px rgb(23, 0, 41);
+  padding-bottom: 32px;
+} 
+.menuContainerRight{
+  background-color: rgba(112, 41, 166, 0.604);
+  height: 700px;
+  margin-left: 50px;
+  border: 10px, solid, rgba(7, 1, 12, 0.534);
+  border-radius: 10px;
+  box-shadow: 5px 3px 3px rgba(7, 1, 12, 0.599);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 32px;
 }
 
 button {
-  height: 32px;
-  width: 128px;
+  background-color: #1C1439;
+  width: 200px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  color: #f5f5f5;
+  border-radius: 5px;
+  margin: 4px;
+  font-family: var(--main-font);
+}
+button:hover {
+  cursor: pointer;
+  background-color: #2e225a;
+  color: #f5f5f5;
+  border-radius: 5px;
+  transition: 0.5s;
+
 }
 
 #topMenu {
-
+  width: 400px;
 }
 
 #bottomMenu {
   display: flex;
-  justify-content: space-between;
-  gap: 120px;
-  padding-top: 64px;
+  flex-direction: column;
+  justify-content: center;
+  width: 400px;
 }
 
 #game-box {
-  width:500px;
-  height:650px;
+  width:600px;
+  height:100%;
   background-image: url('../img/background.png'); /* Ruta de la imagen de fondo */
   background-repeat: repeat-y; /* Repetir el fondo verticalmente */
   background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
@@ -74,7 +129,10 @@ button {
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
   overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
   user-select: none; /* previene que los elementos del game-box sean resaltados al hacer click */
+  border-left: #330D3C;
 }
+
+
 
 #game-box * {
   pointer-events: none; /* previene que todos los elementos del game-box sean arrastrados al clickar sobre ellos */
@@ -90,3 +148,4 @@ button {
   width: 256px;
   padding: 24px;
 }
+
