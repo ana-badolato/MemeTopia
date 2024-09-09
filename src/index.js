@@ -91,13 +91,12 @@ function gameLoop() {
     detectCollisionPlayerPlatform()
 
     // Recorremos el array para indicar que se mueva cada una de las plataformas
-    platformsArray.forEach((eachPlatform)=>{
+    platformsArray.forEach((eachPlatform, index)=>{
       eachPlatform.automaticMovement();
+      enemiesArray[index].automaticMovement(eachPlatform.y);
     })
 
-    enemiesArray.forEach((eachEnemy)=>{
-      eachEnemy.automaticMovement();
-    })
+
     checkPlatformOut();
 }
 

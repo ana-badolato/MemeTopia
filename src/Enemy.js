@@ -42,7 +42,7 @@ class Enemy {
   // Movimiento automático de los enemigos
   automaticMovement(platformY) {
     // Actualizar la posición en Y del enemigo según la plataforma
-    this.y = platformY;
+    this.y = platformY - this.h;
     this.node.style.top = `${this.y}px`;
 
     // Movimiento horizontal del enemigo
