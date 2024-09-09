@@ -41,10 +41,10 @@ let isGameGoing = false; // para controlar el estado de ciertos elementos dentro
 // Audio
 let gameMusic = new Audio('./audio/marbleSodaMusic.mp3') // cargamos la música
 gameMusic.loop = true; // la música dentro del juego se repite
-gameMusic.volume = 0.5; // ajustamos el volumen
+gameMusic.volume = 0.2; // ajustamos el volumen
 let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
 gameOverAudio.loop = false;
-gameOverAudio.volume = 0.2;
+gameOverAudio.volume = 0.1;
 
 
 
@@ -90,6 +90,7 @@ function gameLoop() {
     platformsArray.forEach((eachPlatform)=>{
       eachPlatform.automaticMovement();
     })
+    checkPlatformOut();
 }
 
 function gameOver() {
@@ -192,6 +193,20 @@ function detectCollisionPlayerPlatform() {
   });
     return collisionPlatformDetected;
   }
+
+
+function checkPlatformOut(){
+  if (platformsArray.length === 0){
+    return;
+  }
+
+  if((platformsArray[0].y + platformsArray[0].h) >= gameBoxNode.offsetHeight){
+    console.log("removing platform");
+    platformsArray[0].node.remove();// 1. sacar del DOM
+    platformsArray.shift();// 2. Sacar de JS
+    console.log(platformsArray.length);
+  }
+}
 
 //* EVENT LISTENERS
 //botón para iniciar el juego desde el menú principal

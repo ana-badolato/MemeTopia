@@ -7,9 +7,9 @@ class Player {
     this.y = 50;
     this.h = 56;
     this.w = 80;
-    this.speed = 10;
+    this.speed = 20;
     this.gravitySpeed = 4;
-    this.jumpSpeed = 60;
+    this.jumpSpeed = 150;
     this.isJumping = false;
     //! Ahora mismo lo que no se es si el jugador podría vovler a saltar si toca una plataforma desde abajo
 
@@ -51,20 +51,26 @@ class Player {
     jump(){
       
       if(!this.isJumping){
-        
-        // this.y -= this.jumpSpeed;
-        // this.node.style.top = `${this.y}px`;
+        this.isJumping = true;
+        this.y -= this.jumpSpeed;
+        this.node.style.top = `${this.y}px`;
 
-        let jumpIntervalId = setInterval(() => {
-          this.isJumping = true;
-          this.y -=10;
-          this.node.style.top = `${this.y}px`;
-        }, 15);
-
-        setTimeout(()=>{
-          clearInterval(jumpIntervalId);
+        // let jumpIntervalId = setInterval(() => {
           
-        }, 200)
+        //   this.y -=this.jumpSpeed;
+        //   this.node.style.top = `${this.y}px`;
+
+        //   if (detectCollisionPlayerPlatform()) {
+        //     clearInterval(jumpIntervalId);
+        //     this.isJumping = false;
+        //   }
+        // }, 15);
+
+
+        // setTimeout(()=>{
+        //   clearInterval(jumpIntervalId);
+        //   this.isJumping = false;
+        // }, 200)
       }
     }
 
