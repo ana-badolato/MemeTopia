@@ -63,6 +63,7 @@ function startGame() {
   isGameGoing = true;
   playerObj = new Player();
   addPlatform(-50, "left");
+  addEnemy(200,200, "left", 250)
   platformsArray[0].y = 50;
   stopMusicGameOver();
   initMusicGame();
@@ -76,7 +77,7 @@ function startGame() {
   // 4. (Opcional) Iniciaremos otrs intervalos que requiera el juego
   platformsIntervalId = setInterval(() => { // Control de la aparición de plataformas
     addPlatform();
-    //addEnemy();
+    addEnemy();
   }, platformsFreq);
 
 }
@@ -92,12 +93,10 @@ function gameLoop() {
     // Recorremos el array para indicar que se mueva cada una de las plataformas
     platformsArray.forEach((eachPlatform)=>{
       eachPlatform.automaticMovement();
-      console.log("ey")
     })
 
     enemiesArray.forEach((eachEnemy)=>{
       eachEnemy.automaticMovement();
-      console.log("hola")
     })
     checkPlatformOut();
 }
@@ -167,15 +166,26 @@ function addPlatform() {
 }
 
 function addEnemy() {
+  console.log("añado enemigo");
   let randomPositionX = Math.floor(Math.random() * (-75));
 
-  let newEnemyLeft = new Enemy(randomPositionX, "left");
-  enemiesArray.push(newEnemyLeft);
+  // Obtener la última plataforma izquierda y derecha creada
+  let platformLeft = platformsArray[platformsArray.length - 2]; // Penúltima plataforma (izquierda)
+  let platformRight = platformsArray[platformsArray.length - 1]; // Última plataforma (derecha)
 
-  let newEnemyRight = new Enemy(randomPositionX + 500, "right"); 
+  // Asegúrate de que las plataformas tengan un ancho definido antes de crear el enemigo
+  if (platformLeft && platformRight) {
+    // Crear el enemigo en la plataforma izquierda y pasarle su ancho
+    let newEnemyLeft = new Enemy(randomPositionX, platformLeft.y, "left", platformLeft.w);
+    enemiesArray.push(newEnemyLeft);
 
-  enemiesArray.push(newEnemyRight);
+    // Crear el enemigo en la plataforma derecha y pasarle su ancho
+    let newEnemyRight = new Enemy(randomPositionX + 500, platformRight.y, "right", platformRight.w);
+    enemiesArray.push(newEnemyRight);
 
+  } else {
+    console.error("No se pueden crear enemigos porque las plataformas no están definidas.");
+  }
 }
 
 //* Funciones colisiones

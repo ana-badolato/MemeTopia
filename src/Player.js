@@ -11,8 +11,6 @@ class Player {
     this.gravitySpeed = 4;
     this.jumpSpeed = 50;
     this.isJumping = false;
-    // this.velocityX = 0;
-    // this.velocityY = 0;
 
     // Al crear el player:
 

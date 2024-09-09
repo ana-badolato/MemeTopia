@@ -1,59 +1,62 @@
-class Enemy{
-  constructor(positionX, positionY, type){
-    this.x = positionX; 
+class Enemy {
+  constructor(positionX, positionY, type, platformWidth) {
+    this.x = positionX;
     this.y = positionY;
+    this.w = 75; // Ancho del enemigo
+    this.h = 75; // Alto del enemigo
     this.type = type;
-    this.h = 48; 
-    this.w = 48;
     this.speed = 2;
-    // Inicializamos el movimiento del enemigo basado en su tipo
-    if (this.type === "left") {
-      this.movingRight = true; // Si es un enemigo de la izquierda, comienza moviéndose a la derecha
-    } else if (this.type === "right") {
-      this.movingRight = false; // Si es un enemigo de la derecha, comienza moviéndose a la izquierda
-    }
-    
-    this.platformWidth = platformWidth; // Ancho de la plataforma a la que pertenece
-    this.platformInitialX = positionX; // Posición inicial X de la plataforma para limitar el movimiento
+    this.platformWidth = platformWidth; // Ancho de la plataforma que el enemigo debe respetar
 
-    // Al crear cada enemigo
+    // Inicializamos el movimiento del enemigo basado en su tipo (left o right)
+    // Crear el nodo del enemigo (puede ser una imagen)
+
+
+    
+
     this.node = document.createElement("img");
-    
+    this.node.src = "./img/enemy1Left.png"; 
     if (this.type === "left") {
-      this.node.src = "./img/enemy1Left.png"; 
-    } else if (this.type === "right") {
-      this.node.src = "./img/enemy1Right.png"; 
+      this.movingRight = true;
+      this.node.src = "./img/enemy1Left.png";
+      console.log("hacia la izda")
+    } else {
+      this.movingRight = false;
+      this.node.src = "./img/enemy1Right.png";
+      console.log("hacia la dcha")
     }
 
-    gameBoxNode.append(this.node);
-
-    // Ajustamos sus dimensiones y posiciones
+ 
+ 
+    
     this.node.style.width = `${this.w}px`;
     this.node.style.height = `${this.h}px`;
     this.node.style.position = "absolute";
+    this.node.style.left = `${this.x}px`;
     this.node.style.top = `${this.y}px`;
-    this.node.style.left = `${this.x}px`; 
-  }
 
+    // Añadir el enemigo al DOM
+    gameBoxNode.append(this.node);
+  }
 
   // Movimiento automático de los enemigos
   automaticMovement(platformY) {
-    // El enemigo sigue la posición vertical (Y) de la plataforma
+    // Actualizar la posición en Y del enemigo según la plataforma
     this.y = platformY;
     this.node.style.top = `${this.y}px`;
 
-    // Movimiento horizontal dentro del rango de la plataforma
+    // Movimiento horizontal del enemigo
     if (this.movingRight) {
       this.x += this.speed;
-      if (this.x + this.w >= this.platformInitialX + this.platformWidth) {
+      if (this.x + this.w >= this.platformWidth) {
         this.movingRight = false;
-        this.node.src = "./img/enemy1Left.png"; // Cambia la imagen cuando va a la izquierda
+        this.node.src = "./img/enemy1Left.png"; // Cambia la imagen al moverse a la izquierda
       }
     } else {
       this.x -= this.speed;
-      if (this.x <= this.platformInitialX) {
+      if (this.x <= 0) {
         this.movingRight = true;
-        this.node.src = "./img/enemy1Right.png"; // Cambia la imagen cuando va a la derecha
+        this.node.src = "./img/enemy1Right.png"; // Cambia la imagen al moverse a la derecha
       }
     }
     this.node.style.left = `${this.x}px`;
