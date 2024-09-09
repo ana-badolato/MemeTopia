@@ -3,28 +3,24 @@ class Enemy {
     //! Hay que solucionar la aparición de personajes
     this.x = positionX;
     this.y = positionY;
-    this.w = 75; // Ancho del enemigo
-    this.h = 75; // Alto del enemigo
+    this.w = 56; // Ancho del enemigo
+    this.h = 56; // Alto del enemigo
     this.type = type;
     this.speed = 2;
     this.platformWidth = platformWidth; // Ancho de la plataforma que el enemigo debe respetar
 
     // Inicializamos el movimiento del enemigo basado en su tipo (left o right)
-    // Crear el nodo del enemigo (puede ser una imagen)
-
-
-    
 
     this.node = document.createElement("img");
     this.node.src = "./img/enemy1Left.png"; 
     if (this.type === "left") {
       this.movingRight = true;
       this.node.src = "./img/enemy1Left.png";
-      console.log("hacia la izda")
+      //console.log("hacia la izda")
     } else {
       this.movingRight = false;
       this.node.src = "./img/enemy1Right.png";
-      console.log("hacia la dcha")
+      //console.log("hacia la dcha")
     }
 
  

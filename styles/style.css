@@ -20,8 +20,10 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 64px;
   background-color: var(--primary-color);
+  background-image: url(../img/backgroundBehind.jpg);
+  background-size: cover;
+  height: 100vh;
 }
 
 h1{
@@ -31,6 +33,7 @@ h1{
 }
 
 #splash-screen {
+
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -56,12 +59,13 @@ button {
 #bottomMenu {
   display: flex;
   justify-content: space-between;
-  gap: 210px;
+  gap: 120px;
+  padding-top: 64px;
 }
 
 #game-box {
-  width:800px;
-  height:900px;
+  width:500px;
+  height:650px;
   background-image: url('../img/background.png'); /* Ruta de la imagen de fondo */
   background-repeat: repeat-y; /* Repetir el fondo verticalmente */
   background-size: cover; /* Asegura que la imagen cubra todo el contenedor */

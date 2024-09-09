@@ -62,11 +62,11 @@ function startGame() {
   // 2. Añadir todos los elementos iniciales del juego
   isGameGoing = true;
   playerObj = new Player();
-  platformsArray[0].y = 50;
+  
   addPlatform(-50, "left");
   stopMusicGameOver();
   initMusicGame();
-  
+  platformsArray[0].y = 50;
   // 3. Iniciar el intervalo de juego
   gameIntervalId = setInterval(() => {
     gameLoop();
@@ -87,10 +87,12 @@ function gameLoop() {
     playerObj.gravity();
     detectCollisionPlayerPlatform()
 
-    platformsArray.forEach((eachPlatform, index)=>{
+    platformsArray.forEach((eachPlatform, index) => {
       eachPlatform.automaticMovement();
-      enemiesArray[index].automaticMovement(eachPlatform.y);
-    })
+      if (enemiesArray[index]) { // Aseguramos que el enemigo exista
+        enemiesArray[index].automaticMovement(eachPlatform.y);
+      }
+    });
 
     checkPlatformOut();
 }
@@ -146,13 +148,13 @@ function addPlatform() {
   let newPlatformLeft = new Platform(randomPositionX, "left");
   platformsArray.push(newPlatformLeft);
 
-  let newPlatformRight = new Platform(randomPositionX + 500, "right"); //ajustamos la posició nde las de la derecha en función de las de la izda para evitar plataformas en ubicaciones imposibles.
-  platformsArray.push(newPlatformRight);
+  //let newPlatformRight = new Platform(randomPositionX + 300, "right"); //ajustamos la posició nde las de la derecha en función de las de la izda para evitar plataformas en ubicaciones imposibles.
+  //platformsArray.push(newPlatformRight);
 
 }
 
 function addEnemy() {
-  console.log("añado enemigo");
+  //console.log("añado enemigo");
   let randomPositionX = Math.floor(Math.random() * (-75));
 
   // Obtener la última plataforma izquierda y derecha creada
@@ -165,7 +167,7 @@ function addEnemy() {
     let newEnemyLeft = new Enemy(randomPositionX, platformLeft.y, "left", platformLeft.w);
     enemiesArray.push(newEnemyLeft);
 
-    let newEnemyRight = new Enemy(randomPositionX + 500, platformRight.y, "right", platformRight.w);
+    let newEnemyRight = new Enemy(randomPositionX + 2500, platformRight.y, "right", platformRight.w);
     enemiesArray.push(newEnemyRight);
 
   } else {
@@ -186,9 +188,12 @@ function detectCollisionPlayerPlatform() {
       playerObj.y = eachPlatform.y - playerObj.h; 
       playerObj.node.style.top = `${playerObj.y}px`; 
       playerObj.isGrounded = true;
+      console.log("ha tocado suelo");
+      //console.log(playerObj.isGrounded);
 
     }else {
-      playerObj.isGrounded = false;
+      //playerObj.isGrounded = false;
+      //console.log(playerObj.isGrounded);
     }
   });
   }
@@ -281,8 +286,16 @@ window.addEventListener("keydown", (event) => {
       playerObj.moveRight();
     } else if (event.key === "a") {
       playerObj.moveLeft();
-    } else if (event.key === " ") {
+    } else if (event.key === " " && playerObj.isGrounded) {
       playerObj.jump();
+      playerObj.isGrounded=false;
     }
   }
 })
+
+// Escuchamos el keyup para resetear la posibilidad de saltar
+window.addEventListener("keyup", (event) => {
+  if (event.key === " ") {
+    canJump = true; // Permitimos saltar de nuevo cuando se suelta la tecla
+  }
+});
