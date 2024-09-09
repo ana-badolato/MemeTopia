@@ -33,6 +33,7 @@ let platformsIntervalId = null;
 let playerObj = null;
 let platformsArray = [];
 let platformsFreq = 3000;
+let enemiesArray = [];
 
 //Control del juego
 let isGameGoing = false; // para controlar el estado de ciertos elementos dentro del juego
@@ -50,6 +51,7 @@ gameOverAudio.volume = 0.1;
 
 //* FUNCIONES GLOBALES DEL JUEGO
 
+//* Funciones del estado del juego
 function startGame() {
 
   // 1. Cambiar las pantallas
@@ -74,6 +76,7 @@ function startGame() {
   // 4. (Opcional) Iniciaremos otrs intervalos que requiera el juego
   platformsIntervalId = setInterval(() => { // Control de la aparición de plataformas
     addPlatform();
+    //addEnemy();
   }, platformsFreq);
 
 }
@@ -89,6 +92,12 @@ function gameLoop() {
     // Recorremos el array para indicar que se mueva cada una de las plataformas
     platformsArray.forEach((eachPlatform)=>{
       eachPlatform.automaticMovement();
+      console.log("ey")
+    })
+
+    enemiesArray.forEach((eachEnemy)=>{
+      eachEnemy.automaticMovement();
+      console.log("hola")
     })
     checkPlatformOut();
 }
@@ -127,26 +136,8 @@ function restartGame() {
   startGame();
 }
 
-// Función que limpia todo el estado del juego
-function cleanGame() {
-  // 1. Limpiar los intervalos
-  clearInterval(gameIntervalId);
-  clearInterval(platformsIntervalId);
 
-  // 2. Eliminar los elementos del DOM (jugador, plataformas)
-  gameBoxNode.innerHTML = "";
-
-  // 3. Reiniciar las variables globales
-  playerObj = null;
-  platformsArray = [];
-
-  // 4. Detener cualquier música que esté sonando
-  stopMusicGame();
-  stopMusicGameOver();
-  // 5. Reiniciar el estado del juego
-  isGameGoing = false;
-}
-
+//* Funciones música
 
 function initMusicGame() {
   gameMusic.play();
@@ -162,6 +153,7 @@ function stopMusicGameOver() {
   gameOverAudio.currentTime=0;
 }
 
+//* Funciones spawn plataformas, enemigos...
 
 function addPlatform() {
   let randomPositionX = Math.floor(Math.random() * (-75));
@@ -174,6 +166,19 @@ function addPlatform() {
 
 }
 
+function addEnemy() {
+  let randomPositionX = Math.floor(Math.random() * (-75));
+
+  let newEnemyLeft = new Enemy(randomPositionX, "left");
+  enemiesArray.push(newEnemyLeft);
+
+  let newEnemyRight = new Enemy(randomPositionX + 500, "right"); 
+
+  enemiesArray.push(newEnemyRight);
+
+}
+
+//* Funciones colisiones
 function detectCollisionPlayerPlatform() {
   let collisionPlatformDetected =false;
 
@@ -194,17 +199,58 @@ function detectCollisionPlayerPlatform() {
     return collisionPlatformDetected;
   }
 
+function detectCollisionEnemyPlatform(){
+  let collisionPlatformDetected =false;
 
+  platformsArray.forEach((eachPlatform)=>{
+    enemiesArray.forEach((eachEnemy)=>{
+    
+    if(eachEnemy.x < eachPlatform.x + eachPlatform.w &&
+      eachEnemy.x + eachEnemy.w > eachPlatform.x &&
+      eachEnemy.y < eachPlatform.y + eachPlatform.h &&
+      eachEnemy.y + eachEnemy.h > eachPlatform.y){      
+
+        // El enemigo está sobre la plataforma
+        eachEnemy.y = eachPlatform.y - eachEnemy.h; 
+        eachEnemy.node.style.top = `${eachEnemy.y}px`; 
+        collisionPlatformDetected = true;
+      }
+    });
+    return collisionPlatformDetected;
+  });
+}
+
+//* Funciones para limpiar el programa
+
+function cleanGame() {
+  // 1. Limpiar los intervalos
+  clearInterval(gameIntervalId);
+  clearInterval(platformsIntervalId);
+
+  // 2. Eliminar los elementos del DOM (jugador, plataformas)
+  gameBoxNode.innerHTML = "";
+
+  // 3. Reiniciar las variables globales
+  playerObj = null;
+  platformsArray = [];
+  enemiesArray = []; 
+
+  // 4. Detener cualquier música que esté sonando
+  stopMusicGame();
+  stopMusicGameOver();
+  // 5. Reiniciar el estado del juego
+  isGameGoing = false;
+}
 function checkPlatformOut(){
   if (platformsArray.length === 0){
     return;
   }
 
   if((platformsArray[0].y + platformsArray[0].h) >= gameBoxNode.offsetHeight){
-    console.log("removing platform");
+    //console.log("removing platform");
     platformsArray[0].node.remove();// 1. sacar del DOM
     platformsArray.shift();// 2. Sacar de JS
-    console.log(platformsArray.length);
+    //console.log(platformsArray.length);
   }
 }
 
@@ -248,5 +294,4 @@ window.addEventListener("keydown", (event) => {
       playerObj.jump();
     }
   }
-
 })

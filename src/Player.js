@@ -1,5 +1,5 @@
 class Player {
-
+  //! Pendiente actualizar el salto
   constructor() {
 
     // Todas las instancias del jugador se crearán con estos valores
@@ -11,8 +11,8 @@ class Player {
     this.gravitySpeed = 4;
     this.jumpSpeed = 50;
     this.isJumping = false;
-    this.velocityX = 0;
-    this.velocityY = 0;
+    // this.velocityX = 0;
+    // this.velocityY = 0;
 
     // Al crear el player:
 
