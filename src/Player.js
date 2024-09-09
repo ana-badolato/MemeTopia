@@ -12,7 +12,7 @@ class Player {
     this.jumpSpeed = 50;
     this.isJumping = false;
     this.isGrounded = false;
-    console.log(this.isGrounded);
+    console.log("ground", this.isGrounded);
 
     // Al crear el player:
 
@@ -71,10 +71,11 @@ class Player {
 
 
      //ejemplo de otro tipo de salto
-    console.log(this.isGrounded);
+    console.log("salto inicial", this.isGrounded);
     if (!this.isJumping && this.isGrounded) {
-      this.isJumping = true
-      console.log(this.isJumping);
+      this.isJumping = true;
+      this.isGrounded = false;
+      console.log("salto1", this.isJumping);
       // forma de salto fluida
       let saltoIntervalId = setInterval(() => {
         this.y -= 10
@@ -84,8 +85,8 @@ class Player {
       setTimeout(() => {
         clearInterval(saltoIntervalId)
         this.isJumping = false
-        console.log(this.isJumping);
-      }, 150)
+        console.log("salto2", this.isJumping);
+      }, 250)
  
     }
     }

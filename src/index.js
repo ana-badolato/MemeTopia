@@ -62,7 +62,7 @@ function startGame() {
   // 2. Añadir todos los elementos iniciales del juego
   isGameGoing = true;
   playerObj = new Player();
-  
+  console.log("empezamos");
   addPlatform(-50, "left");
   stopMusicGameOver();
   initMusicGame();
@@ -105,6 +105,7 @@ gameOverScreenNode.style.display = "flex";
 gameScreenNode.style.display = "none";
 
 gameOverAudio.play();
+
 }
 
 
@@ -177,6 +178,12 @@ function addEnemy() {
 
 //* Funciones colisiones
 function detectCollisionPlayerPlatform() {
+    // Verificar si playerObj está definido
+    if (!playerObj) {
+      console.error("playerObj no está definido o es null");
+      return; // Si no hay playerObj, salimos de la función
+    }
+  let playerIsTouchingPlatform = false;
   platformsArray.forEach((eachPlatform)=>{
     
     if(playerObj.x < eachPlatform.x + eachPlatform.w &&
@@ -188,14 +195,22 @@ function detectCollisionPlayerPlatform() {
       playerObj.y = eachPlatform.y - playerObj.h; 
       playerObj.node.style.top = `${playerObj.y}px`; 
       playerObj.isGrounded = true;
+      playerIsTouchingPlatform = true; 
       console.log("ha tocado suelo");
-      //console.log(playerObj.isGrounded);
+      //playerObj.isJumping= false;
+      //console.log("ground1", playerObj.isGrounded);
 
-    }else {
-      //playerObj.isGrounded = false;
-      //console.log(playerObj.isGrounded);
     }
+    // else {
+    //   playerObj.isGrounded = false;
+    //   console.log("suelo2", playerObj.isGrounded);
+    // }
   });
+    // Si no está tocando ninguna plataforma, cambiamos isGrounded a false
+    if (!playerIsTouchingPlatform) {
+      playerObj.isGrounded = false;
+      console.log("suelo2", playerObj.isGrounded);
+    }
   }
 
 function detectCollisionEnemyPlatform(){
