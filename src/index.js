@@ -165,17 +165,22 @@ function addPlatform() {
 
   let newPlatformLeft = new Platform(randomPositionX, "left");
   platformsArray.push(newPlatformLeft);
-  let newEnemyLeft = new Enemy(newPlatformLeft.x, newPlatformLeft.y, "left", newPlatformLeft.w);
-  enemiesArray.push(newEnemyLeft);
-
+  addEnemy(newPlatformLeft, "left");
 
   let newPlatformRight = new Platform(randomPositionX + 400, "right"); 
   platformsArray.push(newPlatformRight);
-  let newEnemyRight = new Enemy((newPlatformRight.x + newPlatformRight.w - 40), newPlatformRight.y, "right", newPlatformRight.w);
-  enemiesArray.push(newEnemyRight);
-
+  addEnemy(newPlatformLeft, "right");
 }
 
+function addEnemy(platform, type){
+  if(type === "left"){
+    let newEnemyLeft = new Enemy(platform.x, platform.y, "left", platform.w);
+    enemiesArray.push(newEnemyLeft);
+  }else if(type === "right"){
+    let newEnemyRight = new Enemy((platform.x + platform.w - 40), platform.y, "right", platform.w);
+    enemiesArray.push(newEnemyRight);
+  }
+}
 
 //* Funciones colisiones
 function detectCollisionPlayerPlatform() {
