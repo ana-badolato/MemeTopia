@@ -6,28 +6,31 @@ class Enemy {
     this.h = 40; 
     this.speed = 2;
     this.direction  = direction;
-    
+    //this.hasScored = false;
     this.platformWidth = platformWidth; // Ancho de la plataforma que el enemigo debe respetar
   
     this.type = [
       {
         name: "grumpy",
-        damage: 5,
+        damage: 10,
+        life: 10,
         imageLeft: "./img/enemy1Left.png",
-        imageRight: "./img/enemy1Right.png"
+        imageRight: "./img/enemy1Right.png",
+        hasAttacked: false
       },
       {
         name: "troll",
-        damage: 10,
+        damage: 20,
+        life: 30,
         imageLeft: "./img/enemy2Left.png",
-        imageRight: "./img/enemy2Right.png"
+        imageRight: "./img/enemy2Right.png",
+        hasAttacked: false
       },
     ]
   
     this.randomEnemy = this.getRandomEnemy();
-    // Inicializamos el movimiento del enemigo basado en su tipo (left o right)
 
-  
+      
     this.node = document.createElement("img");
     if (this.direction === "left") {
       this.movingRight = false;
@@ -55,6 +58,7 @@ class Enemy {
       if (this.x + this.w >= this.platformWidth) {
         this.movingRight = false;
         this.node.src = this.type[this.randomEnemy].imageLeft; 
+        this.type.hasAttacked = false;
       }
       } else {
         this.x -= this.speed;
@@ -62,6 +66,7 @@ class Enemy {
         if (this.x <= 0) {
           this.movingRight = true;
           this.node.src = this.type[this.randomEnemy].imageRight;// Cambia la imagen al moverse a la derecha
+          this.type.hasAttacked = false;
         }
       }
 
@@ -71,4 +76,6 @@ class Enemy {
   getRandomEnemy(){
     return Math.floor(Math.random()*this.type.length);
   }
+
+ 
 }

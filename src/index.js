@@ -22,6 +22,8 @@ const musicOffBtnNode = document.querySelector("#musicOffBtn");
 const menuOverBtnNode = document.querySelector(".menuOverBtn");
 const restartBtnNode = document.querySelector(".restartBtn");
 
+const playerLife = document.querySelector("#life");
+
 //* VARIABLES GLOBALES DEL JUEGO
 
 
@@ -56,7 +58,7 @@ splashMusic.play();
 
 //* Funciones del estado del juego
 function startGame() {
-
+  
   // 1. Cambiar las pantallas
   gameOverScreenNode.style.display = "none";
   splashScreenNode.style.display = "none";
@@ -65,6 +67,8 @@ function startGame() {
   // 2. Añadir todos los elementos iniciales del juego
   isGameGoing = true;
   playerObj = new Player();
+  //playerObj.resetAcceleration();
+  playerLife.innerText = `${playerObj.life}`;
   //console.log("empezamos");
   addPlatform(-50, "left");
   stopMusicGameOver();
@@ -90,6 +94,7 @@ function gameLoop() {
     // Se ejecuta 60 veces por segundo en el intervalo principal
 
     playerObj.gravity();
+    //playerObj.detectWallCollision();
     detectCollisionPlayerPlatform();
     detectCollisionPlayerEnemy();
     detectCollisionEnemyPlatform();
@@ -116,7 +121,6 @@ gameScreenNode.style.display = "none";
 gameOverAudio.play();
 
 }
-
 
 function openMenu() { 
       
@@ -238,26 +242,35 @@ function detectCollisionEnemyPlatform(){
 }
 
 function detectCollisionPlayerEnemy(){
-   // Verificar si playerObj está definido
    if (!playerObj) {
-    return; // Si no hay playerObj, salimos de la función
+    return; 
   }
 
-  let playerIsTouchingEnemy = false;
+  //let playerIsTouchingEnemy = false;
   enemiesArray.forEach((eachEnemy)=>{
   
   if(playerObj.x < eachEnemy.x + eachEnemy.w &&
     playerObj.x + playerObj.w > eachEnemy.x &&
     playerObj.y < eachEnemy.y + eachEnemy.h &&
     playerObj.y + playerObj.h > eachEnemy.y){      
+      
+    //playerIsTouchingEnemy = true;
+    //playerObj.getDamage(eachEnemy);
+    
+    if(!eachEnemy.type.hasAttacked){
+      
+  
+      playerObj.getDamage(eachEnemy);
+      eachEnemy.type.hasAttacked = true;
+      //console.log("touching enemy", playerObj.life, playerLife.innerText);
+    }
+    
 
-
-    console.log ("touching enemy");
-    playerIsTouchingEnemy = true; 
   }
 
 });
 }
+
 
 //* Funciones para limpiar el programa
 
@@ -359,7 +372,7 @@ window.addEventListener("keyup", (event) => {
     keysPressed[event.key] = false;
     playerObj.resetAcceleration(); // Restablecer la velocidad cuando se suelta la tecla
   if (event.key === " ") {
-    canJump = true; // Permitimos saltar de nuevo cuando se suelta la tecla
+    //canJump = true; // Permitimos saltar de nuevo cuando se suelta la tecla
   }
 }
 });
