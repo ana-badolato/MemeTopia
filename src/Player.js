@@ -13,6 +13,7 @@ class Player {
     this.isGrounded = false;
     this.isMovingRight = true
     this.life = 100;
+    this.coins = 0;
     this.damage = 10;
 
     this.node = document.createElement("img");

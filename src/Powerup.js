@@ -58,4 +58,16 @@ class Powerup {
   getRandomPowerUp(){
     return Math.floor(Math.random() * this.type.length);
   }
+
+  getAction() {
+    const powerUpType = this.type[this.randomPowerUp].name;  // Acceder al nombre correcto del power-up
+    
+    if (powerUpType === "dogeCoin") {
+      playerObj.coins++;
+      playerCoins.innerText = `${playerObj.coins}`;
+    } else if (powerUpType === "life") {
+      playerObj.life += 20;
+      playerLife.innerText = `${playerObj.life}`;
+    }
+  }
 }

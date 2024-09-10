@@ -23,6 +23,7 @@ const menuOverBtnNode = document.querySelector(".menuOverBtn");
 const restartBtnNode = document.querySelector(".restartBtn");
 
 const playerLife = document.querySelector("#life");
+const playerCoins = document.querySelector("#coins");
 
 //* VARIABLES GLOBALES DEL JUEGO
 
@@ -71,6 +72,7 @@ function startGame() {
   playerObj = new Player();
   //playerObj.resetAcceleration();
   playerLife.innerText = `${playerObj.life}`;
+  playerCoins.innerText = `${playerObj.coins}`;
   addPlatform(0, "left");
   stopMusicGameOver();
   stopMusicSplash();
@@ -102,7 +104,7 @@ function gameLoop() {
     detectCollisionPlayerPlatform();
     detectCollisionPlayerEnemy();
     detectCollisionEnemyPlatform();
-
+    detectCollisionPlayerPowerUp();
  
     platformsArray.forEach((eachPlatform, index) => {
       eachPlatform.automaticMovement();    
@@ -270,7 +272,26 @@ function detectCollisionPlayerEnemy(){
 });
 }
 
+function detectCollisionPlayerPowerUp() {
+  if (!playerObj) {
+    return; 
+  }
 
+  powerUpsArray.forEach((eachPowerUp, index) => {
+    if (playerObj.x < eachPowerUp.x + eachPowerUp.w &&
+        playerObj.x + playerObj.w > eachPowerUp.x &&
+        playerObj.y < eachPowerUp.y + eachPowerUp.h &&
+        playerObj.y + playerObj.h > eachPowerUp.y) {
+
+      if (!eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken) {
+        eachPowerUp.getAction();  // Aplicar la acción del power-up
+        eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken = true;
+        eachPowerUp.node.remove();  // Remover del DOM
+        powerUpsArray.splice(index, 1);  // Remover del array el power-up correspondiente
+      }
+    }
+  });
+}
 //* Funciones para limpiar el programa
 
 function cleanGame() {
@@ -288,6 +309,7 @@ function cleanGame() {
   enemiesArray = []; 
   powerUpsArray = [];
   playerObj.life = 100;
+  playerObj.coins=0;
 
   // 4. Detener cualquier música que esté sonando
   stopMusicGame();
@@ -299,17 +321,25 @@ function cleanGame() {
 }
 
 function checkElementsOut(){
-  if (platformsArray.length === 0){
-    return;
+  // Verificar si hay plataformas
+  if (platformsArray.length > 0) {
+    if((platformsArray[0].y + platformsArray[0].h - 100) >= gameBoxNode.offsetHeight){
+      platformsArray[0].node.remove(); // 1. sacar del DOM
+      platformsArray.shift(); // 2. Sacar de JS
+      
+      if (enemiesArray.length > 0) { // Verificar que haya enemigos antes de eliminarlos
+        enemiesArray[0].node.remove();
+        enemiesArray.shift();
+      }
+    } 
   }
 
-  if((platformsArray[0].y + platformsArray[0].h - 100) >= gameBoxNode.offsetHeight){
-    platformsArray[0].node.remove();// 1. sacar del DOM
-    platformsArray.shift();// 2. Sacar de JS
-
-    enemiesArray[0].node.remove();// 1. sacar del DOM
-    enemiesArray.shift();// 2. Sacar de JS
-
+  // Verificar si hay power-ups
+  if (powerUpsArray.length > 0) {
+    if((powerUpsArray[0].y + powerUpsArray[0].h - 100) >= gameBoxNode.offsetHeight){
+      powerUpsArray[0].node.remove(); // 1. sacar del DOM
+      powerUpsArray.shift(); // 2. Sacar de JS
+    }
   }
 }
 
