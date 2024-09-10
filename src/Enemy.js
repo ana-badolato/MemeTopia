@@ -49,29 +49,7 @@ class Enemy {
     gameBoxNode.append(this.node);
   }
 
-  // automaticMovement(platformY) {
-  //   this.y = platformY - this.h;
-  //   this.node.style.top = `${this.y}px`;
 
-  //   if (this.movingRight) {
-  //     this.x += this.speed;
-  //     if (this.x + this.w >= this.platformWidth) {
-  //       this.movingRight = false;
-  //       this.node.src = this.type[this.randomEnemy].imageLeft; 
-  //       this.type.hasAttacked = false;
-  //     }
-  //     } else {
-  //       this.x -= this.speed;
-        
-  //       if (this.x <= 0) {
-  //         this.movingRight = true;
-  //         this.node.src = this.type[this.randomEnemy].imageRight;// Cambia la imagen al moverse a la derecha
-  //         this.type.hasAttacked = false;
-  //       }
-  //     }
-
-  //   this.node.style.left = `${this.x}px`;
-  // }
   automaticMovement(platformX, platformY) {
     // Posicionar al enemigo sobre la plataforma en la coordenada Y
     this.y = platformY - this.h;
