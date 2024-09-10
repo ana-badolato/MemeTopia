@@ -100,6 +100,7 @@ function gameLoop() {
     });
 
     checkPlatformOut();
+    checkEnemyOut();
      // 4. Iniciar el ciclo del juego con requestAnimationFrame
 }
 
@@ -266,6 +267,17 @@ function checkPlatformOut(){
   if((platformsArray[0].y + platformsArray[0].h) >= gameBoxNode.offsetHeight){
     platformsArray[0].node.remove();// 1. sacar del DOM
     platformsArray.shift();// 2. Sacar de JS
+  }
+}
+
+function checkEnemyOut(){
+  if (enemiesArray.length === 0){
+    return;
+  }
+
+  if((enemiesArray[0].y + enemiesArray[0].h) >= gameBoxNode.offsetHeight){
+    enemiesArray[0].node.remove();// 1. sacar del DOM
+    enemiesArray.shift();// 2. Sacar de JS
   }
 }
 
