@@ -83,7 +83,7 @@ function startGame() {
   // 4. (Opcional) Iniciaremos otrs intervalos que requiera el juego
   platformsIntervalId = setInterval(() => { 
     addPlatform();
-    addEnemy();
+    //addEnemy();
   }, platformsFreq);
 
 }
@@ -98,16 +98,16 @@ function gameLoop() {
     detectCollisionPlayerEnemy();
     detectCollisionEnemyPlatform();
 
+ 
     platformsArray.forEach((eachPlatform, index) => {
-      eachPlatform.automaticMovement();
-      if (enemiesArray[index]) { // Aseguramos que el enemigo exista
-        enemiesArray[index].automaticMovement(eachPlatform.y);
+      eachPlatform.automaticMovement();    
+      if (enemiesArray[index]) {
+        enemiesArray[index].automaticMovement(eachPlatform.x, eachPlatform.y);
       }
     });
 
     checkElementsOut();
-    //checkEnemyOut();
-     // 4. Iniciar el ciclo del juego con requestAnimationFrame
+
 }
 
 function gameOver() {
@@ -165,32 +165,17 @@ function addPlatform() {
 
   let newPlatformLeft = new Platform(randomPositionX, "left");
   platformsArray.push(newPlatformLeft);
+  let newEnemyLeft = new Enemy(newPlatformLeft.x, newPlatformLeft.y, "left", newPlatformLeft.w);
+  enemiesArray.push(newEnemyLeft);
 
-  let newPlatformRight = new Platform(randomPositionX + 400, "right"); //ajustamos la posició nde las de la derecha en función de las de la izda para evitar plataformas en ubicaciones imposibles.
+
+  let newPlatformRight = new Platform(randomPositionX + 400, "right"); 
   platformsArray.push(newPlatformRight);
+  let newEnemyRight = new Enemy((newPlatformRight.x + newPlatformRight.w - 40), newPlatformRight.y, "right", newPlatformRight.w);
+  enemiesArray.push(newEnemyRight);
 
 }
 
-function addEnemy() {
-  let randomPositionX = Math.floor(Math.random() * (-75));
-
-  // Obtener la última plataforma izquierda y derecha creada
-  let platformLeft = platformsArray[platformsArray.length - 2]; // Penúltima plataforma (izquierda)
-  let platformRight = platformsArray[platformsArray.length - 1]; // Última plataforma (derecha)
-
-  // Aseguramos que las plataformas tengan un ancho definido antes de crear el enemigo
-  if (platformLeft && platformRight) {
-
-    let newEnemyLeft = new Enemy(platformLeft.x, platformLeft.y, "left", platformLeft.w);
-    enemiesArray.push(newEnemyLeft);
-
-    let newEnemyRight = new Enemy(platformRight.x + 400, platformRight.y, "right", platformRight.w);
-    enemiesArray.push(newEnemyRight);
-
-  } else {
-    console.error("No se pueden crear enemigos porque las plataformas no están definidas.");
-  }
-}
 
 //* Funciones colisiones
 function detectCollisionPlayerPlatform() {
@@ -244,7 +229,6 @@ function detectCollisionPlayerEnemy(){
     return; 
   }
 
-  //let playerIsTouchingEnemy = false;
   enemiesArray.forEach((eachEnemy)=>{
   
   if(playerObj.x < eachEnemy.x + eachEnemy.w &&
@@ -252,17 +236,12 @@ function detectCollisionPlayerEnemy(){
     playerObj.y < eachEnemy.y + eachEnemy.h &&
     playerObj.y + playerObj.h > eachEnemy.y){      
       
-    //playerIsTouchingEnemy = true;
-    //playerObj.getDamage(eachEnemy);
-    
     if(!eachEnemy.type.hasAttacked){
       
-  
       playerObj.getDamage(eachEnemy);
       eachEnemy.type.hasAttacked = true;
     }
     
-
   }
 
 });
@@ -301,10 +280,10 @@ function checkElementsOut(){
   if((platformsArray[0].y + platformsArray[0].h - 100) >= gameBoxNode.offsetHeight){
     platformsArray[0].node.remove();// 1. sacar del DOM
     platformsArray.shift();// 2. Sacar de JS
-    console.log("elimino plataforma")
+
     enemiesArray[0].node.remove();// 1. sacar del DOM
     enemiesArray.shift();// 2. Sacar de JS
-    console.log("elimino meme")
+
   }
 }
 
