@@ -69,7 +69,6 @@ function startGame() {
   playerObj = new Player();
   //playerObj.resetAcceleration();
   playerLife.innerText = `${playerObj.life}`;
-  //console.log("empezamos");
   addPlatform(-50, "left");
   stopMusicGameOver();
   stopMusicSplash();
@@ -106,8 +105,8 @@ function gameLoop() {
       }
     });
 
-    checkPlatformOut();
-    checkEnemyOut();
+    checkElementsOut();
+    //checkEnemyOut();
      // 4. Iniciar el ciclo del juego con requestAnimationFrame
 }
 
@@ -184,7 +183,6 @@ function addEnemy() {
 
     let newEnemyLeft = new Enemy(platformLeft.x, platformLeft.y, "left", platformLeft.w);
     enemiesArray.push(newEnemyLeft);
-    console.log(newEnemyLeft.x, platformLeft.x)
 
     let newEnemyRight = new Enemy(platformRight.x + 400, platformRight.y, "right", platformRight.w);
     enemiesArray.push(newEnemyRight);
@@ -220,7 +218,6 @@ function detectCollisionPlayerPlatform() {
     // Si no está tocando ninguna plataforma, cambiamos isGrounded a false
     if (!playerIsTouchingPlatform) {
       playerObj.isGrounded = false;
-      //console.log("suelo2", playerObj.isGrounded);
     }
   }
 
@@ -263,7 +260,6 @@ function detectCollisionPlayerEnemy(){
   
       playerObj.getDamage(eachEnemy);
       eachEnemy.type.hasAttacked = true;
-      //console.log("touching enemy", playerObj.life, playerLife.innerText);
     }
     
 
@@ -297,27 +293,21 @@ function cleanGame() {
   isGameGoing = false;
 }
 
-function checkPlatformOut(){
+function checkElementsOut(){
   if (platformsArray.length === 0){
     return;
   }
 
-  if((platformsArray[0].y + platformsArray[0].h) >= gameBoxNode.offsetHeight){
+  if((platformsArray[0].y + platformsArray[0].h - 100) >= gameBoxNode.offsetHeight){
     platformsArray[0].node.remove();// 1. sacar del DOM
     platformsArray.shift();// 2. Sacar de JS
-  }
-}
-
-function checkEnemyOut(){
-  if (enemiesArray.length === 0){
-    return;
-  }
-
-  if((enemiesArray[0].y + enemiesArray[0].h) >= gameBoxNode.offsetHeight){
+    console.log("elimino plataforma")
     enemiesArray[0].node.remove();// 1. sacar del DOM
     enemiesArray.shift();// 2. Sacar de JS
+    console.log("elimino meme")
   }
 }
+
 
 //* EVENT LISTENERS
 
