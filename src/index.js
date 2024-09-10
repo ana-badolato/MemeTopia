@@ -90,7 +90,9 @@ function gameLoop() {
     // Se ejecuta 60 veces por segundo en el intervalo principal
 
     playerObj.gravity();
-    detectCollisionPlayerPlatform()
+    detectCollisionPlayerPlatform();
+    detectCollisionPlayerEnemy();
+    detectCollisionEnemyPlatform();
 
     platformsArray.forEach((eachPlatform, index) => {
       eachPlatform.automaticMovement();
@@ -233,6 +235,28 @@ function detectCollisionEnemyPlatform(){
       }
     });
   });
+}
+
+function detectCollisionPlayerEnemy(){
+   // Verificar si playerObj está definido
+   if (!playerObj) {
+    return; // Si no hay playerObj, salimos de la función
+  }
+
+  let playerIsTouchingEnemy = false;
+  enemiesArray.forEach((eachEnemy)=>{
+  
+  if(playerObj.x < eachEnemy.x + eachEnemy.w &&
+    playerObj.x + playerObj.w > eachEnemy.x &&
+    playerObj.y < eachEnemy.y + eachEnemy.h &&
+    playerObj.y + playerObj.h > eachEnemy.y){      
+
+
+    console.log ("touching enemy");
+    playerIsTouchingEnemy = true; 
+  }
+
+});
 }
 
 //* Funciones para limpiar el programa
