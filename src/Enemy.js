@@ -1,5 +1,5 @@
 class Enemy {
-  constructor(positionX, positionY, direction, type, platformWidth) {
+  constructor(positionX, positionY, direction, platformWidth) {
     this.x = positionX;
     this.y = positionY;
     this.w = 40; 
@@ -8,18 +8,33 @@ class Enemy {
     this.direction  = direction;
     
     this.platformWidth = platformWidth; // Ancho de la plataforma que el enemigo debe respetar
-    this.type = type;
-   
   
+    this.type = [
+      {
+        name: "grumpy",
+        damage: 5,
+        imageLeft: "./img/enemy1Left.png",
+        imageRight: "./img/enemy1Right.png"
+      },
+      {
+        name: "troll",
+        damage: 10,
+        imageLeft: "./img/enemy2Left.png",
+        imageRight: "./img/enemy2Right.png"
+      },
+    ]
+  
+    this.randomEnemy = this.getRandomEnemy();
     // Inicializamos el movimiento del enemigo basado en su tipo (left o right)
 
+    console.log("enemy", this.type[this.randomEnemy].name);
     this.node = document.createElement("img");
     if (this.direction === "left") {
       this.movingRight = false;
-      this.node.src = this.type.imageLeft;
+      this.node.src = this.type[this.randomEnemy].imageLeft;
     } else {
       this.movingRight = true;
-      this.node.src = this.type.imageRight;
+      this.node.src = this.type[this.randomEnemy].imageRight;
     }
 
  
@@ -46,16 +61,20 @@ class Enemy {
       this.x += this.speed;
       if (this.x + this.w >= this.platformWidth) {
         this.movingRight = false;
-        this.node.src = this.type.imageLeft;// Cambia la imagen al moverse a la izquierda
+        this.node.src = this.type[this.randomEnemy].imageLeft; // Cambia la imagen al moverse a la izquierda
       }
     } else {
       this.x -= this.speed;
       if (this.x <= 0) {
         this.movingRight = true;
-        this.node.src = this.type.imageRight; // Cambia la imagen al moverse a la derecha
+        this.node.src = this.type[this.randomEnemy].imageRight;// Cambia la imagen al moverse a la derecha
       }
     }
     this.node.style.left = `${this.x}px`;
   }
 
+  getRandomEnemy(){
+    let randomEnemy = Math.floor(Math.random()*this.type.length);
+    return randomEnemy;
+  }
 }

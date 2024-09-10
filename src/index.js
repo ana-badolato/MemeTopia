@@ -34,20 +34,7 @@ let playerObj = null;
 let platformsArray = [];
 let platformsFreq = 2200;
 let enemiesArray = [];
-let enemyTypeArray = [
-  {
-    name: "grumpy",
-    damage: 5,
-    imageLeft: "./img/enemy1Left.png",
-    imageRight: "./img/enemy1Right.png"
-  },
-  {
-    name: "troll",
-    damage: 10,
-    imageLeft: "./img/enemy2Left.png",
-    imageRight: "./img/enemy2Right.png"
-  },
-]
+
 //Control del juego
 let isGameGoing = false; // para controlar el estado de ciertos elementos dentro del juego
 
@@ -188,12 +175,11 @@ function addEnemy() {
 
   // Aseguramos que las plataformas tengan un ancho definido antes de crear el enemigo
   if (platformLeft && platformRight) {
-    let randomEnemy = enemyTypeArray[Math.floor(Math.random() * enemyTypeArray.length)];
-    console.log("Enemigo seleccionado:", randomEnemy);
-    let newEnemyLeft = new Enemy(randomPositionX, platformLeft.y, "left", randomEnemy, platformLeft.w);
+
+    let newEnemyLeft = new Enemy(randomPositionX, platformLeft.y, "left", platformLeft.w);
     enemiesArray.push(newEnemyLeft);
 
-    let newEnemyRight = new Enemy(randomPositionX + 2500, platformRight.y, "right", randomEnemy, platformRight.w);
+    let newEnemyRight = new Enemy(randomPositionX + 2500, platformRight.y, "right", platformRight.w);
     enemiesArray.push(newEnemyRight);
 
   } else {
