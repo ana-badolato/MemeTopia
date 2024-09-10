@@ -30,12 +30,14 @@ const playerLife = document.querySelector("#life");
 // Intervalos
 let gameIntervalId = null;
 let platformsIntervalId = null;
-
+let powerUpsIntervalId = null;
 //Objetos
 let playerObj = null;
 let platformsArray = [];
 let platformsFreq = 2200;
 let enemiesArray = [];
+let powerUpsArray = [];
+let powerUpsFreq = 5000;
 
 //Control del juego
 let isGameGoing = false; // para controlar el estado de ciertos elementos dentro del juego
@@ -69,7 +71,7 @@ function startGame() {
   playerObj = new Player();
   //playerObj.resetAcceleration();
   playerLife.innerText = `${playerObj.life}`;
-  addPlatform(-50, "left");
+  addPlatform(0, "left");
   stopMusicGameOver();
   stopMusicSplash();
   initMusicGame();
@@ -83,8 +85,11 @@ function startGame() {
   // 4. (Opcional) Iniciaremos otrs intervalos que requiera el juego
   platformsIntervalId = setInterval(() => { 
     addPlatform();
-    //addEnemy();
   }, platformsFreq);
+
+  powerUpsIntervalId = setInterval(() => { 
+    addPowerUp();
+  }, powerUpsFreq);
 
 }
 
@@ -106,6 +111,10 @@ function gameLoop() {
       }
     });
 
+    powerUpsArray.forEach((eachPowerUp) => {
+      eachPowerUp.automaticMovement();
+    });
+
     checkElementsOut();
 
 }
@@ -113,7 +122,10 @@ function gameLoop() {
 function gameOver() {
   
 cleanGame();
-
+  // Detener el game loop
+  clearInterval(gameIntervalId); 
+  clearInterval(platformsIntervalId);
+  clearInterval(powerUpsIntervalId);
 gameOverScreenNode.style.display = "flex";
 gameScreenNode.style.display = "none";
 
@@ -173,6 +185,7 @@ function addPlatform() {
 }
 
 function addEnemy(platform, type){
+
   if(type === "left"){
     let newEnemyLeft = new Enemy(platform.x, platform.y, "left", platform.w);
     enemiesArray.push(newEnemyLeft);
@@ -180,6 +193,11 @@ function addEnemy(platform, type){
     let newEnemyRight = new Enemy((platform.x + platform.w - 40), platform.y, "right", platform.w);
     enemiesArray.push(newEnemyRight);
   }
+}
+
+function addPowerUp(){
+  const newPowerUp = new Powerup(); 
+  powerUpsArray.push(newPowerUp);
 }
 
 //* Funciones colisiones
@@ -259,14 +277,17 @@ function cleanGame() {
   // 1. Limpiar los intervalos
   clearInterval(gameIntervalId);
   clearInterval(platformsIntervalId);
+  clearInterval(powerUpsIntervalId);
 
   // 2. Eliminar los elementos del DOM (jugador, plataformas)
   gameBoxNode.innerHTML = "";
 
   // 3. Reiniciar las variables globales
-  playerObj = null;
+  
   platformsArray = [];
   enemiesArray = []; 
+  powerUpsArray = [];
+  playerObj.life = 100;
 
   // 4. Detener cualquier música que esté sonando
   stopMusicGame();
