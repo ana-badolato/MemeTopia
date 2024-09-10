@@ -1,26 +1,25 @@
 class Enemy {
-  constructor(positionX, positionY, type, platformWidth) {
-    //! Hay que solucionar la aparición de personajes
+  constructor(positionX, positionY, direction, type, platformWidth) {
     this.x = positionX;
     this.y = positionY;
-    this.w = 40; // Ancho del enemigo
-    this.h = 40; // Alto del enemigo
-    this.type = type;
+    this.w = 40; 
+    this.h = 40; 
     this.speed = 2;
+    this.direction  = direction;
+    
     this.platformWidth = platformWidth; // Ancho de la plataforma que el enemigo debe respetar
-
+    this.type = type;
+   
+  
     // Inicializamos el movimiento del enemigo basado en su tipo (left o right)
 
     this.node = document.createElement("img");
-    this.node.src = "./img/enemy1Left.png"; 
-    if (this.type === "left") {
-      this.movingRight = true;
-      this.node.src = "./img/enemy1Left.png";
-      //console.log("hacia la izda")
-    } else {
+    if (this.direction === "left") {
       this.movingRight = false;
-      this.node.src = "./img/enemy1Right.png";
-      //console.log("hacia la dcha")
+      this.node.src = this.type.imageLeft;
+    } else {
+      this.movingRight = true;
+      this.node.src = this.type.imageRight;
     }
 
  
@@ -47,15 +46,16 @@ class Enemy {
       this.x += this.speed;
       if (this.x + this.w >= this.platformWidth) {
         this.movingRight = false;
-        this.node.src = "./img/enemy1Left.png"; // Cambia la imagen al moverse a la izquierda
+        this.node.src = this.type.imageLeft;// Cambia la imagen al moverse a la izquierda
       }
     } else {
       this.x -= this.speed;
       if (this.x <= 0) {
         this.movingRight = true;
-        this.node.src = "./img/enemy1Right.png"; // Cambia la imagen al moverse a la derecha
+        this.node.src = this.type.imageRight; // Cambia la imagen al moverse a la derecha
       }
     }
     this.node.style.left = `${this.x}px`;
   }
+
 }

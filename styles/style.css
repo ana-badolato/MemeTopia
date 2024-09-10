@@ -1,7 +1,6 @@
 @font-face {
   font-family: 'Custom'; /* Nombre personalizado de la fuente */
-  src: url('../fonts/LunarEcho-PersonalUse.woff2') format('woff2'), /* El más eficiente */   url('../fonts/LunarEcho-PersonalUse.woff') format('woff'),   /* Fallback */
-       url('../fonts/SuperGiggle.ttf') format('truetype'); /* Truetype como último recurso */
+  src: url('../fonts/SuperGiggle.ttf') format('truetype'); /* Truetype como último recurso */
   font-weight: normal; /* Puedes especificar peso */
   font-style: normal;  /* Puedes especificar estilo */
 }
