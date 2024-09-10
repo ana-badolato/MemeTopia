@@ -166,7 +166,6 @@ function addPlatform() {
 }
 
 function addEnemy() {
-  //console.log("añado enemigo");
   let randomPositionX = Math.floor(Math.random() * (-75));
 
   // Obtener la última plataforma izquierda y derecha creada
@@ -193,6 +192,7 @@ function detectCollisionPlayerPlatform() {
     if (!playerObj) {
       return; // Si no hay playerObj, salimos de la función
     }
+
   let playerIsTouchingPlatform = false;
   platformsArray.forEach((eachPlatform)=>{
     
@@ -206,15 +206,8 @@ function detectCollisionPlayerPlatform() {
       playerObj.node.style.top = `${playerObj.y}px`; 
       playerObj.isGrounded = true;
       playerIsTouchingPlatform = true; 
-      //console.log("ha tocado suelo");
-      //playerObj.isJumping= false;
-      //console.log("ground1", playerObj.isGrounded);
-
     }
-    // else {
-    //   playerObj.isGrounded = false;
-    //   console.log("suelo2", playerObj.isGrounded);
-    // }
+
   });
     // Si no está tocando ninguna plataforma, cambiamos isGrounded a false
     if (!playerIsTouchingPlatform) {
