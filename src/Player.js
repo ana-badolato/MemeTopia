@@ -74,7 +74,6 @@ class Player {
           this.jumpSpeed *= this.acceleration; 
           this.y -= this.jumpSpeed;
           this.node.style.top = `${this.y}px`
-          console.log(this.jumpSpeed)
 
           if(this.isMovingRight) {
               this.x += 7

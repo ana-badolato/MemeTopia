@@ -182,10 +182,11 @@ function addEnemy() {
   // Aseguramos que las plataformas tengan un ancho definido antes de crear el enemigo
   if (platformLeft && platformRight) {
 
-    let newEnemyLeft = new Enemy(randomPositionX, platformLeft.y, "left", platformLeft.w);
+    let newEnemyLeft = new Enemy(platformLeft.x, platformLeft.y, "left", platformLeft.w);
     enemiesArray.push(newEnemyLeft);
+    console.log(newEnemyLeft.x, platformLeft.x)
 
-    let newEnemyRight = new Enemy(randomPositionX + 2500, platformRight.y, "right", platformRight.w);
+    let newEnemyRight = new Enemy(platformRight.x + 400, platformRight.y, "right", platformRight.w);
     enemiesArray.push(newEnemyRight);
 
   } else {
