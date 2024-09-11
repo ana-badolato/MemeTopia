@@ -142,7 +142,7 @@ class Player {
   
     if (this.life <= 0) {
       //console.log("life 0");
-      //gameOver();
+      gameOver();
     }
   }
 
