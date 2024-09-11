@@ -21,6 +21,7 @@ class Player {
       right: false,
       left: false,
     };
+    this.totalScore = 0;
 
     this.node = document.createElement("img");
     this.node.src = "./img/playerRightImg.png"; 
@@ -33,6 +34,7 @@ class Player {
     this.node.style.left = `${this.x}px`
 
     this.node.style.zIndex = 10;
+
   }
 
   gravity() {

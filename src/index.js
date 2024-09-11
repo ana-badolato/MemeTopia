@@ -1,43 +1,39 @@
 //* ELEMENTOS PRINCIPALES DEL DOM
 
-// pantallas
+// splash screen
 const splashScreenNode = document.querySelector("#splash-screen")
-const gameScreenNode = document.querySelector("#game-screen")
-const gameOverScreenNode = document.querySelector("#game-over-screen")
-const gameWinScreenNode = document.querySelector("#game-win-screen");
-
-// game box
-const gameBoxNode = document.querySelector("#game-box")
-
-// botones
-
-// btn inicio
 const playBtnNode = document.querySelector("#playBtn");
 
-//btn game
+// game screen
+const gameScreenNode = document.querySelector("#game-screen")
+const gameBoxNode = document.querySelector("#game-box")
 const menuBtnNode = document.querySelector(".menuBtn");
 const musicOnBtnNode = document.querySelector("#musicOnBtn");
 const musicOffBtnNode = document.querySelector("#musicOffBtn");
-
-//btn game over
-const menuOverBtnNode = document.querySelector(".menuOverBtn");
-const restartBtnNode = document.querySelector(".restartBtn");
-
 const playerLife = document.querySelector("#life");
 const playerCoins = document.querySelector("#coins");
 const playerKills = document.querySelector("#kills");
 
-//Timer
-let duration=120;
-let timeRemaining = duration;
-let minutes = Math.floor(timeRemaining / 60)
-.toString()
-.padStart(2, "0");
-let seconds = (timeRemaining % 60).toString().padStart(2, "0");
+// game over screen
+const gameOverScreenNode = document.querySelector("#game-over-screen")
+const menuOverBtnNode = document.querySelector(".menuOverBtn");
+const restartBtnNode = document.querySelector(".restartBtn");
+const resumeKills=document.querySelector(".resumeKills");
+const resumeCoins=document.querySelector(".resumeCoins");
+const resumeTime=document.querySelector(".resumeTime");
+const loseTotalScore=document.querySelector("#loseTotalScore");
 
-// Display the time remaining in the time remaining container
-let timeRemainingContainer = document.getElementById("time");
-timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+// game win screen
+const gameWinScreenNode = document.querySelector("#game-win-screen");
+
+
+//btn game win
+const menuWinBtnNode = document.querySelector(".menuWinBtn");
+const restartWinBtnNode = document.querySelector(".restartWinBtn");
+const winResumeKills=document.querySelector(".winResumeKills");
+const winResumeCoins=document.querySelector(".winResumeCoins");
+const winResumeTime=document.querySelector(".winResumeTime");
+const winTotalScore=document.querySelector("#winTotalScore");
 
 
 //* VARIABLES GLOBALES DEL JUEGO
@@ -48,62 +44,73 @@ let gameIntervalId = null;
 let platformsIntervalId = null;
 let powerUpsIntervalId = null;
 let timerIntervalId = null;
+let powerUpsFreq = 5000;
+
 //Objetos
 let playerObj = null;
 let platformsArray = [];
 let platformsFreq = 2200;
 let enemiesArray = [];
 let powerUpsArray = [];
-let powerUpsFreq = 5000;
 let background = null;
-//Control del juego
-let isGameGoing = false; // para controlar el estado de ciertos elementos dentro del juego
 
+
+//Control del juego
+let isGameGoing = false; 
 
 // Audio
-let gameMusic = new Audio('./audio/goMiau.mp3') // cargamos la música
-gameMusic.loop = true; // la música dentro del juego se repite
-gameMusic.volume = 0.05; // ajustamos el volumen
+let gameMusic = new Audio('./audio/goMiau.mp3') 
+gameMusic.loop = true; 
+gameMusic.volume = 0.05; 
+
 let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
 gameOverAudio.loop = false;
 gameOverAudio.volume = 0.05;
-let splashMusic = new Audio('./audio/catPolka.mp3') // cargamos la música
+
+let splashMusic = new Audio('./audio/catPolka.mp3') 
 splashMusic.loop = true; 
-splashMusic.volume = 0.05; // ajustamos el volumen
+splashMusic.volume = 0.05;
+
 splashMusic.play();
 
+// Timer
+let duration=5;
+let timeRemaining = duration;
+let minutes = Math.floor(timeRemaining / 60).toString().padStart(2, "0");
+let seconds = (timeRemaining % 60).toString().padStart(2, "0");
+let timeRemainingContainer = document.getElementById("time");
+timeRemainingContainer.innerText = `${minutes}:${seconds}`;
 
 //* FUNCIONES GLOBALES DEL JUEGO
 
 //* Funciones del estado del juego
 function startGame() {
   
-  // 1. Cambiar las pantallas
   gameOverScreenNode.style.display = "none";
   splashScreenNode.style.display = "none";
   gameWinScreenNode.style.display = "none";
   gameScreenNode.style.display = "flex";
 
-  // 2. Añadir todos los elementos iniciales del juego
   isGameGoing = true;
   playerObj = new Player();
   background = new Background();
-  //playerObj.resetAcceleration();
+
   playerLife.innerText = `${playerObj.life}`;
   playerCoins.innerText = `${playerObj.coins}`;
   playerCoins.innerText = `${playerObj.kills}`;
+
   addPlatform(0, "left");
+
   stopMusicGameOver();
   stopMusicSplash();
   initMusicGame();
+
   platformsArray[0].y = 0;
-  // 3. Iniciar el intervalo de juego
+
   gameIntervalId = setInterval(() => {
     gameLoop();
-  }, Math.round(1000/60)); // Para que el juego se ejecute a 60 fps
+  }, Math.round(1000/60)); 
 
-
-  // 4. (Opcional) Iniciaremos otrs intervalos que requiera el juego
   platformsIntervalId = setInterval(() => { 
     addPlatform();
   }, platformsFreq);
@@ -120,7 +127,6 @@ function startGame() {
       .padStart(2, "0");
     seconds = (timeRemaining % 60).toString().padStart(2, "0");
   
-    // console.log(quiz.timeRemaining)
     timeRemainingContainer.innerText = `${minutes}:${seconds}`;
     if (timeRemaining === 0) {
       
@@ -133,11 +139,10 @@ function startGame() {
 
 function gameLoop() {
 
-    // Se ejecuta 60 veces por segundo en el intervalo principal
     background.move(); 
     playerObj.movement();
     playerObj.gravity();
-    //playerObj.detectWallCollision();
+
     detectCollisionPlayerPlatform();
     detectCollisionPlayerEnemy();
     detectCollisionBulletEnemy(); 
@@ -158,35 +163,40 @@ function gameLoop() {
     });
 
     checkElementsOut();
-
 }
 
 function gameOver() {
-  
-cleanGame();
-  // Detener el game loop
+  gameOverScreenNode.style.display = "flex";
+  gameScreenNode.style.display = "none";
+  resumeKills.innerText=`${playerObj.kills}`
+  resumeCoins.innerText=`${playerObj.coins}`
+  resumeTime.innerText=`${120-timeRemaining} s`
+  loseTotalScore.innerText=`${getTotalScore()} points!`
+  gameOverAudio.play();
+  cleanGame();
   clearIntervals();
-gameOverScreenNode.style.display = "flex";
-gameScreenNode.style.display = "none";
-
-gameOverAudio.play();
-
 }
 
 function gameWin(){
-  clearIntervals();
+
   gameWinScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
+
+  winResumeKills.innerText=`${playerObj.kills}`
+  winResumeCoins.innerText=`${playerObj.coins}`
+  winResumeTime.innerText=`${120-timeRemaining} s`
+  winTotalScore.innerText=`${getTotalScore()} points!`
+
+  cleanGame();
+  clearIntervals();
 }
 
-function openMenu() { 
-      
+function openMenu() {    
   cleanGame();
   splashMusic.play();
   splashScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
   gameOverScreenNode.style.display = "none";
-
 }
 
 function restartGame() {
@@ -195,12 +205,8 @@ function restartGame() {
 }
 
 function cleanGame() {
-  // 1. Limpiar los intervalos
   clearIntervals();
-  // 2. Eliminar los elementos del DOM (jugador, plataformas)
   gameBoxNode.innerHTML = "";
-
-  // 3. Reiniciar las variables globales
   
   platformsArray = [];
   enemiesArray = []; 
@@ -209,13 +215,16 @@ function cleanGame() {
   playerObj.coins=0;
   playerObj.kills=0;
   timeRemaining=duration;
-  // 4. Detener cualquier música que esté sonando
+
   stopMusicGame();
   stopMusicGameOver();
   stopMusicSplash();
 
-  // 5. Reiniciar el estado del juego
   isGameGoing = false;
+}
+
+function getTotalScore(){
+  return (playerObj.coins * 25)+(playerObj.kills * 10)+(duration-timeRemaining);
 }
 
 function clearIntervals(){
@@ -260,7 +269,6 @@ function addPlatform() {
 }
 
 function addEnemy(platform, type){
-
   if(type === "left"){
     let newEnemyLeft = new Enemy(platform.x, platform.y, "left", platform.w);
     enemiesArray.push(newEnemyLeft);
@@ -277,9 +285,8 @@ function addPowerUp(){
 
 //* Funciones colisiones
 function detectCollisionPlayerPlatform() {
-    // Verificar si playerObj está definido
     if (!playerObj) {
-      return; // Si no hay playerObj, salimos de la función
+      return; 
     }
 
   let playerIsTouchingPlatform = false;
@@ -290,7 +297,6 @@ function detectCollisionPlayerPlatform() {
       playerObj.y < eachPlatform.y + eachPlatform.h &&
       playerObj.y + playerObj.h > eachPlatform.y){      
 
-
       playerObj.y = eachPlatform.y - playerObj.h; 
       playerObj.node.style.top = `${playerObj.y}px`; 
       playerObj.isGrounded = true;
@@ -298,7 +304,7 @@ function detectCollisionPlayerPlatform() {
     }
 
   });
-    // Si no está tocando ninguna plataforma, cambiamos isGrounded a false
+
     if (!playerIsTouchingPlatform) {
       playerObj.isGrounded = false;
     }
@@ -358,10 +364,10 @@ function detectCollisionPlayerPowerUp() {
 
       if (!eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken) {
         
-        eachPowerUp.getAction();  // Aplicar la acción del power-up
+        eachPowerUp.getAction(); 
         eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken = true;
-        eachPowerUp.node.remove();  // Remover del DOM
-        powerUpsArray.splice(index, 1);  // Remover del array el power-up correspondiente
+        eachPowerUp.node.remove();  
+        powerUpsArray.splice(index, 1);correspondiente
       }
     }
   });
@@ -371,42 +377,41 @@ function detectCollisionBulletEnemy() {
   playerObj.bulletsArray.forEach((bullet, bulletIndex) => {
     enemiesArray.forEach((enemy, enemyIndex) => {
       if (bullet.checkCollisionWithEnemy(enemy)) {
-        enemy.getDamage(bullet); // Restar vida al enemigo
-        bullet.remove(); // Eliminar la bala del DOM
-        playerObj.bulletsArray.splice(bulletIndex, 1); // Eliminar la bala del array
+        enemy.getDamage(bullet); 
+        bullet.remove(); 
+        playerObj.bulletsArray.splice(bulletIndex, 1); 
       }
     });
   });
 }
 
-
-//* Funciones para limpiar el programa
-
+//! Optimizar el código de las colisiones trayendo aquí el condicional. 
+// function checkAnyCollision(objectA, ObjectB){
+  
+// }
 
 
 function checkElementsOut(){
-  // Verificar si hay plataformas
+
   if (platformsArray.length > 0) {
     if((platformsArray[0].y + platformsArray[0].h - 100) >= gameBoxNode.offsetHeight){
-      platformsArray[0].node.remove(); // 1. sacar del DOM
-      platformsArray.shift(); // 2. Sacar de JS
+      platformsArray[0].node.remove(); 
+      platformsArray.shift(); 
       
-      if (enemiesArray.length > 0) { // Verificar que haya enemigos antes de eliminarlos
+      if (enemiesArray.length > 0) { 
         enemiesArray[0].node.remove();
         enemiesArray.shift();
       }
     } 
   }
 
-  // Verificar si hay power-ups
   if (powerUpsArray.length > 0) {
     if((powerUpsArray[0].y + powerUpsArray[0].h - 100) >= gameBoxNode.offsetHeight){
-      powerUpsArray[0].node.remove(); // 1. sacar del DOM
-      powerUpsArray.shift(); // 2. Sacar de JS
+      powerUpsArray[0].node.remove(); 
+      powerUpsArray.shift(); 
     }
   }
 }
-
 
 //* EVENT LISTENERS
 
@@ -414,12 +419,12 @@ playBtnNode.addEventListener("click", () => {
   startGame();
 });
 
-// botón para volver al menú desde dentro del juego
+
 menuBtnNode.addEventListener("click", () => {
   openMenu();
 });
 
-// botones de audio dentro del juego
+
 musicOnBtnNode.addEventListener("click", () => {
   gameMusic.play();
 });
@@ -428,7 +433,7 @@ musicOffBtnNode.addEventListener("click", () => {
   gameMusic.pause();
 });
 
-// botones de la pantalla game over
+
 menuOverBtnNode.addEventListener("click", () => {
   openMenu();
 });
@@ -437,7 +442,16 @@ restartBtnNode.addEventListener("click", () => {
   startGame();
 });
 
-// movimientos del jugador
+
+menuWinBtnNode.addEventListener("click", () => {
+  openMenu();
+});
+
+restartWinBtnNode.addEventListener("click", () => {
+  startGame();
+});
+
+
 let keysPressed = {};
 
 window.addEventListener("keydown", (event) => {
@@ -450,7 +464,7 @@ window.addEventListener("keydown", (event) => {
       playerObj.jump();
       playerObj.isGrounded=false;
     } else if (event.key === "ArrowUp") {
-      playerObj.shoot(); // Dispara hacia la derecha
+      playerObj.shoot(); 
     } 
     keysPressed[event.key] = true;
   }
@@ -458,11 +472,10 @@ window.addEventListener("keydown", (event) => {
 
 })
 
-// Escuchamos el keyup para resetear la posibilidad de saltar
 window.addEventListener("keyup", (event) => {
   if(isGameGoing){
     keysPressed[event.key] = false;
-    playerObj.resetAcceleration(); // Restablecer la velocidad cuando se suelta la tecla
+    playerObj.resetAcceleration(); 
   // if (event.key === " ") {
   //   //canJump = true; // Permitimos saltar de nuevo cuando se suelta la tecla
   // }

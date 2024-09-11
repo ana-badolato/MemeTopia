@@ -30,7 +30,7 @@
         </div>
         <hr>
         <div class="subContainer">
-          <h3>Coins</h3>
+          <h3>Doge Coins</h3>
           <h2 id="coins"></h2>
         </div>
         <hr>
@@ -65,8 +65,35 @@
 
   <!-- PANTALLA GAME OVER -->
   <div id="game-over-screen" class="container">
-    <p>Game Over</p>
-    <img id="sadHamster" src="./img/sadHamsterImg.png" alt="">
+    
+    <div>
+      <h2>Game Over</h2>
+      <img id="sadHamster" src="./img/sadHamster.gif" alt="">
+      <p>Estas son tus estadísticas</p>
+    </div>
+
+    <div class="endContainer">
+      <p>Kills</p>
+      <p class="resumeKills"></p>
+    </div>
+
+    <div class="endContainer">
+      <p>Doge Coins</p>
+      <p class="resumeCoins"></p>
+    </div>
+
+    <div class="endContainer">
+      <p>Time</p>
+      <p class="resumeTime"></p>
+    </div>
+
+    <hr>
+
+    <div class="endContainer">
+      <p>Total Score</p>
+      <p id="loseTotalScore"></p>
+    </div>
+
     <div id="bottomMenuOver">
       <button class="menuOverBtn">Menu</button>
       <button class="restartBtn">Play again!</button>
@@ -74,13 +101,43 @@
 
   </div>
 
+
+
+
    <!-- PANTALLA WIN -->
    <div id="game-win-screen" class="container">
-    <p>Congrats!</p>
-    <img id="party" src="./img/party.gif" alt="">
+
+    <div>
+      <h2>Congrats!</h2>
+      <img id="party" src="./img/party.gif" alt="">
+      <p>Estas son tus estadísticas</p>
+    </div>
+
+    <div class="endContainer">
+      <p>Kills</p>
+      <p class="winResumeKills"></p>
+    </div>
+
+    <div class="endContainer">
+      <p>Doge Coins</p>
+      <p class="winResumeCoins"></p>
+    </div>
+
+    <div class="endContainer">
+      <p>Time</p>
+      <p class="winResumeTime"></p>
+    </div>
+
+    <hr>
+
+    <div class="endContainer">
+      <p>Total Score</p>
+      <p id="winTotalScore"></p>
+    </div>
+
     <div id="bottomMenuOver">
-      <button class="menuOverBtn">Menu</button>
-      <button class="restartBtn">Play again!</button>
+      <button class="menuWinBtn">Menu</button>
+      <button class="restartWinBtn">Play again!</button>
     </div>
 
   </div>
