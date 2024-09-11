@@ -28,7 +28,7 @@ const playerCoins = document.querySelector("#coins");
 const playerKills = document.querySelector("#kills");
 
 //Timer
-let duration=5;
+let duration=120;
 let timeRemaining = duration;
 let minutes = Math.floor(timeRemaining / 60)
 .toString()

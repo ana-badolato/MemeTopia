@@ -4,8 +4,8 @@ class Background {
     this.node2 = document.createElement("div");
 
     // Asignar las imágenes de fondo
-    this.node1.style.backgroundImage = "url(./img/background.png)";
-    this.node2.style.backgroundImage = "url(./img/background.png)";
+    this.node1.style.backgroundImage = "url(./img/towerBackground.png)";
+    this.node2.style.backgroundImage = "url(./img/towerBackground.png)";
 
     // Estilos
     this.node1.style.backgroundSize = "cover";
