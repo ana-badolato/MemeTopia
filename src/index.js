@@ -26,6 +26,18 @@ const playerLife = document.querySelector("#life");
 const playerCoins = document.querySelector("#coins");
 const playerKills = document.querySelector("#kills");
 
+//Timer
+let timeRemaining = 120;
+let minutes = Math.floor(timeRemaining / 60)
+.toString()
+.padStart(2, "0");
+let seconds = (timeRemaining % 60).toString().padStart(2, "0");
+
+// Display the time remaining in the time remaining container
+let timeRemainingContainer = document.getElementById("time");
+timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+
+
 //* VARIABLES GLOBALES DEL JUEGO
 
 
@@ -33,6 +45,7 @@ const playerKills = document.querySelector("#kills");
 let gameIntervalId = null;
 let platformsIntervalId = null;
 let powerUpsIntervalId = null;
+let timerIntervalId = null;
 //Objetos
 let playerObj = null;
 let platformsArray = [];
@@ -48,13 +61,13 @@ let isGameGoing = false; // para controlar el estado de ciertos elementos dentro
 // Audio
 let gameMusic = new Audio('./audio/goMiau.mp3') // cargamos la música
 gameMusic.loop = true; // la música dentro del juego se repite
-gameMusic.volume = 0.2; // ajustamos el volumen
+gameMusic.volume = 0.05; // ajustamos el volumen
 let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
 gameOverAudio.loop = false;
-gameOverAudio.volume = 0.1;
+gameOverAudio.volume = 0.05;
 let splashMusic = new Audio('./audio/catPolka.mp3') // cargamos la música
 splashMusic.loop = true; 
-splashMusic.volume = 0.1; // ajustamos el volumen
+splashMusic.volume = 0.05; // ajustamos el volumen
 splashMusic.play();
 
 
@@ -95,13 +108,29 @@ function startGame() {
     addPowerUp();
   }, powerUpsFreq);
 
+  timerIntervalId = setInterval(() => {
+    timeRemaining -= 1;
+  
+    minutes = Math.floor(timeRemaining / 60)
+      .toString()
+      .padStart(2, "0");
+    seconds = (timeRemaining % 60).toString().padStart(2, "0");
+  
+    // console.log(quiz.timeRemaining)
+    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+    if (timeRemaining === 0) {
+      clearInterval(timer);
+      showResults();
+    }
+  }, 1000);
+
   enemiesArray[0].hide();
 }
 
 function gameLoop() {
 
     // Se ejecuta 60 veces por segundo en el intervalo principal
-
+    playerObj.movement();
     playerObj.gravity();
     //playerObj.detectWallCollision();
     detectCollisionPlayerPlatform();
@@ -134,6 +163,7 @@ cleanGame();
   clearInterval(gameIntervalId); 
   clearInterval(platformsIntervalId);
   clearInterval(powerUpsIntervalId);
+  clearInterval(timerIntervalId);
 gameOverScreenNode.style.display = "flex";
 gameScreenNode.style.display = "none";
 
@@ -320,7 +350,7 @@ function cleanGame() {
   clearInterval(gameIntervalId);
   clearInterval(platformsIntervalId);
   clearInterval(powerUpsIntervalId);
-
+  clearInterval(timerIntervalId);
   // 2. Eliminar los elementos del DOM (jugador, plataformas)
   gameBoxNode.innerHTML = "";
 
@@ -332,7 +362,7 @@ function cleanGame() {
   playerObj.life = 100;
   playerObj.coins=0;
   playerObj.kills=0;
-
+  timeRemaining=2000;
   // 4. Detener cualquier música que esté sonando
   stopMusicGame();
   stopMusicGameOver();
@@ -401,9 +431,9 @@ let keysPressed = {};
 window.addEventListener("keydown", (event) => {
   if(isGameGoing){
     if (event.key === "d") {
-      playerObj.moveRight();
+      playerObj.keys.right = true;
     } else if (event.key === "a") {
-      playerObj.moveLeft();
+      playerObj.keys.left = true;
     } else if (event.key === " " && playerObj.isGrounded) {
       playerObj.jump();
       playerObj.isGrounded=false;
@@ -423,8 +453,13 @@ window.addEventListener("keyup", (event) => {
   if(isGameGoing){
     keysPressed[event.key] = false;
     playerObj.resetAcceleration(); // Restablecer la velocidad cuando se suelta la tecla
-  if (event.key === " ") {
-    //canJump = true; // Permitimos saltar de nuevo cuando se suelta la tecla
+  // if (event.key === " ") {
+  //   //canJump = true; // Permitimos saltar de nuevo cuando se suelta la tecla
+  // }
+  if (event.key === "a") {
+    playerObj.keys.left = false;
+  } else if (event.key === "d") {
+    playerObj.keys.right = false;
   }
 }
 });

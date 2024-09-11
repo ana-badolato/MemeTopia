@@ -5,7 +5,7 @@ class Player {
     this.y = 0;
     this.h = 46;
     this.w = 70;
-    this.speed = 20;
+    this.speed = 2;
     this.acceleration = 0.92;
     this.gravitySpeed = 6;
     this.jumpSpeed = 30;
@@ -17,6 +17,10 @@ class Player {
     this.kills = 0;
     this.damage = 10;
     this.bulletsArray = []; 
+    this.keys = {
+      right: false,
+      left: false,
+    };
 
     this.node = document.createElement("img");
     this.node.src = "./img/playerRightImg.png"; 
@@ -36,6 +40,15 @@ class Player {
 
       if ((this.y + this.h) >= gameBoxNode.offsetHeight) {
         gameOver();
+      }
+    }
+
+    movement(){
+      if (this.keys.left) {
+        this.moveLeft();
+      }
+      if (this.keys.right) {
+        this.moveRight();
       }
     }
 
