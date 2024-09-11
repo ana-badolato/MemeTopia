@@ -14,6 +14,7 @@ class Player {
     this.isMovingRight = true
     this.life = 100;
     this.coins = 0;
+    this.kills = 0;
     this.damage = 10;
     this.bulletsArray = []; 
 
@@ -119,7 +120,7 @@ class Player {
     if (this.life > 0) {
 
       this.life -= enemy.type[enemy.randomEnemy].damage;
-      playerLife.innerText = `Life: ${this.life}`;
+      playerLife.innerText = `${this.life}`;
       //console.log("touching enemy", playerObj.life, playerLife.innerText);
     }
   

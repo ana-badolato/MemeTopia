@@ -35,6 +35,11 @@ body {
   height: 100vh;
 }
 
+.subContainer {
+  color: #f5f5f5;
+  padding-left: 24px;
+}
+
 h1{
   font-family: var(--heading-font);
   font-size: 64px;

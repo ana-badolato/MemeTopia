@@ -6,9 +6,8 @@ class Enemy {
     this.h = 40; 
     this.speed = 2;
     this.direction  = direction;
-    //this.hasScored = false;
-    this.platformWidth = platformWidth; // Ancho de la plataforma que el enemigo debe respetar
-  
+    this.platformWidth = platformWidth; 
+    this.isDead = false;
     this.type = [
       {
         name: "grumpy",
@@ -51,25 +50,25 @@ class Enemy {
 
 
   automaticMovement(platformX, platformY) {
-    // Posicionar al enemigo sobre la plataforma en la coordenada Y
+
     this.y = platformY - this.h;
     this.node.style.top = `${this.y}px`;
 
-    // Movimiento del enemigo de izquierda a derecha
+  
     if (this.movingRight) {
         this.x += this.speed;
-        // Si el enemigo alcanza el borde derecho de la plataforma, cambiar de dirección
+   
         if (this.x + this.w >= platformX + this.platformWidth) {
             this.movingRight = false;
-            this.node.src = this.type[this.randomEnemy].imageLeft; // Cambia la imagen al moverse a la izquierda
+            this.node.src = this.type[this.randomEnemy].imageLeft; 
             this.type.hasAttacked = false;
         }
     } else {
         this.x -= this.speed;
-        // Si el enemigo alcanza el borde izquierdo de la plataforma, cambiar de dirección
+    
         if (this.x <= platformX) {
             this.movingRight = true;
-            this.node.src = this.type[this.randomEnemy].imageRight; // Cambia la imagen al moverse a la derecha
+            this.node.src = this.type[this.randomEnemy].imageRight; 
             this.type.hasAttacked = false;
         }
     }
@@ -84,14 +83,19 @@ class Enemy {
   }
 
   getDamage(bullet) {
+    // Si el enemigo ya está muerto, no hacemos nada
+    if (this.isDead) return;
+
     this.currentLife -= bullet.damage;
     if (this.currentLife <= 0) {
-      this.hide(); // Ocultar al enemigo en lugar de removerlo
+      this.isDead = true; 
+      playerObj.kills++;  
+      playerKills.innerText = `${playerObj.kills}`; 
+      this.hide(); 
     }
   }
 
   hide() {
-    // Cambiar el estilo del enemigo a `display: none` en lugar de removerlo
     this.node.style.display = "none";
   }
 }

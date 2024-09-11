@@ -24,6 +24,7 @@ const restartBtnNode = document.querySelector(".restartBtn");
 
 const playerLife = document.querySelector("#life");
 const playerCoins = document.querySelector("#coins");
+const playerKills = document.querySelector("#kills");
 
 //* VARIABLES GLOBALES DEL JUEGO
 
@@ -73,6 +74,7 @@ function startGame() {
   //playerObj.resetAcceleration();
   playerLife.innerText = `${playerObj.life}`;
   playerCoins.innerText = `${playerObj.coins}`;
+  playerCoins.innerText = `${playerObj.kills}`;
   addPlatform(0, "left");
   stopMusicGameOver();
   stopMusicSplash();
@@ -327,6 +329,7 @@ function cleanGame() {
   powerUpsArray = [];
   playerObj.life = 100;
   playerObj.coins=0;
+  playerObj.kills=0;
 
   // 4. Detener cualquier música que esté sonando
   stopMusicGame();
