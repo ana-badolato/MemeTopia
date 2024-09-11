@@ -73,7 +73,7 @@ splashMusic.volume = 0.05;
 
 splashMusic.play();
 
-// Timer
+// Timer gameplay
 let duration=120;
 let timeRemaining = duration;
 let minutes = Math.floor(timeRemaining / 60).toString().padStart(2, "0");
@@ -84,6 +84,7 @@ timeRemainingContainer.innerText = `${minutes}:${seconds}`;
 //* FUNCIONES GLOBALES DEL JUEGO
 
 //* Funciones del estado del juego
+
 function startGame() {
   
   gameOverScreenNode.style.display = "none";
@@ -97,7 +98,7 @@ function startGame() {
 
   playerLife.innerText = `${playerObj.life}`;
   playerCoins.innerText = `${playerObj.coins}`;
-  playerCoins.innerText = `${playerObj.kills}`;
+  playerKills.innerText = `${playerObj.kills}`;
 
   addPlatform(0, "left");
 
@@ -165,6 +166,15 @@ function gameLoop() {
     checkElementsOut();
 }
 
+function openMenu() {    
+  cleanGame();
+  splashMusic.play();
+  splashScreenNode.style.display = "flex";
+  gameScreenNode.style.display = "none";
+  gameOverScreenNode.style.display = "none";
+  gameWinScreenNode.style.display = "none";
+}
+
 function gameOver() {
   gameOverScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
@@ -189,14 +199,6 @@ function gameWin(){
 
   cleanGame();
   clearIntervals();
-}
-
-function openMenu() {    
-  cleanGame();
-  splashMusic.play();
-  splashScreenNode.style.display = "flex";
-  gameScreenNode.style.display = "none";
-  gameOverScreenNode.style.display = "none";
 }
 
 function restartGame() {
