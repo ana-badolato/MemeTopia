@@ -102,12 +102,12 @@ class Player {
      
   detectWallCollision() {
     // Detección de colisión con la pared izquierda
-    if (this.x <= 0) {
+    if (this.x <= -5) {
       this.x = 0; 
       this.speed = -this.speed * 0.5; // Pequeño rebote invirtiendo la velocidad
     }
     // Detección de colisión con la pared derecha
-    if (this.x + this.w >= gameBoxNode.offsetWidth) {
+    if (this.x + this.w >= gameBoxNode.offsetWidth+5) {
       this.x = gameBoxNode.offsetWidth - this.w; 
       this.speed = -this.speed * 0.5; 
     }
