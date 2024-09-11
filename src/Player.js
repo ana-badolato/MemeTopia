@@ -121,7 +121,7 @@ class Player {
 
       this.life -= enemy.type[enemy.randomEnemy].damage;
       playerLife.innerText = `${this.life}`;
-      //console.log("touching enemy", playerObj.life, playerLife.innerText);
+      //console.log("touching enemy", playerObj.life, playerLife.innerText); 
     }
   
     if (this.life <= 0) {

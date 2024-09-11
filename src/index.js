@@ -289,6 +289,7 @@ function detectCollisionPlayerPowerUp() {
         playerObj.y + playerObj.h > eachPowerUp.y) {
 
       if (!eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken) {
+        
         eachPowerUp.getAction();  // Aplicar la acción del power-up
         eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken = true;
         eachPowerUp.node.remove();  // Remover del DOM

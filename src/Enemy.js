@@ -28,7 +28,8 @@ class Enemy {
     ]
   
     this.randomEnemy = this.getRandomEnemy();
-    this.currentLife = this.type[this.randomEnemy].life; 
+    this.currentLife = this.type[this.randomEnemy].life;
+    this.currentDamage = this.type[this.randomEnemy].damage;
       
     this.node = document.createElement("img");
     if (this.direction === "left") {
@@ -50,6 +51,10 @@ class Enemy {
 
 
   automaticMovement(platformX, platformY) {
+
+    if (this.isDead) {
+      return; 
+    }
 
     this.y = platformY - this.h;
     this.node.style.top = `${this.y}px`;
@@ -97,5 +102,7 @@ class Enemy {
 
   hide() {
     this.node.style.display = "none";
+    this.currentDamage = 0;
+    this.isDead = true; 
   }
 }
