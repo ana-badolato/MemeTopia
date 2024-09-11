@@ -1,6 +1,5 @@
 class Player {
   constructor() {
-
     this.x = 30;
     this.y = 0;
     this.h = 46;
@@ -9,19 +8,19 @@ class Player {
     this.acceleration = 0.92;
     this.gravitySpeed = 6;
     this.jumpSpeed = 30;
-    this.isJumping = false;
-    this.isGrounded = false;
-    this.isMovingRight = true
     this.life = 100;
     this.coins = 0;
     this.kills = 0;
     this.damage = 10;
+    this.totalScore = 0;
+    this.isJumping = false;
+    this.isGrounded = false;
+    this.isMovingRight = true
     this.bulletsArray = []; 
     this.keys = {
       right: false,
       left: false,
     };
-    this.totalScore = 0;
 
     this.node = document.createElement("img");
     this.node.src = "./img/playerRightImg.png"; 
@@ -37,10 +36,13 @@ class Player {
 
   }
 
+  resetAcceleration() {   
+    this.acceleration = 0.92;
+  }
+
   gravity() {
       this.y += this.gravitySpeed; 
       this.node.style.top = `${this.y}px`;
-
       if ((this.y + this.h) >= gameBoxNode.offsetHeight) {
         gameOver();
       }
@@ -62,7 +64,6 @@ class Player {
         this.speed += this.acceleration; 
         this.node.style.left = `${this.x}px`
         this.isMovingRight = false;
-
         this.detectWallCollision();
       }
     }
@@ -74,26 +75,18 @@ class Player {
         this.speed += this.acceleration;
         this.node.style.left = `${this.x}px`
         this.isMovingRight = true;
-      
         this.detectWallCollision();
       }
     }
 
-    resetAcceleration() {   
-      this.acceleration = 0.92;
-    }
-
     jump() {
-      //console.log(this.jumpSpeed)
       if (!this.isJumping && this.isGrounded) {
         this.isJumping = true;
         this.isGrounded = false;
-        
         let saltoIntervalId = setInterval(() => {
           this.jumpSpeed *= this.acceleration; 
           this.y -= this.jumpSpeed;
           this.node.style.top = `${this.y}px`
-
           if(this.isMovingRight) {
               this.x += 7
               this.node.style.left = `${this.x}px`
@@ -101,51 +94,40 @@ class Player {
               this.x -= 7
               this.node.style.left = `${this.x}px`
           }
-
           this.detectWallCollision();
         }, 15)
-        
         setTimeout(() => {
           clearInterval(saltoIntervalId)
           this.isJumping = false
         }, 350)
-
         this.jumpSpeed = 30;
       }
-
     }
 
      
   detectWallCollision() {
-    // Detección de colisión con la pared izquierda
     if (this.x <= -5) {
       this.x = 0; 
-      this.speed = -this.speed * 0.5; // Pequeño rebote invirtiendo la velocidad
+      this.speed = -this.speed * 0.5; 
     }
-    // Detección de colisión con la pared derecha
     if (this.x + this.w >= gameBoxNode.offsetWidth+5) {
       this.x = gameBoxNode.offsetWidth - this.w; 
       this.speed = -this.speed * 0.5; 
     }
-    // Actualizar la posición en la pantalla
     this.node.style.left = `${this.x}px`;
   }
 
   getDamage(enemy) {
-
     if (this.life > 0) {
-
       this.life -= enemy.type[enemy.randomEnemy].damage;
       playerLife.innerText = `${this.life}`;
     }
-  
     if (this.life <= 0) {
       gameOver();
     }
   }
 
   shoot() {
-    // Crear una nueva bala y añadirla al array de disparos
     const newBullet = new Bullet(playerObj);
     this.bulletsArray.push(newBullet);
   }
@@ -153,10 +135,9 @@ class Player {
   moveBullets() {
     this.bulletsArray.forEach((bullet, index) => {
       bullet.move();
-      // Eliminar la bala si sale fuera del límite de la pantalla
       if (bullet.x > gameBoxNode.offsetWidth || bullet.x < 0) {
-        bullet.remove(); // Eliminar del DOM
-        this.bulletsArray.splice(index, 1); // Eliminar del array
+        bullet.remove();
+        this.bulletsArray.splice(index, 1); 
       }
     });
   }

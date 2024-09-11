@@ -1,19 +1,17 @@
 @font-face {
-  font-family: 'Custom'; /* Nombre personalizado de la fuente */
-  src: url('../fonts/SuperGiggle.ttf') format('truetype'); /* Truetype como último recurso */
-  font-weight: normal; /* Puedes especificar peso */
-  font-style: normal;  /* Puedes especificar estilo */
+  font-family: 'Custom'; 
+  src: url('../fonts/SuperGiggle.ttf') format('truetype'); 
+  font-weight: normal; 
+  font-style: normal;
 }
 @import url('https://fonts.googleapis.com/css2?family=Jockey+One&display=swap');
 
 :root {
-  /* Variables de colores */
   --primary-color: #9cdffe;
   --secondary-color: #330D3C;
   --background-color: #f5f5f5;
   --text-color: #333;
 
-  /* Definir variables de fuentes */
   --main-font: "Jockey One", sans-serif;
   --heading-font: 'Custom', sans-serif;
 };
@@ -63,6 +61,25 @@ h1{
   padding-bottom: 64px;
 }
 
+button {
+  background-color: #1C1439;
+  width: 200px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  color: #f5f5f5;
+  border-radius: 5px;
+  margin: 4px;
+  font-family: var(--main-font);
+}
+button:hover {
+  cursor: pointer;
+  background-color: #2e225a;
+  color: #f5f5f5;
+  border-radius: 5px;
+  transition: 0.5s;
+
+}
 
 #game-screen {
   display: flex;
@@ -92,26 +109,6 @@ h1{
   padding-bottom: 32px;
 }
 
-button {
-  background-color: #1C1439;
-  width: 200px;
-  height: 40px;
-  border: none;
-  padding: 0;
-  color: #f5f5f5;
-  border-radius: 5px;
-  margin: 4px;
-  font-family: var(--main-font);
-}
-button:hover {
-  cursor: pointer;
-  background-color: #2e225a;
-  color: #f5f5f5;
-  border-radius: 5px;
-  transition: 0.5s;
-
-}
-
 #topMenu {
   width: 400px;
 }
@@ -127,26 +124,22 @@ button:hover {
   width:600px;
   height:100%;
   
-  background-repeat: repeat-y; /* Repetir el fondo verticalmente */
-  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
-  background-position: 0 0; /* Comenzar en la parte superior */
+  background-repeat: repeat-y; 
+  background-size: cover; 
+  background-position: 0 0; 
 
-  position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
-  overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
-  user-select: none; /* previene que los elementos del game-box sean resaltados al hacer click */
+  position: relative; 
+  overflow: hidden; 
+  user-select: none;
   border-left: #330D3C;
 }
 
-
-
 #game-box * {
-  pointer-events: none; /* previene que todos los elementos del game-box sean arrastrados al clickar sobre ellos */
+  pointer-events: none; 
 }
 
-
-
 #game-screen, #game-over-screen, #game-win-screen {
-  display:none; /*Con visibility hidden seguirían ocupando espacio*/
+  display:none; 
 }
 
 #sadHamster {

@@ -57,6 +57,7 @@ let background = null;
 
 //Control del juego
 let isGameGoing = false; 
+let keysPressed = {};
 
 // Audio
 let gameMusic = new Audio('./audio/goMiau.mp3') 
@@ -183,8 +184,9 @@ function gameOver() {
   resumeTime.innerText=`${120-timeRemaining} s`
   loseTotalScore.innerText=`${getTotalScore()} points!`
   gameOverAudio.play();
+
   cleanGame();
-  clearIntervals();
+  //clearIntervals();
 }
 
 function gameWin(){
@@ -198,13 +200,10 @@ function gameWin(){
   winTotalScore.innerText=`${getTotalScore()} points!`
 
   cleanGame();
-  clearIntervals();
+  //clearIntervals();
 }
 
-function restartGame() {
-  cleanGame();
-  startGame();
-}
+
 
 function cleanGame() {
   clearIntervals();
@@ -225,8 +224,9 @@ function cleanGame() {
   isGameGoing = false;
 }
 
-function getTotalScore(){
-  return (playerObj.coins * 25)+(playerObj.kills * 10)+(duration-timeRemaining);
+function restartGame() {
+  cleanGame();
+  startGame();
 }
 
 function clearIntervals(){
@@ -235,6 +235,12 @@ function clearIntervals(){
   clearInterval(powerUpsIntervalId);
   clearInterval(timerIntervalId);
 }
+
+function getTotalScore(){
+  return (playerObj.coins * 25)+(playerObj.kills * 10)+(duration-timeRemaining);
+}
+
+
 //* Funciones música
 
 function initMusicGame() {
@@ -256,7 +262,7 @@ function stopMusicSplash() {
   splashMusic.currentTime=0;
 }
 
-//* Funciones spawn plataformas, enemigos...
+//* Funciones de adición
 
 function addPlatform() {
   let randomPositionX = Math.floor(Math.random() * (-150));
@@ -285,44 +291,27 @@ function addPowerUp(){
   powerUpsArray.push(newPowerUp);
 }
 
-//* Funciones colisiones
+//* Funciones de colisión
 function detectCollisionPlayerPlatform() {
-    if (!playerObj) {
-      return; 
-    }
-
+  checkPlayerExists();
   let playerIsTouchingPlatform = false;
-  platformsArray.forEach((eachPlatform)=>{
-    
-    if(playerObj.x < eachPlatform.x + eachPlatform.w &&
-      playerObj.x + playerObj.w > eachPlatform.x &&
-      playerObj.y < eachPlatform.y + eachPlatform.h &&
-      playerObj.y + playerObj.h > eachPlatform.y){      
-
+  platformsArray.forEach((eachPlatform)=>{    
+    if(checkAnyCollision(playerObj, eachPlatform)){      
       playerObj.y = eachPlatform.y - playerObj.h; 
       playerObj.node.style.top = `${playerObj.y}px`; 
       playerObj.isGrounded = true;
       playerIsTouchingPlatform = true; 
     }
-
   });
-
     if (!playerIsTouchingPlatform) {
       playerObj.isGrounded = false;
     }
   }
 
 function detectCollisionEnemyPlatform(){
-
   platformsArray.forEach((eachPlatform)=>{
     enemiesArray.forEach((eachEnemy)=>{
-    
-    if(eachEnemy.x < eachPlatform.x + eachPlatform.w &&
-      eachEnemy.x + eachEnemy.w > eachPlatform.x &&
-      eachEnemy.y < eachPlatform.y + eachPlatform.h &&
-      eachEnemy.y + eachEnemy.h > eachPlatform.y){      
-
-        // El enemigo está sobre la plataforma
+    if(checkAnyCollision(eachEnemy, eachPlatform)){      
         eachEnemy.y = eachPlatform.y - eachEnemy.h; 
         eachEnemy.node.style.top = `${eachEnemy.y}px`; 
       }
@@ -331,41 +320,22 @@ function detectCollisionEnemyPlatform(){
 }
 
 function detectCollisionPlayerEnemy(){
-   if (!playerObj) {
-    return; 
-  }
-
-  enemiesArray.forEach((eachEnemy)=>{
-  
-  if(playerObj.x < eachEnemy.x + eachEnemy.w &&
-    playerObj.x + playerObj.w > eachEnemy.x &&
-    playerObj.y < eachEnemy.y + eachEnemy.h &&
-    playerObj.y + playerObj.h > eachEnemy.y){      
-      
-    if(!eachEnemy.type.hasAttacked){
-      
+  checkPlayerExists()
+  enemiesArray.forEach((eachEnemy)=>{  
+  if(checkAnyCollision(playerObj, eachEnemy)){         
+    if(!eachEnemy.type.hasAttacked){     
       playerObj.getDamage(eachEnemy);
       eachEnemy.type.hasAttacked = true;
-    }
-    
+    }    
   }
-
 });
 }
 
 function detectCollisionPlayerPowerUp() {
-  if (!playerObj) {
-    return; 
-  }
-
+  checkPlayerExists()
   powerUpsArray.forEach((eachPowerUp, index) => {
-    if (playerObj.x < eachPowerUp.x + eachPowerUp.w &&
-        playerObj.x + playerObj.w > eachPowerUp.x &&
-        playerObj.y < eachPowerUp.y + eachPowerUp.h &&
-        playerObj.y + playerObj.h > eachPowerUp.y) {
-
-      if (!eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken) {
-        
+    if (checkAnyCollision(playerObj, eachPowerUp)) {
+      if (!eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken) {        
         eachPowerUp.getAction(); 
         eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken = true;
         eachPowerUp.node.remove();  
@@ -387,14 +357,24 @@ function detectCollisionBulletEnemy() {
   });
 }
 
-//! Optimizar el código de las colisiones trayendo aquí el condicional. 
-// function checkAnyCollision(objectA, ObjectB){
-  
-// }
+function checkAnyCollision(objectA, ObjectB){
+  if (objectA.x < ObjectB.x + ObjectB.w &&
+    objectA.x + objectA.w > ObjectB.x &&
+    objectA.y < ObjectB.y + ObjectB.h &&
+    objectA.y + objectA.h > ObjectB.y) {
+      return true;
+    } else {
+      return false;
+    }
+ }
 
+function checkPlayerExists(){
+  if (!playerObj) {
+    return; 
+  }
+}
 
 function checkElementsOut(){
-
   if (platformsArray.length > 0) {
     if((platformsArray[0].y + platformsArray[0].h - 100) >= gameBoxNode.offsetHeight){
       platformsArray[0].node.remove(); 
@@ -454,7 +434,7 @@ restartWinBtnNode.addEventListener("click", () => {
 });
 
 
-let keysPressed = {};
+
 
 window.addEventListener("keydown", (event) => {
   if(isGameGoing){
@@ -470,17 +450,12 @@ window.addEventListener("keydown", (event) => {
     } 
     keysPressed[event.key] = true;
   }
-
-
 })
 
 window.addEventListener("keyup", (event) => {
   if(isGameGoing){
     keysPressed[event.key] = false;
     playerObj.resetAcceleration(); 
-  // if (event.key === " ") {
-  //   //canJump = true; // Permitimos saltar de nuevo cuando se suelta la tecla
-  // }
   if (event.key === "a") {
     playerObj.keys.left = false;
   } else if (event.key === "d") {
