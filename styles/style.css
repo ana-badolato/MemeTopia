@@ -145,7 +145,7 @@ button:hover {
 
 
 
-#game-screen, #game-over-screen {
+#game-screen, #game-over-screen, #game-win-screen {
   display:none; /*Con visibility hidden seguirían ocupando espacio*/
 }
 

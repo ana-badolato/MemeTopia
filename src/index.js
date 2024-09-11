@@ -4,6 +4,7 @@
 const splashScreenNode = document.querySelector("#splash-screen")
 const gameScreenNode = document.querySelector("#game-screen")
 const gameOverScreenNode = document.querySelector("#game-over-screen")
+const gameWinScreenNode = document.querySelector("#game-win-screen");
 
 // game box
 const gameBoxNode = document.querySelector("#game-box")
@@ -27,7 +28,8 @@ const playerCoins = document.querySelector("#coins");
 const playerKills = document.querySelector("#kills");
 
 //Timer
-let timeRemaining = 120;
+let duration=5;
+let timeRemaining = duration;
 let minutes = Math.floor(timeRemaining / 60)
 .toString()
 .padStart(2, "0");
@@ -79,6 +81,7 @@ function startGame() {
   // 1. Cambiar las pantallas
   gameOverScreenNode.style.display = "none";
   splashScreenNode.style.display = "none";
+  gameWinScreenNode.style.display = "none";
   gameScreenNode.style.display = "flex";
 
   // 2. Añadir todos los elementos iniciales del juego
@@ -120,8 +123,8 @@ function startGame() {
     // console.log(quiz.timeRemaining)
     timeRemainingContainer.innerText = `${minutes}:${seconds}`;
     if (timeRemaining === 0) {
-      clearInterval(timer);
-      showResults();
+      
+      gameWin();
     }
   }, 1000);
 
@@ -162,15 +165,18 @@ function gameOver() {
   
 cleanGame();
   // Detener el game loop
-  clearInterval(gameIntervalId); 
-  clearInterval(platformsIntervalId);
-  clearInterval(powerUpsIntervalId);
-  clearInterval(timerIntervalId);
+  clearIntervals();
 gameOverScreenNode.style.display = "flex";
 gameScreenNode.style.display = "none";
 
 gameOverAudio.play();
 
+}
+
+function gameWin(){
+  clearIntervals();
+  gameWinScreenNode.style.display = "flex";
+  gameScreenNode.style.display = "none";
 }
 
 function openMenu() { 
@@ -188,7 +194,36 @@ function restartGame() {
   startGame();
 }
 
+function cleanGame() {
+  // 1. Limpiar los intervalos
+  clearIntervals();
+  // 2. Eliminar los elementos del DOM (jugador, plataformas)
+  gameBoxNode.innerHTML = "";
 
+  // 3. Reiniciar las variables globales
+  
+  platformsArray = [];
+  enemiesArray = []; 
+  powerUpsArray = [];
+  playerObj.life = 100;
+  playerObj.coins=0;
+  playerObj.kills=0;
+  timeRemaining=duration;
+  // 4. Detener cualquier música que esté sonando
+  stopMusicGame();
+  stopMusicGameOver();
+  stopMusicSplash();
+
+  // 5. Reiniciar el estado del juego
+  isGameGoing = false;
+}
+
+function clearIntervals(){
+  clearInterval(gameIntervalId);
+  clearInterval(platformsIntervalId);
+  clearInterval(powerUpsIntervalId);
+  clearInterval(timerIntervalId);
+}
 //* Funciones música
 
 function initMusicGame() {
@@ -347,32 +382,7 @@ function detectCollisionBulletEnemy() {
 
 //* Funciones para limpiar el programa
 
-function cleanGame() {
-  // 1. Limpiar los intervalos
-  clearInterval(gameIntervalId);
-  clearInterval(platformsIntervalId);
-  clearInterval(powerUpsIntervalId);
-  clearInterval(timerIntervalId);
-  // 2. Eliminar los elementos del DOM (jugador, plataformas)
-  gameBoxNode.innerHTML = "";
 
-  // 3. Reiniciar las variables globales
-  
-  platformsArray = [];
-  enemiesArray = []; 
-  powerUpsArray = [];
-  playerObj.life = 100;
-  playerObj.coins=0;
-  playerObj.kills=0;
-  timeRemaining=120;
-  // 4. Detener cualquier música que esté sonando
-  stopMusicGame();
-  stopMusicGameOver();
-  stopMusicSplash();
-
-  // 5. Reiniciar el estado del juego
-  isGameGoing = false;
-}
 
 function checkElementsOut(){
   // Verificar si hay plataformas
@@ -439,11 +449,9 @@ window.addEventListener("keydown", (event) => {
     } else if (event.key === " " && playerObj.isGrounded) {
       playerObj.jump();
       playerObj.isGrounded=false;
-    } else if (event.key === "ArrowRight") {
+    } else if (event.key === "ArrowUp") {
       playerObj.shoot(); // Dispara hacia la derecha
-    } else if (event.key === "ArrowLeft") {
-      playerObj.shoot(); // Dispara hacia la izquierda
-    }
+    } 
     keysPressed[event.key] = true;
   }
 
