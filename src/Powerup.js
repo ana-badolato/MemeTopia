@@ -63,7 +63,7 @@ class Powerup {
     const powerUpType = this.type[this.randomPowerUp].name;  // Acceder al nombre correcto del power-up
     
     if (powerUpType === "dogeCoin") {
-      playerObj.coins++;
+      playerObj.coins+=10;
       playerCoins.innerText = `${playerObj.coins}`;
     } else if (powerUpType === "life") {
       playerObj.life += 20;
