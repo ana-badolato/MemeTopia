@@ -15,6 +15,7 @@ class Player {
     this.life = 100;
     this.coins = 0;
     this.damage = 10;
+    this.bulletsArray = []; 
 
     this.node = document.createElement("img");
     this.node.src = "./img/playerRightImg.png"; 
@@ -126,5 +127,22 @@ class Player {
       //console.log("life 0");
       //gameOver();
     }
+  }
+
+  shoot() {
+    // Crear una nueva bala y añadirla al array de disparos
+    const newBullet = new Bullet(playerObj);
+    this.bulletsArray.push(newBullet);
+  }
+
+  moveBullets() {
+    this.bulletsArray.forEach((bullet, index) => {
+      bullet.move();
+      // Eliminar la bala si sale fuera del límite de la pantalla
+      if (bullet.x > gameBoxNode.offsetWidth || bullet.x < 0) {
+        bullet.remove(); // Eliminar del DOM
+        this.bulletsArray.splice(index, 1); // Eliminar del array
+      }
+    });
   }
 }

@@ -103,8 +103,11 @@ function gameLoop() {
     //playerObj.detectWallCollision();
     detectCollisionPlayerPlatform();
     detectCollisionPlayerEnemy();
+    detectCollisionBulletEnemy(); 
     detectCollisionEnemyPlatform();
     detectCollisionPlayerPowerUp();
+
+    playerObj.moveBullets();
  
     platformsArray.forEach((eachPlatform, index) => {
       eachPlatform.automaticMovement();    
@@ -292,6 +295,20 @@ function detectCollisionPlayerPowerUp() {
     }
   });
 }
+
+function detectCollisionBulletEnemy() {
+  playerObj.bulletsArray.forEach((bullet, bulletIndex) => {
+    enemiesArray.forEach((enemy, enemyIndex) => {
+      if (bullet.checkCollisionWithEnemy(enemy)) {
+        enemy.getDamage(bullet); // Restar vida al enemigo
+        bullet.remove(); // Eliminar la bala del DOM
+        playerObj.bulletsArray.splice(bulletIndex, 1); // Eliminar la bala del array
+      }
+    });
+  });
+}
+
+
 //* Funciones para limpiar el programa
 
 function cleanGame() {
@@ -385,6 +402,10 @@ window.addEventListener("keydown", (event) => {
     } else if (event.key === " " && playerObj.isGrounded) {
       playerObj.jump();
       playerObj.isGrounded=false;
+    } else if (event.key === "ArrowRight") {
+      playerObj.shoot(); // Dispara hacia la derecha
+    } else if (event.key === "ArrowLeft") {
+      playerObj.shoot(); // Dispara hacia la izquierda
     }
     keysPressed[event.key] = true;
   }

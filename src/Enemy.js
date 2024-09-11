@@ -29,7 +29,7 @@ class Enemy {
     ]
   
     this.randomEnemy = this.getRandomEnemy();
-
+    this.currentLife = this.type[this.randomEnemy].life; 
       
     this.node = document.createElement("img");
     if (this.direction === "left") {
@@ -83,5 +83,15 @@ class Enemy {
     return Math.floor(Math.random()*this.type.length);
   }
 
- 
+  getDamage(bullet) {
+    this.currentLife -= bullet.damage;
+    if (this.currentLife <= 0) {
+      this.hide(); // Ocultar al enemigo en lugar de removerlo
+    }
+  }
+
+  hide() {
+    // Cambiar el estilo del enemigo a `display: none` en lugar de removerlo
+    this.node.style.display = "none";
+  }
 }
