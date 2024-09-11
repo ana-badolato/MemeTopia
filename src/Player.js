@@ -58,7 +58,9 @@ class Player {
     }
 
     moveLeft(){
+      console.log("Moving left");
       if (!this.isJumping && this.isGrounded) {
+        console.log("Moving left inside");
         this.node.src = "./img/playerLeftImg.png";
         this.x -= this.speed
         this.speed += this.acceleration; 
@@ -69,7 +71,9 @@ class Player {
     }
 
     moveRight(){
+      console.log("Moving right");
       if (!this.isJumping && this.isGrounded) {
+        console.log("Moving right inside");
         this.node.src = "./img/playerRightImg.png"; 
         this.x += this.speed;
         this.speed += this.acceleration;

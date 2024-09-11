@@ -88,8 +88,9 @@ button:hover {
 
 .menuContainerLeft{
   background-color: rgba(112, 41, 166, 0.604);
-  height: 700px;
+  height: 800px;
   margin-right: 50px;
+  margin-top: -128px;
   border: 10px, solid, rgba(7, 1, 12, 0.534);
   border-radius: 10px;
   box-shadow: 5px 3px 3px rgb(23, 0, 41);
@@ -97,8 +98,9 @@ button:hover {
 } 
 .menuContainerRight{
   background-color: rgba(112, 41, 166, 0.604);
-  height: 700px;
+  height: 800px;
   margin-left: 50px;
+  margin-top: -128px;
   border: 10px, solid, rgba(7, 1, 12, 0.534);
   border-radius: 10px;
   box-shadow: 5px 3px 3px rgba(7, 1, 12, 0.599);
@@ -121,11 +123,11 @@ button:hover {
 }
 
 #game-box {
-  width:600px;
+  width: 700px;
   height:100%;
   
   background-repeat: repeat-y; 
-  background-size: cover; 
+  background-size: 100% 100%; 
   background-position: 0 0; 
 
   position: relative; 

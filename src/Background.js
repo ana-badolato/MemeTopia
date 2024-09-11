@@ -4,8 +4,8 @@ class Background {
     this.node2 = document.createElement("div");
 
     // Asignar las imágenes de fondo
-    this.node1.style.backgroundImage = "url(./img/towerBackground.png)";
-    this.node2.style.backgroundImage = "url(./img/towerBackground.png)";
+    this.node1.style.backgroundImage = "url(./img/castleBackground.png)";
+    this.node2.style.backgroundImage = "url(./img/castleBackground.png)";
 
     // Estilos
     this.node1.style.backgroundSize = "cover";
@@ -15,12 +15,12 @@ class Background {
     this.node2.style.position = "absolute";
 
     this.node1.style.width = "100%";
-    this.node1.style.height = `${gameBoxNode.offsetHeight}px`; // Usa la altura del gameBoxNode
+    this.node1.style.height = "1600px"; // Usamos directamente la altura de la imagen
     this.node2.style.width = "100%";
-    this.node2.style.height = `${gameBoxNode.offsetHeight}px`;
+    this.node2.style.height = "1600px";
 
     this.node1.style.top = "0px";
-    this.node2.style.top = `-${gameBoxNode.offsetHeight}px`; // Segundo nodo empieza justo encima del primero
+    this.node2.style.top = "-1600px"; // El segundo nodo empieza justo encima del primero
 
     // Aseguramos que esté detrás de los elementos del juego
     this.node1.style.zIndex = 0;
@@ -32,6 +32,7 @@ class Background {
 
     // Velocidad del desplazamiento
     this.speed = 1.5;  // Ajusta la velocidad como quieras
+    this.backgroundHeight = 1600; // La altura de la imagen de fondo
   }
 
   // Método para mover las imágenes de fondo
