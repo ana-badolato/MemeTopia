@@ -11,7 +11,7 @@ class Enemy {
     this.type = [
       {
         name: "grumpy",
-        damage: 10,
+        damage: 5,
         life: 10,
         imageLeft: "./img/enemy1Left.png",
         imageRight: "./img/enemy1Right.png",
