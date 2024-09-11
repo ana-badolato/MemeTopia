@@ -22,6 +22,7 @@ body {
   margin: 0;
   background-color: var(--background-color);
   font-family: var(--main-font);
+  z-index: -1;
 }
 
 .container {
@@ -125,7 +126,7 @@ button:hover {
 #game-box {
   width:600px;
   height:100%;
-  background-image: url('../img/background.png'); /* Ruta de la imagen de fondo */
+  
   background-repeat: repeat-y; /* Repetir el fondo verticalmente */
   background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
   background-position: 0 0; /* Comenzar en la parte superior */

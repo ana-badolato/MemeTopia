@@ -53,7 +53,7 @@ let platformsFreq = 2200;
 let enemiesArray = [];
 let powerUpsArray = [];
 let powerUpsFreq = 5000;
-
+let background = null;
 //Control del juego
 let isGameGoing = false; // para controlar el estado de ciertos elementos dentro del juego
 
@@ -84,6 +84,7 @@ function startGame() {
   // 2. Añadir todos los elementos iniciales del juego
   isGameGoing = true;
   playerObj = new Player();
+  background = new Background();
   //playerObj.resetAcceleration();
   playerLife.innerText = `${playerObj.life}`;
   playerCoins.innerText = `${playerObj.coins}`;
@@ -130,6 +131,7 @@ function startGame() {
 function gameLoop() {
 
     // Se ejecuta 60 veces por segundo en el intervalo principal
+    background.move(); 
     playerObj.movement();
     playerObj.gravity();
     //playerObj.detectWallCollision();
@@ -362,7 +364,7 @@ function cleanGame() {
   playerObj.life = 100;
   playerObj.coins=0;
   playerObj.kills=0;
-  timeRemaining=2000;
+  timeRemaining=120;
   // 4. Detener cualquier música que esté sonando
   stopMusicGame();
   stopMusicGameOver();
