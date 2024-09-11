@@ -4,7 +4,7 @@ class Player {
     this.y = 0;
     this.h = 46;
     this.w = 70;
-    this.speed = 2;
+    this.speed = 10;
     this.acceleration = 0.92;
     this.gravitySpeed = 6;
     this.jumpSpeed = 30;
@@ -21,9 +21,14 @@ class Player {
       right: false,
       left: false,
     };
-
+    this.audioHit = new Audio("./audio/hit.mp3");  
+    this.audioHit.volume=0.5;
+    this.audioBullet = new Audio("./audio/gun.mp3");
+    this.audioBullet.volume=0.6;
+    this.audioJump = new Audio("./audio/jump.mp3");
+    this.audioJump.volume=0.5;
     this.node = document.createElement("img");
-    this.node.src = "./img/playerRightImg.png"; 
+    this.node.src = "./img/nyanRight.png"; 
     gameBoxNode.append(this.node);
 
     this.node.style.width = `${this.w}px`
@@ -61,12 +66,12 @@ class Player {
       console.log("Moving left");
       if (!this.isJumping && this.isGrounded) {
         console.log("Moving left inside");
-        this.node.src = "./img/playerLeftImg.png";
+        this.node.src = "./img/nyanLeft.png";
         this.x -= this.speed
-        this.speed += this.acceleration; 
         this.node.style.left = `${this.x}px`
         this.isMovingRight = false;
         this.detectWallCollision();
+        this.speed = 10;
       }
     }
 
@@ -74,12 +79,12 @@ class Player {
       console.log("Moving right");
       if (!this.isJumping && this.isGrounded) {
         console.log("Moving right inside");
-        this.node.src = "./img/playerRightImg.png"; 
+        this.node.src = "./img/nyanRight.png"; 
         this.x += this.speed;
-        this.speed += this.acceleration;
         this.node.style.left = `${this.x}px`
         this.isMovingRight = true;
         this.detectWallCollision();
+        this.speed = 10;
       }
     }
 
@@ -87,6 +92,7 @@ class Player {
       if (!this.isJumping && this.isGrounded) {
         this.isJumping = true;
         this.isGrounded = false;
+        this.audioJump.play();
         let saltoIntervalId = setInterval(() => {
           this.jumpSpeed *= this.acceleration; 
           this.y -= this.jumpSpeed;
@@ -99,6 +105,7 @@ class Player {
               this.node.style.left = `${this.x}px`
           }
           this.detectWallCollision();
+          this.speed = 10;
         }, 15)
         setTimeout(() => {
           clearInterval(saltoIntervalId)
@@ -119,12 +126,15 @@ class Player {
       this.speed = -this.speed * 0.5; 
     }
     this.node.style.left = `${this.x}px`;
+    
   }
 
   getDamage(enemy) {
     if (this.life > 0) {
+      this.audioHit.play();
       this.life -= enemy.type[enemy.randomEnemy].damage;
       playerLife.innerText = `${this.life}`;
+      
     }
     if (this.life <= 0) {
       gameOver();
@@ -134,6 +144,8 @@ class Player {
   shoot() {
     const newBullet = new Bullet(playerObj);
     this.bulletsArray.push(newBullet);
+    this.audioBullet.play();
+
   }
 
   moveBullets() {

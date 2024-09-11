@@ -62,20 +62,24 @@ let keysPressed = {};
 // Audio
 let gameMusic = new Audio('./audio/goMiau.mp3') 
 gameMusic.loop = true; 
-gameMusic.volume = 0.05; 
+gameMusic.volume = 0.04; 
 
 let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
 gameOverAudio.loop = false;
-gameOverAudio.volume = 0.05;
+gameOverAudio.volume = 0.04;
 
 let splashMusic = new Audio('./audio/catPolka.mp3') 
-splashMusic.loop = true; 
-splashMusic.volume = 0.05;
+splashMusic.loop = false; 
+splashMusic.volume = 0.04;
+
+let winMusic = new Audio('./audio/chipi.mp3') 
+splashMusic.loop = false; 
+splashMusic.volume = 0.04;
 
 splashMusic.play();
 
 // Timer gameplay
-let duration=120;
+let duration=5;
 let timeRemaining = duration;
 let minutes = Math.floor(timeRemaining / 60).toString().padStart(2, "0");
 let seconds = (timeRemaining % 60).toString().padStart(2, "0");
@@ -105,6 +109,7 @@ function startGame() {
 
   stopMusicGameOver();
   stopMusicSplash();
+  stopMusicWin();
   initMusicGame();
 
   platformsArray[0].y = 0;
@@ -168,12 +173,14 @@ function gameLoop() {
 }
 
 function openMenu() {    
-  cleanGame();
-  splashMusic.play();
   splashScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
   gameOverScreenNode.style.display = "none";
   gameWinScreenNode.style.display = "none";
+  splashMusic.play();
+  stopMusicGameOver();
+  stopMusicWin();
+  cleanGame();
 }
 
 function gameOver() {
@@ -184,23 +191,22 @@ function gameOver() {
   resumeTime.innerText=`${120-timeRemaining} s`
   loseTotalScore.innerText=`${getTotalScore()} points!`
   gameOverAudio.play();
-
+  stopMusicGame();
   cleanGame();
   //clearIntervals();
 }
 
 function gameWin(){
-
   gameWinScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
-
   winResumeKills.innerText=`${playerObj.kills}`
   winResumeCoins.innerText=`${playerObj.coins}`
   winResumeTime.innerText=`${120-timeRemaining} s`
   winTotalScore.innerText=`${getTotalScore()} points!`
-
+  winMusic.play();
+  stopMusicGame();
   cleanGame();
-  //clearIntervals();
+  
 }
 
 
@@ -216,11 +222,6 @@ function cleanGame() {
   playerObj.coins=0;
   playerObj.kills=0;
   timeRemaining=duration;
-
-  stopMusicGame();
-  stopMusicGameOver();
-  stopMusicSplash();
-
   isGameGoing = false;
 }
 
@@ -262,6 +263,11 @@ function stopMusicSplash() {
   splashMusic.currentTime=0;
 }
 
+function stopMusicWin() {
+  winMusic.pause();
+  winMusic.currentTime=0;
+}
+
 //* Funciones de adición
 
 function addPlatform() {
@@ -281,7 +287,7 @@ function addEnemy(platform, type){
     let newEnemyLeft = new Enemy(platform.x, platform.y, "left", platform.w);
     enemiesArray.push(newEnemyLeft);
   }else if(type === "right"){
-    let newEnemyRight = new Enemy((platform.x + platform.w - 40), platform.y, "right", platform.w);
+    let newEnemyRight = new Enemy((platform.x + platform.w - 50), platform.y, "right", platform.w);
     enemiesArray.push(newEnemyRight);
   }
 }
@@ -339,7 +345,7 @@ function detectCollisionPlayerPowerUp() {
         eachPowerUp.getAction(); 
         eachPowerUp.type[eachPowerUp.randomPowerUp].hasBeenTaken = true;
         eachPowerUp.node.remove();  
-        powerUpsArray.splice(index, 1);correspondiente
+        powerUpsArray.splice(index, 1);
       }
     }
   });

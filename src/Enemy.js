@@ -2,35 +2,46 @@ class Enemy {
   constructor(positionX, positionY, direction, platformWidth) {
     this.x = positionX;
     this.y = positionY;
-    this.w = 40; 
-    this.h = 40; 
+    this.w = 50; 
+    this.h = 50; 
     this.speed = 2;
     this.direction  = direction;
     this.platformWidth = platformWidth; 
     this.isDead = false;
+    this.audioAttack = new Audio("./audio/dead.wav");  
+    this.audioAttack.volume=0.3;
     this.type = [
-      {
-        name: "grumpy",
-        damage: 5,
-        life: 10,
-        imageLeft: "./img/enemyGrumpyLeft.png",
-        imageRight: "./img/enemyGrumpyRight.png",
-        hasAttacked: false
-      },
+      
       {
         name: "troll",
-        damage: 20,
+        damage: 15,
         life: 30,
         imageLeft: "./img/enemy2Left.png",
         imageRight: "./img/enemy2Right.png",
         hasAttacked: false
       },
+      {
+        name: "frog",
+        damage: 10,
+        life: 20,
+        imageLeft: "./img/frogLeft.png",
+        imageRight: "./img/frogRight.png",
+        hasAttacked: false
+      },
+      {
+        name: "monkey",
+        damage: 5,
+        life: 10,
+        imageLeft: "./img/monkeyLeft.png",
+        imageRight: "./img/monkeyRight.png",
+        hasAttacked: false
+      },
     ]
-  
+    
     this.randomEnemy = this.getRandomEnemy();
     this.currentLife = this.type[this.randomEnemy].life;
     this.currentDamage = this.type[this.randomEnemy].damage;
-      
+
     this.node = document.createElement("img");
     if (this.direction === "left") {
       this.movingRight = false;
@@ -96,6 +107,7 @@ class Enemy {
       this.isDead = true; 
       playerObj.kills++;  
       playerKills.innerText = `${playerObj.kills}`; 
+      this.audioAttack.play();
       this.hide(); 
     }
   }
@@ -103,6 +115,9 @@ class Enemy {
   hide() {
     this.node.style.display = "none";
     this.currentDamage = 0;
+    this.audioAttack = null;
     this.isDead = true; 
   }
+
+
 }

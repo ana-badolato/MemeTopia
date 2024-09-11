@@ -8,7 +8,7 @@ class Platform {
     this.speed = 2;
   
     this.node = document.createElement("img");
-    this.node.src = "./img/platformImg.png"; 
+    this.node.src = "./img/platform.png"; 
     
     if(this.type === "right"){
       this.y = -200; 

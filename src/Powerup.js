@@ -16,16 +16,20 @@ class Powerup {
       {
         name: "dogeCoin",
         image: "./img/powerUp1.png",
-        hasBeenTaken: false
+        hasBeenTaken: false,
+        audio:"./audio/coin.wav"
       },
       {
         name: "life",
         image: "./img/powerUp2.png",
-        hasBeenTaken: false
+        hasBeenTaken: false,
+        audio:"./audio/life.wav"
       },
     ]
   
     this.randomPowerUp = this.getRandomPowerUp();
+    this.audioPower = new Audio(this.type[this.randomPowerUp].audio);  
+    this.audioPower.volume=0.5;
     this.node = document.createElement("img");  // Crear el nodo de imagen
     this.node.src = this.type[this.randomPowerUp].image;
 
@@ -61,7 +65,7 @@ class Powerup {
 
   getAction() {
     const powerUpType = this.type[this.randomPowerUp].name;  // Acceder al nombre correcto del power-up
-    
+    this.audioPower.play();
     if (powerUpType === "dogeCoin") {
       playerObj.coins+=1;
       playerCoins.innerText = `${playerObj.coins}`;
