@@ -13,8 +13,8 @@ class Enemy {
         name: "grumpy",
         damage: 5,
         life: 10,
-        imageLeft: "./img/powerUp1.png",
-        imageRight: "./img/powerUp1.png",
+        imageLeft: "./img/enemyGrumpyLeft.png",
+        imageRight: "./img/enemyGrumpyRight.png",
         hasAttacked: false
       },
       {
