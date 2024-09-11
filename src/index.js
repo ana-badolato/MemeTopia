@@ -95,6 +95,7 @@ function startGame() {
     addPowerUp();
   }, powerUpsFreq);
 
+  enemiesArray[0].hide();
 }
 
 function gameLoop() {
