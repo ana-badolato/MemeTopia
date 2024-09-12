@@ -79,7 +79,7 @@ splashMusic.volume = 0.04;
 splashMusic.play();
 
 // Timer gameplay
-let duration=5;
+let duration=60;
 let timeRemaining = duration;
 let minutes = Math.floor(timeRemaining / 60).toString().padStart(2, "0");
 let seconds = (timeRemaining % 60).toString().padStart(2, "0");
