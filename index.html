@@ -74,47 +74,29 @@
   <!-- PANTALLA GAME OVER -->
   <div id="game-over-screen" class="container">
 
-    <div class="windowGifContainer">
-      <img id="sadHamster" src="./img/sadHamster.gif" alt="">
-    </div>
-
     <div class="windowScoreContainer">
-        <h2 class="title">Puntuaciones:</h2>
-        <ul id="listLoseScores"></ul> 
+        <ol id="listLoseScores"></ol> 
     </div>
 
-    <div>
-      <h2 class="endTitle">Game Over</h2>
-      <p>Estas son tus estadísticas</p>
-    </div>
-
-    <div class="endContainer">
-      <p class="subtitle">Kills</p>
-      <p class="resumeKills"></p>
-    </div>
-
-    <div class="endContainer">
-      <p class="subtitle">Doge Coins</p>
-      <p class="resumeCoins"></p>
-    </div>
-
-    <div class="endContainer">
-      <p class="subtitle">Time</p>
-      <p class="resumeTime"></p>
-    </div>
-
-    <hr>
-
-    <div class="endContainer">
-      <p class="subtitle">Total Score</p>
-      <p id="loseTotalScore"></p>
+ 
+    <div class= playerScoreContainer>
+      <div class="resumeText">
+        <p id="gameOverResume"></p>
+        <div class="scoresContainer">
+          <p class="subtitle">Total Score</p>
+          <p id="loseTotalScore"></p>
+        </div>
+      </div>
+      
+      <div class="bottomMenuOver">
+        <button class="menuOverBtn">Menu</button>
+        <button class="restartBtn">Play again!</button>
+      </div>
     </div>
     
 
-    <div id="bottomMenuOver">
-      <button class="menuOverBtn">Menu</button>
-      <button class="restartBtn">Play again!</button>
-    </div>
+
+    
 
   </div>
 

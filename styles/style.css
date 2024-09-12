@@ -25,6 +25,11 @@
   --heading-font: "Permanent Marker", cursive;
 };
 
+* {
+  margin 0;
+  padding 0;
+}
+
 body {
   margin: 0;
   background-color: var(--background-color);
@@ -147,11 +152,7 @@ button:disabled {
   z-index: 1;
 }
 
-#game-screen {
-  display: flex;
-  flex-direction: row;
 
-}
 
 .title {
   font-family: var(--heading-font);
@@ -269,31 +270,70 @@ button:disabled {
   pointer-events: none; 
 }
 
-#game-screen, #game-over-screen, #game-win-screen {
+#game-screen {
+  display: flex;
+  flex-direction: row;
   display:none; 
   background-image: url(../img/backgroundBehind.jpg); 
   background-size:cover;
   background-repeat: no-repeat;
 }
 
-#sadHamster {
-  width: 256px;
-  padding: 24px;
-}
-
-#endBackground {
-  position: absolute;
-}
-
-.windowGifContainer{
-
-}
-
-.windowScoreContainer{
-
-}
-
-.endTitle, .endContainer, .menuOverBtn, .restartBtn {
-  z-index: 1000; /* El contenido principal encima de todo */
+#game-over-screen {
+  background-color: var(--neutral-white);
+  display: none;
+  background-image: url(../img/loseBackground.png);
+  background-size: cover; 
+  background-position: center center; /* Mantén el fondo centrado */
+  background-repeat: no-repeat;
   position: relative;
+  height: 100vh; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
+
+.playerScoreContainer {
+  position: absolute;
+  width: 700px;
+  left: 59%; 
+  top: 25%;  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playerScoreContainer span {
+  color: var(--secundary-700);
+  font-family: var(--heading-font);
+  font-size: 32px;
+}
+
+.resumeText {
+  position: relative;
+  color: var(--primary-600);
+  font-size: 24px;
+  text-align: center;
+}
+
+.scoresContainer {
+  font-family: var(--heading-font);
+  font-size: 28px;
+}
+
+.bottomMenuOver {
+  position: relative;
+}
+
+.windowScoreContainer {
+  color: #2c1d4a;
+  font-family: var(--number-font);
+}
+
+#listLoseScores {
+  position: relative;
+  text-decoration: none;
+  font-size: 40px;
+  top: 250px;
+  left: -250px;
 }

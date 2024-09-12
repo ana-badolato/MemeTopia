@@ -20,6 +20,7 @@ const lowLifeOverlay = document.querySelector("#lowLifeOverlay");
 const gameOverScreenNode = document.querySelector("#game-over-screen")
 const menuOverBtnNode = document.querySelector(".menuOverBtn");
 const restartBtnNode = document.querySelector(".restartBtn");
+const gameOverResume = document.querySelector("#gameOverResume");
 const resumeKills=document.querySelector(".resumeKills");
 const resumeCoins=document.querySelector(".resumeCoins");
 const resumeTime=document.querySelector(".resumeTime");
@@ -208,9 +209,9 @@ function openMenu() {
 function gameOver() {
   gameOverScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
-  resumeKills.innerText=`${playerObj.kills}`
-  resumeCoins.innerText=`${playerObj.coins}`
-  resumeTime.innerText=`${duration-timeRemaining} s`
+  gameOverResume.innerHTML = `You fought valiantly, taking down <span>${playerObj.kills} enemy/ies</span>, scooped up <span>${playerObj.coins} Doge Coins</span>, and held on for <span>${duration - timeRemaining} seconds</span>. <br> But alas, the memes won this round. <br> You'll meme another day!`;
+
+
   loseTotalScore.innerText=`${getTotalScore()} points!`
   stopMusicGame();
   playerObj.audioHit.pause();
@@ -225,6 +226,7 @@ function gameOver() {
 function gameWin(){
   gameWinScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
+  // gameWinResume.innerHTML = `You took down <span>${playerObj.kills} enemy/ies</span>, grabbed <span>${playerObj.coins} Doge Coins</span>, and survived for <span>${duration - timeRemaining} seconds</span>. <br> Your epic score? <span>${getTotalScore()} points!</span> <br> Meme legend in the making!`;
   winResumeKills.innerText=`${playerObj.kills}`
   winResumeCoins.innerText=`${playerObj.coins}`
   winResumeTime.innerText=`${duration-timeRemaining} s`
