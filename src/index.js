@@ -21,9 +21,6 @@ const gameOverScreenNode = document.querySelector("#game-over-screen")
 const menuOverBtnNode = document.querySelector(".menuOverBtn");
 const restartBtnNode = document.querySelector(".restartBtn");
 const gameOverResume = document.querySelector("#gameOverResume");
-const resumeKills=document.querySelector(".resumeKills");
-const resumeCoins=document.querySelector(".resumeCoins");
-const resumeTime=document.querySelector(".resumeTime");
 const loseTotalScore=document.querySelector("#loseTotalScore");
 const listLoseScores = document.getElementById('listLoseScores');
 
@@ -32,9 +29,7 @@ const gameWinScreenNode = document.querySelector("#game-win-screen");
 const listWinScores = document.getElementById('listWinScores');
 const menuWinBtnNode = document.querySelector(".menuWinBtn");
 const restartWinBtnNode = document.querySelector(".restartWinBtn");
-const winResumeKills=document.querySelector(".winResumeKills");
-const winResumeCoins=document.querySelector(".winResumeCoins");
-const winResumeTime=document.querySelector(".winResumeTime");
+const gameWinResume = document.querySelector("#gameWinResume");
 const winTotalScore=document.querySelector("#winTotalScore");
 
 
@@ -77,8 +72,8 @@ splashMusic.loop = false;
 splashMusic.volume = 0.02;
 
 let winMusic = new Audio('./audio/chipi.mp3') 
-splashMusic.loop = false; 
-splashMusic.volume = 0.02;
+winMusic.loop = true; 
+winMusic.volume = 0.05;
 
 let lowLifeAudio = new Audio('./audio/lowLife.mp3') 
 lowLifeAudio.loop = false; 
@@ -211,7 +206,6 @@ function gameOver() {
   gameScreenNode.style.display = "none";
   gameOverResume.innerHTML = `You fought valiantly, taking down <span>${playerObj.kills} enemy/ies</span>, scooped up <span>${playerObj.coins} Doge Coins</span>, and held on for <span>${duration - timeRemaining} seconds</span>. <br> But alas, the memes won this round. <br> You'll meme another day!`;
 
-
   loseTotalScore.innerText=`${getTotalScore()} points!`
   stopMusicGame();
   playerObj.audioHit.pause();
@@ -219,24 +213,22 @@ function gameOver() {
   gameOverAudio.play();
   storeScore(playerName, getTotalScore());
   showScores(listLoseScores);
-
   cleanGame();
 }
 
 function gameWin(){
   gameWinScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
-  // gameWinResume.innerHTML = `You took down <span>${playerObj.kills} enemy/ies</span>, grabbed <span>${playerObj.coins} Doge Coins</span>, and survived for <span>${duration - timeRemaining} seconds</span>. <br> Your epic score? <span>${getTotalScore()} points!</span> <br> Meme legend in the making!`;
-  winResumeKills.innerText=`${playerObj.kills}`
-  winResumeCoins.innerText=`${playerObj.coins}`
-  winResumeTime.innerText=`${duration-timeRemaining} s`
+  gameWinResume.innerHTML = `You took down <span>${playerObj.kills} enemy/ies</span>, grabbed <span>${playerObj.coins} Doge Coins</span>, and survived for <span>${duration - timeRemaining} seconds</span>. <br> Meme legend in the making!`;
+
   winTotalScore.innerText=`${getTotalScore()} points!`
+  stopMusicGame();
+  playerObj.audioHit.pause();
+  lowLifeAudio.pause();
   winMusic.play();
   storeScore(playerName, getTotalScore());
   showScores(listWinScores);
-  stopMusicGame();
   cleanGame();
-  
 }
 
 
@@ -281,33 +273,26 @@ function getPlayerName() {
   }
 }
 
-// Función para controlar el parpadeo del overlay por un tiempo limitado
-function triggerLowLifeOverlay() {
-  let blinkCount = 0;  // Contador de parpadeos
-  lowLifeOverlay.style.opacity = '1';  // Mostrar el overlay inicialmente
 
-  // Iniciar el parpadeo controlado con setInterval
+function triggerLowLifeOverlay() {
+  let blinkCount = 0; 
+  lowLifeOverlay.style.opacity = '1';  
+
+
   const blinkInterval = setInterval(() => {
-    // Alternar entre visible e invisible
     if (lowLifeOverlay.style.opacity === '1') {
       lowLifeOverlay.style.opacity = '0';
      lowLifeAudio.play();
-      //lowLifeAudio.pause();
     } else {
       lowLifeOverlay.style.opacity = '1';
-      //lowLifeAudio.play();
       lowLifeAudio.pause();
-      //lowLifeAudio.currentTime=0;
+    }   
+    blinkCount++; 
+    if (blinkCount >= 6) { 
+      clearInterval(blinkInterval); 
+      lowLifeOverlay.style.opacity = '0';  
     }
-    
-    blinkCount++;  // Incrementar el contador de parpadeos
-
-    // Detener el parpadeo después de 3 ciclos
-    if (blinkCount >= 6) {  // 6 cambios de opacidad (3 parpadeos completos)
-      clearInterval(blinkInterval);  // Detener el intervalo
-      lowLifeOverlay.style.opacity = '0';  // Asegurar que se oculte al final
-    }
-  }, 500);  // Cambiar opacidad cada 500ms, para que el ciclo completo sea de 1 segundo
+  }, 500); 
 }
 
 //* Funciones música
@@ -481,15 +466,10 @@ function storeScore(name, score) {
 
 
 function showScores(listElement) {
-  // Limpiar la lista de puntuaciones anterior
   listElement.innerHTML = ''; 
-
   const scores = JSON.parse(localStorage.getItem('scores')) || [];
-
   scores.sort((a, b) => b.score - a.score);
-
   const bestScores = scores.slice(0, 5);
-
   bestScores.forEach(score => {
     const li = document.createElement('li');
     li.textContent = `${score.name} - ${score.score} points`;
@@ -546,8 +526,6 @@ menuWinBtnNode.addEventListener("click", () => {
 restartWinBtnNode.addEventListener("click", () => {
   startGame();
 });
-
-
 
 
 window.addEventListener("keydown", (event) => {

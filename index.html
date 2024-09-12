@@ -73,14 +73,13 @@
 
   <!-- PANTALLA GAME OVER -->
   <div id="game-over-screen" class="container">
-
-    <div class="windowScoreContainer">
-        <ol id="listLoseScores"></ol> 
+    <div class="image-container">
+      <img src="./img/nyanLeft.png" class="flying-image" alt="Flying Image">
     </div>
 
- 
     <div class= playerScoreContainer>
       <div class="resumeText">
+        <h2 class="endTitle">Game Over</h2>
         <p id="gameOverResume"></p>
         <div class="scoresContainer">
           <p class="subtitle">Total Score</p>
@@ -94,51 +93,38 @@
       </div>
     </div>
     
-
-
-    
+    <div class="windowScoreContainer">
+      <h3 class="endTitle">Ranking</h3>
+      <ol id="listLoseScores"></ol> 
+    </div>
 
   </div>
 
-   <!-- PANTALLA WIN -->
-   <div id="game-win-screen" class="container">
-
-    <div>
-      <h2 class="title">Congrats!</h2>
-      <img id="party" src="./img/celebrate.gif" alt="">
-      <p>Estas son tus estadísticas</p>
+  <!-- PANTALLA WIN -->
+  <div id="game-win-screen" class="container">
+    <div class="image-container">
+      <img src="./img/nyanLeft.png" class="flying-image" alt="Flying Image">
     </div>
 
-    <div class="endContainer">
-      <p class="subtitle">Kills</p>
-      <p class="winResumeKills"></p>
+    <div class= playerScoreContainer>
+      <div class="resumeText">
+        <h2 class="endTitle">Yeah!</h2>
+        <p id="gameWinResume"></p>
+        <div class="scoresContainer">
+          <p class="subtitle">Total Score</p>
+          <p id="winTotalScore"></p>
+        </div>
+      </div>
+      
+      <div class="bottomMenuOver">
+        <button class="menuWinBtn">Menu</button>
+        <button class="restartWinBtn">Play again!</button>
+      </div>
     </div>
-
-    <div class="endContainer">
-      <p class="subtitle">Doge Coins</p>
-      <p class="winResumeCoins"></p>
-    </div>
-
-    <div class="endContainer">
-      <p class="subtitle">Time</p>
-      <p class="winResumeTime"></p>
-    </div>
-
-    <hr>
-
-    <div class="endContainer">
-      <p class="subtitle">Total Score</p>
-      <p id="winTotalScore"></p>
-    </div>
-
-    <div class="localStorage">
-      <h2 class="title">Puntuaciones:</h2>
-      <ul id="listWinScores"></ul> 
-    </div>
-
-    <div id="bottomMenuOver">
-      <button class="menuWinBtn">Menu</button>
-      <button class="restartWinBtn">Play again!</button>
+    
+    <div class="windowScoreContainer">
+      <h3 class="endTitle">Ranking</h3>
+      <ol id="listWinScores"></ol> 
     </div>
 
   </div>
