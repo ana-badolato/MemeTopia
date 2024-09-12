@@ -3,6 +3,7 @@
 // splash screen
 const splashScreenNode = document.querySelector("#splash-screen")
 const playBtnNode = document.querySelector("#playBtn");
+const inputNameNode = document.querySelector("#name");//! aquí
 
 // game screen
 const gameScreenNode = document.querySelector("#game-screen")
@@ -22,12 +23,11 @@ const resumeKills=document.querySelector(".resumeKills");
 const resumeCoins=document.querySelector(".resumeCoins");
 const resumeTime=document.querySelector(".resumeTime");
 const loseTotalScore=document.querySelector("#loseTotalScore");
+const listLoseScores = document.getElementById('listLoseScores');//!Aquí
 
 // game win screen
 const gameWinScreenNode = document.querySelector("#game-win-screen");
-
-
-//btn game win
+const listWinScores = document.getElementById('listLoseScores');//! Aquí
 const menuWinBtnNode = document.querySelector(".menuWinBtn");
 const restartWinBtnNode = document.querySelector(".restartWinBtn");
 const winResumeKills=document.querySelector(".winResumeKills");
@@ -58,6 +58,8 @@ let background = null;
 //Control del juego
 let isGameGoing = false; 
 let keysPressed = {};
+let playerName=""; //! aquí
+//let totalScore=0;
 
 // Audio
 let gameMusic = new Audio('./audio/goMiau.mp3') 
@@ -91,7 +93,8 @@ timeRemainingContainer.innerText = `${minutes}:${seconds}`;
 //* Funciones del estado del juego
 
 function startGame() {
-  
+  console.log(playerName); 
+
   gameOverScreenNode.style.display = "none";
   splashScreenNode.style.display = "none";
   gameWinScreenNode.style.display = "none";
@@ -100,7 +103,8 @@ function startGame() {
   isGameGoing = true;
   playerObj = new Player();
   background = new Background();
-
+  
+  //totalScore = playerObj.getTotalScore();
   playerLife.innerText = `${playerObj.life}`;
   playerCoins.innerText = `${playerObj.coins}`;
   playerKills.innerText = `${playerObj.kills}`;
@@ -142,6 +146,7 @@ function startGame() {
   }, 1000);
 
   enemiesArray[0].hide();
+
 }
 
 function gameLoop() {
@@ -241,6 +246,15 @@ function getTotalScore(){
   return (playerObj.coins * 25)+(playerObj.kills * 10)+(duration-timeRemaining);
 }
 
+function getPlayerName() {
+  let inputName = inputNameNode.value.trim();
+  if (inputName.length === 0) {
+    playerName = "Patata";
+    inputNameNode.value = "Patata"; 
+  } else {
+    playerName = inputName;
+  }
+}
 
 //* Funciones música
 
@@ -404,6 +418,7 @@ function checkElementsOut(){
 //* EVENT LISTENERS
 
 playBtnNode.addEventListener("click", () => {
+  getPlayerName();
   startGame();
 });
 
