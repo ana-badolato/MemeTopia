@@ -14,6 +14,7 @@
   --secundary-700:#c04375;
   --neutral-white: #f3f3f3;
   --neutral-black: #0F0B1E;
+  --alert-red:  rgba(253, 0, 76, 0.3);
 
 
   --main-font: "Manrope", sans-serif;
@@ -140,6 +141,27 @@ button:hover {
   display: flex;
   flex-direction: row;
 
+}
+
+#lowLifeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--alert-red); /* Rojo translúcido */
+  pointer-events: none; /* Para no bloquear la interacción del juego */
+  opacity: 0; /* Inicia invisible */
+  z-index: 5000; /* Asegurarse de que esté encima de todo */
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .menuContainerLeft{

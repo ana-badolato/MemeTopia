@@ -17,19 +17,21 @@ class Powerup {
         name: "dogeCoin",
         image: "./img/powerUp1.png",
         hasBeenTaken: false,
-        audio:"./audio/coin.wav"
+        audio:"./audio/coin.wav",
+        volume:0.1
       },
       {
         name: "life",
         image: "./img/powerUp2.png",
         hasBeenTaken: false,
-        audio:"./audio/life.wav"
+        audio:"./audio/life.wav",
+        volume:0.05
       },
     ]
   
     this.randomPowerUp = this.getRandomPowerUp();
     this.audioPower = new Audio(this.type[this.randomPowerUp].audio);  
-    this.audioPower.volume=0.5;
+    this.audioPower.volume=this.type[this.randomPowerUp].volume;
     this.node = document.createElement("img");  // Crear el nodo de imagen
     this.node.src = this.type[this.randomPowerUp].image;
 

@@ -22,11 +22,11 @@ class Player {
       left: false,
     };
     this.audioHit = new Audio("./audio/hit.mp3");  
-    this.audioHit.volume=0.5;
+    this.audioHit.volume=0.05;
     this.audioBullet = new Audio("./audio/gun.mp3");
-    this.audioBullet.volume=0.6;
+    this.audioBullet.volume=0.1;
     this.audioJump = new Audio("./audio/jump.mp3");
-    this.audioJump.volume=0.5;
+    this.audioJump.volume=0.2;
     this.node = document.createElement("img");
     this.node.src = "./img/nyanRight.png"; 
     gameBoxNode.append(this.node);
@@ -74,7 +74,6 @@ class Player {
     }
 
     moveRight(){
-      console.log("Moving right");
       if (!this.isJumping && this.isGrounded) {
         this.node.src = "./img/nyanRight.png"; 
         this.x += this.speed;

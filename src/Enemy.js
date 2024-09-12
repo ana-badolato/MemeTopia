@@ -9,7 +9,7 @@ class Enemy {
     this.platformWidth = platformWidth; 
     this.isDead = false;
     this.audioAttack = new Audio("./audio/dead.wav");  
-    this.audioAttack.volume=0.3;
+    this.audioAttack.volume=0.05;
     this.type = [
       
       {

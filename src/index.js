@@ -3,7 +3,7 @@
 // splash screen
 const splashScreenNode = document.querySelector("#splash-screen")
 const playBtnNode = document.querySelector("#playBtn");
-const inputNameNode = document.querySelector("#name");//! aquí
+const inputNameNode = document.querySelector("#name");
 
 // game screen
 const gameScreenNode = document.querySelector("#game-screen")
@@ -14,6 +14,7 @@ const musicOffBtnNode = document.querySelector("#musicOffBtn");
 const playerLife = document.querySelector("#life");
 const playerCoins = document.querySelector("#coins");
 const playerKills = document.querySelector("#kills");
+const lowLifeOverlay = document.querySelector("#lowLifeOverlay");
 
 // game over screen
 const gameOverScreenNode = document.querySelector("#game-over-screen")
@@ -23,11 +24,11 @@ const resumeKills=document.querySelector(".resumeKills");
 const resumeCoins=document.querySelector(".resumeCoins");
 const resumeTime=document.querySelector(".resumeTime");
 const loseTotalScore=document.querySelector("#loseTotalScore");
-const listLoseScores = document.getElementById('listLoseScores');//!Aquí
+const listLoseScores = document.getElementById('listLoseScores');
 
 // game win screen
 const gameWinScreenNode = document.querySelector("#game-win-screen");
-const listWinScores = document.getElementById('listWinScores');//! Aquí
+const listWinScores = document.getElementById('listWinScores');
 const menuWinBtnNode = document.querySelector(".menuWinBtn");
 const restartWinBtnNode = document.querySelector(".restartWinBtn");
 const winResumeKills=document.querySelector(".winResumeKills");
@@ -58,30 +59,34 @@ let background = null;
 //Control del juego
 let isGameGoing = false; 
 let keysPressed = {};
-let playerName=""; //! aquí
-
+let playerName=""; 
+let isLowLifeWarningActive = false; 
 
 // Audio
-let gameMusic = new Audio('./audio/goMiau.mp3') 
+let gameMusic = new Audio('./audio/marbleSodaMusic.mp3') 
 gameMusic.loop = true; 
-gameMusic.volume = 0.04; 
+gameMusic.volume = 0.02; 
 
 let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
 gameOverAudio.loop = false;
-gameOverAudio.volume = 0.04;
+gameOverAudio.volume = 0.01;
 
 let splashMusic = new Audio('./audio/catPolka.mp3') 
 splashMusic.loop = false; 
-splashMusic.volume = 0.04;
+splashMusic.volume = 0.02;
 
 let winMusic = new Audio('./audio/chipi.mp3') 
 splashMusic.loop = false; 
-splashMusic.volume = 0.04;
+splashMusic.volume = 0.02;
+
+let lowLifeAudio = new Audio('./audio/lowLife.mp3') 
+lowLifeAudio.loop = false; 
+lowLifeAudio.volume = 0.5;
 
 splashMusic.play();
 
 // Timer gameplay
-let duration=5;
+let duration=60;
 let timeRemaining = duration;
 let minutes = Math.floor(timeRemaining / 60).toString().padStart(2, "0");
 let seconds = (timeRemaining % 60).toString().padStart(2, "0");
@@ -174,6 +179,13 @@ function gameLoop() {
     });
 
     checkElementsOut();
+ 
+    if (playerObj.life <= 50 && !isLowLifeWarningActive) {
+      isLowLifeWarningActive = true;  // Asegurarse de que no vuelva a activarse hasta que termine el parpadeo
+      triggerLowLifeOverlay();
+    } else if (playerObj.life > 50) {
+      isLowLifeWarningActive = false; // Reiniciar cuando la vida suba nuevamente
+    }
 }
 
 function openMenu() {    
@@ -183,6 +195,7 @@ function openMenu() {
   gameWinScreenNode.style.display = "none";
   splashMusic.play();
   stopMusicGameOver();
+  stopMusicGame();
   stopMusicWin();
   cleanGame();
 }
@@ -192,14 +205,15 @@ function gameOver() {
   gameScreenNode.style.display = "none";
   resumeKills.innerText=`${playerObj.kills}`
   resumeCoins.innerText=`${playerObj.coins}`
-  resumeTime.innerText=`${120-timeRemaining} s`
+  resumeTime.innerText=`${duration-timeRemaining} s`
   loseTotalScore.innerText=`${getTotalScore()} points!`
+  stopMusicGame();
+  playerObj.audioHit.pause();
   gameOverAudio.play();
   storeScore(playerName, getTotalScore());
   showScores(listLoseScores);
-  stopMusicGame();
+
   cleanGame();
-  //clearIntervals();
 }
 
 function gameWin(){
@@ -207,7 +221,7 @@ function gameWin(){
   gameScreenNode.style.display = "none";
   winResumeKills.innerText=`${playerObj.kills}`
   winResumeCoins.innerText=`${playerObj.coins}`
-  winResumeTime.innerText=`${120-timeRemaining} s`
+  winResumeTime.innerText=`${duration-timeRemaining} s`
   winTotalScore.innerText=`${getTotalScore()} points!`
   winMusic.play();
   storeScore(playerName, getTotalScore());
@@ -257,6 +271,34 @@ function getPlayerName() {
   } else {
     playerName = inputName;
   }
+}
+
+// Función para controlar el parpadeo del overlay por un tiempo limitado
+function triggerLowLifeOverlay() {
+  let blinkCount = 0;  // Contador de parpadeos
+  lowLifeOverlay.style.opacity = '1';  // Mostrar el overlay inicialmente
+
+  // Iniciar el parpadeo controlado con setInterval
+  const blinkInterval = setInterval(() => {
+    // Alternar entre visible e invisible
+    if (lowLifeOverlay.style.opacity === '1') {
+      lowLifeOverlay.style.opacity = '0';
+      lowLifeAudio.play();
+    } else {
+      lowLifeOverlay.style.opacity = '1';
+      lowLifeAudio.play();
+      //lowLifeAudio.pause();
+      //lowLifeAudio.currentTime=0;
+    }
+    
+    blinkCount++;  // Incrementar el contador de parpadeos
+
+    // Detener el parpadeo después de 3 ciclos
+    if (blinkCount >= 6) {  // 6 cambios de opacidad (3 parpadeos completos)
+      clearInterval(blinkInterval);  // Detener el intervalo
+      lowLifeOverlay.style.opacity = '0';  // Asegurar que se oculte al final
+    }
+  }, 500);  // Cambiar opacidad cada 500ms, para que el ciclo completo sea de 1 segundo
 }
 
 //* Funciones música
