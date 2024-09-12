@@ -73,9 +73,18 @@
 
   <!-- PANTALLA GAME OVER -->
   <div id="game-over-screen" class="container">
-    <div>
-      <h2 class="title">Game Over</h2>
+
+    <div class="windowGifContainer">
       <img id="sadHamster" src="./img/sadHamster.gif" alt="">
+    </div>
+
+    <div class="windowScoreContainer">
+        <h2 class="title">Puntuaciones:</h2>
+        <ul id="listLoseScores"></ul> 
+    </div>
+
+    <div>
+      <h2 class="endTitle">Game Over</h2>
       <p>Estas son tus estadísticas</p>
     </div>
 
@@ -100,10 +109,7 @@
       <p class="subtitle">Total Score</p>
       <p id="loseTotalScore"></p>
     </div>
-    <div class="localStorage">
-      <h2 class="title">Puntuaciones:</h2>
-      <ul id="listLoseScores"></ul> 
-    </div>
+    
 
     <div id="bottomMenuOver">
       <button class="menuOverBtn">Menu</button>

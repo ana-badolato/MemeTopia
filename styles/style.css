@@ -281,3 +281,19 @@ button:disabled {
   padding: 24px;
 }
 
+#endBackground {
+  position: absolute;
+}
+
+.windowGifContainer{
+
+}
+
+.windowScoreContainer{
+
+}
+
+.endTitle, .endContainer, .menuOverBtn, .restartBtn {
+  z-index: 1000; /* El contenido principal encima de todo */
+  position: relative;
+}

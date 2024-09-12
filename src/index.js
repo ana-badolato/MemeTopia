@@ -214,6 +214,7 @@ function gameOver() {
   loseTotalScore.innerText=`${getTotalScore()} points!`
   stopMusicGame();
   playerObj.audioHit.pause();
+  lowLifeAudio.pause();
   gameOverAudio.play();
   storeScore(playerName, getTotalScore());
   showScores(listLoseScores);
@@ -288,11 +289,12 @@ function triggerLowLifeOverlay() {
     // Alternar entre visible e invisible
     if (lowLifeOverlay.style.opacity === '1') {
       lowLifeOverlay.style.opacity = '0';
-      lowLifeAudio.play();
+     lowLifeAudio.play();
+      //lowLifeAudio.pause();
     } else {
       lowLifeOverlay.style.opacity = '1';
-      lowLifeAudio.play();
-      //lowLifeAudio.pause();
+      //lowLifeAudio.play();
+      lowLifeAudio.pause();
       //lowLifeAudio.currentTime=0;
     }
     
