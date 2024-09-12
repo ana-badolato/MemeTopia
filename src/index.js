@@ -83,6 +83,10 @@ let lowLifeAudio = new Audio('./audio/lowLife.mp3')
 lowLifeAudio.loop = false; 
 lowLifeAudio.volume = 0.5;
 
+let buttonAudio = new Audio('./audio/button.mp3') 
+buttonAudio.loop = false; 
+buttonAudio.volume = 0.5;
+
 splashMusic.play();
 
 // Timer gameplay
@@ -119,6 +123,7 @@ function startGame() {
   stopMusicSplash();
   stopMusicWin();
   initMusicGame();
+  musicOnBtnNode.disabled = true;
 
   platformsArray[0].y = 0;
 
@@ -181,10 +186,10 @@ function gameLoop() {
     checkElementsOut();
  
     if (playerObj.life <= 50 && !isLowLifeWarningActive) {
-      isLowLifeWarningActive = true;  // Asegurarse de que no vuelva a activarse hasta que termine el parpadeo
+      isLowLifeWarningActive = true; 
       triggerLowLifeOverlay();
     } else if (playerObj.life > 50) {
-      isLowLifeWarningActive = false; // Reiniciar cuando la vida suba nuevamente
+      isLowLifeWarningActive = false; 
     }
 }
 
@@ -493,29 +498,39 @@ function showScores(listElement) {
 
 playBtnNode.addEventListener("click", () => {
   getPlayerName();
+  buttonAudio.play();
   startGame();
 });
 
 
 menuBtnNode.addEventListener("click", () => {
+  buttonAudio.play();
   openMenu();
 });
 
 
 musicOnBtnNode.addEventListener("click", () => {
+  buttonAudio.play();
   gameMusic.play();
+  musicOnBtnNode.disabled = true;
+  musicOffBtnNode.disabled = false;
 });
 
 musicOffBtnNode.addEventListener("click", () => {
+  buttonAudio.play();
   gameMusic.pause();
+  musicOnBtnNode.disabled = false;
+  musicOffBtnNode.disabled = true;
 });
 
 
 menuOverBtnNode.addEventListener("click", () => {
+  buttonAudio.play();
   openMenu();
 });
 
 restartBtnNode.addEventListener("click", () => {
+  buttonAudio.play();
   startGame();
 });
 

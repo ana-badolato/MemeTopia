@@ -32,17 +32,17 @@
     <div id="topMenu">    
       <div class="menuContainerLeft">
         <div class="subContainer">
-          <h3>Life</h3>
+          <h3 class="title">Life</h3>
           <h2 id="life"></h2>
         </div>
         <hr>
         <div class="subContainer">
-          <h3>Doge Coins</h3>
+          <h3 class="title">Doge Coins</h3>
           <h2 id="coins"></h2>
         </div>
         <hr>
         <div class="subContainer">
-          <h3>Kills</h3>
+          <h3 class="title">Kills</h3>
           <h2 id="kills"></h2>
         </div>
       </div>
@@ -54,12 +54,12 @@
     <div id="bottomMenu">
       <div class="menuContainerRight">
         <div class="subContainer">
-          <h3>Time playing</h3>
+          <h3 class="title">Time playing</h3>
           <h2 id="time"></h2>
         </div>
-        <button class="menuBtn">Menu</button>  <!-- botón para volver al menú -->
-        <button id="musicOnBtn">Audio ON</button>  <!-- botón para encender el audio -->
-        <button id="musicOffBtn">Audio OFF</button>  <!-- botón para apagar el audio -->
+        <button class="menuBtn">Menu</button> 
+        <button id="musicOffBtn">Audio OFF</button>  
+        <button id="musicOnBtn">Audio ON</button>  
       </div>
     </div>
   </div>
@@ -67,34 +67,34 @@
   <!-- PANTALLA GAME OVER -->
   <div id="game-over-screen" class="container">
     <div>
-      <h2>Game Over</h2>
+      <h2 class="title">Game Over</h2>
       <img id="sadHamster" src="./img/sadHamster.gif" alt="">
       <p>Estas son tus estadísticas</p>
     </div>
 
     <div class="endContainer">
-      <p>Kills</p>
+      <p class="subtitle">Kills</p>
       <p class="resumeKills"></p>
     </div>
 
     <div class="endContainer">
-      <p>Doge Coins</p>
+      <p class="subtitle">Doge Coins</p>
       <p class="resumeCoins"></p>
     </div>
 
     <div class="endContainer">
-      <p>Time</p>
+      <p class="subtitle">Time</p>
       <p class="resumeTime"></p>
     </div>
 
     <hr>
 
     <div class="endContainer">
-      <p>Total Score</p>
+      <p class="subtitle">Total Score</p>
       <p id="loseTotalScore"></p>
     </div>
     <div class="localStorage">
-      <h2>Puntuaciones:</h2>
+      <h2 class="title">Puntuaciones:</h2>
       <ul id="listLoseScores"></ul> 
     </div>
 
@@ -109,35 +109,35 @@
    <div id="game-win-screen" class="container">
 
     <div>
-      <h2>Congrats!</h2>
+      <h2 class="title">Congrats!</h2>
       <img id="party" src="./img/celebrate.gif" alt="">
       <p>Estas son tus estadísticas</p>
     </div>
 
     <div class="endContainer">
-      <p>Kills</p>
+      <p class="subtitle">Kills</p>
       <p class="winResumeKills"></p>
     </div>
 
     <div class="endContainer">
-      <p>Doge Coins</p>
+      <p class="subtitle">Doge Coins</p>
       <p class="winResumeCoins"></p>
     </div>
 
     <div class="endContainer">
-      <p>Time</p>
+      <p class="subtitle">Time</p>
       <p class="winResumeTime"></p>
     </div>
 
     <hr>
 
     <div class="endContainer">
-      <p>Total Score</p>
+      <p class="subtitle">Total Score</p>
       <p id="winTotalScore"></p>
     </div>
 
     <div class="localStorage">
-      <h2>Puntuaciones:</h2>
+      <h2 class="title">Puntuaciones:</h2>
       <ul id="listWinScores"></ul> 
     </div>
 

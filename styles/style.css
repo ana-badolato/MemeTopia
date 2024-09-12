@@ -129,6 +129,12 @@ button:hover {
   transition: 0.5s;
 
 }
+button:disabled {
+  background-color: #F7A8C1;
+  color: #A89FB3;
+  cursor: not-allowed;
+  border: 4px, solid, #A89FB3;
+}
 
 #playBtn{
   position: relative;
@@ -162,6 +168,24 @@ button:hover {
   50% {
     opacity: 1;
   }
+}
+
+
+#lifeBarContainer {
+  width: 100%;
+  height: 30px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+#lifeBar {
+  height: 100%;
+  width: 100%; /* Inicialmente al 100% */
+  background-color: #4caf50; /* Verde para indicar vida */
+  border-radius: 10px;
+  transition: width 0.3s ease; /* Suaviza la animación al cambiar el tamaño */
 }
 
 .menuContainerLeft{
