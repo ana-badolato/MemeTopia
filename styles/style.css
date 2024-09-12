@@ -33,10 +33,10 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--primary-500);
-  background-image: url(../img/backgroundBehind.jpg); */
+  
+  /* background-image: url(../img/backgroundBehind.jpg); 
   background-size:contain;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   height: 100vh;
 }
 
@@ -45,10 +45,22 @@ body {
   padding-left: 24px;
 }
 
+.pcBackground{
+  position: absolute;
+}
+#mypc{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1920px;
+  z-index: 1;
+  top: 128px;
+}
 
 #splash-screen {
   background-color: var(--neutral-white);
-  background-image:url(../img/backgroundIni.png);
+  /* background-image:url(../img/backgroundIni.png); */
   background-size: cover;
   flex-direction: column;
   justify-content: center;
@@ -56,12 +68,41 @@ body {
   position: relative;
 }
 
-#splashScreenImg {
-  height:250px;
-  width: 600px;
+#catPolka {
   position: relative;
-  top: -175px;
-  left: -515px;
+  height:185px;
+  width: 470px;
+  top: -740px;
+  left: 332px;
+  z-index: 1;
+}
+
+.playerName {
+  font-family: var(--main-font);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: #2c1d4a;
+  z-index: 1; 
+  top: -715px; 
+  left: 880px;
+  border-radius: 5px;
+ 
+}
+
+label {
+  font-family: var(--main-font);
+  font-weight: 500;
+}
+
+input{
+  width: 220px;
+  height: 40px;
+  border: 4px, solid, var(--secundary-700);
+  border-radius: 20;
+  font-family: var(--main-font);
+  padding-left: 16px;
+  margin-top: 4px;
 }
 
 button {
@@ -89,13 +130,16 @@ button:hover {
 }
 
 #playBtn{
-  margin-top: 64px;
-  margin-left: 120px;
+  position: relative;
+  top: -640px;
+  left: 895px;
+  z-index: 1;
 }
 
 #game-screen {
   display: flex;
   flex-direction: row;
+
 }
 
 .menuContainerLeft{
@@ -154,6 +198,9 @@ button:hover {
 
 #game-screen, #game-over-screen, #game-win-screen {
   display:none; 
+  background-image: url(../img/backgroundBehind.jpg); 
+  background-size:cover;
+  background-repeat: no-repeat;
 }
 
 #sadHamster {
