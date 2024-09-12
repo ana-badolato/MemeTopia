@@ -113,10 +113,17 @@ class Enemy {
   }
 
   hide() {
-    this.node.style.display = "none";
-    this.currentDamage = 0;
-    this.audioAttack = null;
-    this.isDead = true; 
+    let deadIntervalId = setInterval(() => {
+      this.node.src = "./img/explosion.png";
+    }, 15)
+    setTimeout(() => {
+      clearInterval(deadIntervalId)
+      this.node.style.display = "none";
+      this.node.style.top = `${this.y}px`;
+      this.currentDamage = 0;
+      this.audioAttack = null;
+      this.isDead = true; 
+    }, 150)
   }
 
 
