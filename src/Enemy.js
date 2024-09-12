@@ -62,36 +62,32 @@ class Enemy {
 
 
   automaticMovement(platformX, platformY) {
-
     if (this.isDead) {
       return; 
     }
-
+  
     this.y = platformY - this.h;
     this.node.style.top = `${this.y}px`;
-
   
     if (this.movingRight) {
-        this.x += this.speed;
-   
-        if (this.x + this.w >= platformX + this.platformWidth) {
-            this.movingRight = false;
-            this.node.src = this.type[this.randomEnemy].imageLeft; 
-            this.type.hasAttacked = false;
-        }
+      this.x += this.speed;
+      if (this.x + this.w >= platformX + this.platformWidth) {
+        this.movingRight = false;
+        this.node.src = this.type[this.randomEnemy].imageLeft;
+        this.type.hasAttacked = false;
+      }
     } else {
-        this.x -= this.speed;
-    
-        if (this.x <= platformX) {
-            this.movingRight = true;
-            this.node.src = this.type[this.randomEnemy].imageRight; 
-            this.type.hasAttacked = false;
-        }
+      this.x -= this.speed;
+      if (this.x <= platformX) {
+        this.movingRight = true;
+        this.node.src = this.type[this.randomEnemy].imageRight;
+        this.type.hasAttacked = false;
+      }
     }
-
-    // Actualizar la posición en el DOM
+  
     this.node.style.left = `${this.x}px`;
-}
+  }
+  
 
 
   getRandomEnemy(){
@@ -99,7 +95,6 @@ class Enemy {
   }
 
   getDamage(bullet) {
-    // Si el enemigo ya está muerto, no hacemos nada
     if (this.isDead) return;
 
     this.currentLife -= bullet.damage;
@@ -123,8 +118,7 @@ class Enemy {
       this.currentDamage = 0;
       this.audioAttack = null;
       this.isDead = true; 
+ 
     }, 150)
   }
-
-
 }

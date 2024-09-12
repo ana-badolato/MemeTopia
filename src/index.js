@@ -144,13 +144,17 @@ function startGame() {
     seconds = (timeRemaining % 60).toString().padStart(2, "0");
   
     timeRemainingContainer.innerText = `${minutes}:${seconds}`;
-    if (timeRemaining === 0) {
-      
+    if(timeRemaining <= 5 && timeRemaining>0){
+      timeRemainingContainer.style.color = "#ff5733"; 
+      startShaking();     
+    }else if (timeRemaining === 0) {   
       gameWin();
     }
   }, 1000);
 
-  enemiesArray[0].hide();
+  enemiesArray[0].x = -500; 
+  enemiesArray[0].node.style.left = `${enemiesArray[0].x}px`; 
+  enemiesArray[0].isDead = true; 
 
 }
 
@@ -204,7 +208,7 @@ function openMenu() {
 function gameOver() {
   gameOverScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
-  gameOverResume.innerHTML = `You fought valiantly, taking down <span>${playerObj.kills} enemy/ies</span>, scooped up <span>${playerObj.coins} Doge Coins</span>, and held on for <span>${duration - timeRemaining} seconds</span>. <br> But alas, the memes won this round. <br> You'll meme another day!`;
+  gameOverResume.innerHTML = `You fought valiantly, taking down <span>${playerObj.kills} enemies</span>, scooped up <span>${playerObj.coins} Doge Coins</span>, and held on for <span>${duration - timeRemaining} seconds</span>. <br> But alas, the memes won this round. <br> You'll meme another day!`;
 
   loseTotalScore.innerText=`${getTotalScore()} points!`
   stopMusicGame();
@@ -219,7 +223,7 @@ function gameOver() {
 function gameWin(){
   gameWinScreenNode.style.display = "flex";
   gameScreenNode.style.display = "none";
-  gameWinResume.innerHTML = `You took down <span>${playerObj.kills} enemy/ies</span>, grabbed <span>${playerObj.coins} Doge Coins</span>, and survived for <span>${duration - timeRemaining} seconds</span>. <br> Meme legend in the making!`;
+  gameWinResume.innerHTML = `You took down <span>${playerObj.kills} enemies</span>, grabbed <span>${playerObj.coins} Doge Coins</span>, and survived for <span>${duration - timeRemaining} seconds</span>. <br> Meme legend in the making!`;
 
   winTotalScore.innerText=`${getTotalScore()} points!`
   stopMusicGame();
@@ -230,8 +234,6 @@ function gameWin(){
   showScores(listWinScores);
   cleanGame();
 }
-
-
 
 function cleanGame() {
   clearIntervals();
@@ -245,6 +247,7 @@ function cleanGame() {
   playerObj.kills=0;
   timeRemaining=duration;
   isGameGoing = false;
+  timeRemainingContainer.style.color = "#f3f3f3";
 }
 
 function restartGame() {
@@ -273,7 +276,6 @@ function getPlayerName() {
   }
 }
 
-
 function triggerLowLifeOverlay() {
   let blinkCount = 0; 
   lowLifeOverlay.style.opacity = '1';  
@@ -295,6 +297,16 @@ function triggerLowLifeOverlay() {
   }, 500); 
 }
 
+function startShaking() {
+  let shakeInterval = setInterval(() => {
+    timeRemainingContainer.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+  }, 50);
+
+  setTimeout(() => {
+    clearInterval(shakeInterval);
+    timeRemainingContainer.style.transform = 'translate(0, 0)'; 
+  }, 500);
+}
 //* Funciones música
 
 function initMusicGame() {
@@ -530,9 +542,9 @@ restartWinBtnNode.addEventListener("click", () => {
 
 window.addEventListener("keydown", (event) => {
   if(isGameGoing){
-    if (event.key === "d") {
+    if (event.key === "d" || event.key === "D") {
       playerObj.keys.right = true;
-    } else if (event.key === "a") {
+    } else if (event.key === "a" || event.key === "A") {
       playerObj.keys.left = true;
     } else if (event.key === " " && playerObj.isGrounded) {
       playerObj.jump();
@@ -548,9 +560,9 @@ window.addEventListener("keyup", (event) => {
   if(isGameGoing){
     keysPressed[event.key] = false;
     playerObj.resetAcceleration(); 
-  if (event.key === "a") {
+  if (event.key === "a" || event.key === "A") {
     playerObj.keys.left = false;
-  } else if (event.key === "d") {
+  } else if (event.key === "d" || event.key === "D") {
     playerObj.keys.right = false;
   }
 }

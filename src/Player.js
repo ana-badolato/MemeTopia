@@ -38,7 +38,6 @@ class Player {
     this.node.style.left = `${this.x}px`
 
     this.node.style.zIndex = 10;
-
   }
 
   resetAcceleration() {   
@@ -130,6 +129,7 @@ class Player {
       this.audioHit.play();
       this.life -= enemy.type[enemy.randomEnemy].damage;
       playerLife.innerText = `${this.life}`;
+      this.shakeEffect();
       
     }
     if (this.life <= 0) {
@@ -152,5 +152,17 @@ class Player {
         this.bulletsArray.splice(index, 1); 
       }
     });
+  }
+
+  shakeEffect() {
+    let shakeInterval = setInterval(() => {
+      this.node.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+    }, 50);
+  
+ 
+    setTimeout(() => {
+      clearInterval(shakeInterval);
+      this.node.style.transform = 'translate(0, 0)'; 
+    }, 500);
   }
 }
