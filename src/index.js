@@ -27,7 +27,7 @@ const listLoseScores = document.getElementById('listLoseScores');//!Aquí
 
 // game win screen
 const gameWinScreenNode = document.querySelector("#game-win-screen");
-const listWinScores = document.getElementById('listLoseScores');//! Aquí
+const listWinScores = document.getElementById('listWinScores');//! Aquí
 const menuWinBtnNode = document.querySelector(".menuWinBtn");
 const restartWinBtnNode = document.querySelector(".restartWinBtn");
 const winResumeKills=document.querySelector(".winResumeKills");
@@ -59,7 +59,7 @@ let background = null;
 let isGameGoing = false; 
 let keysPressed = {};
 let playerName=""; //! aquí
-//let totalScore=0;
+
 
 // Audio
 let gameMusic = new Audio('./audio/goMiau.mp3') 
@@ -81,7 +81,7 @@ splashMusic.volume = 0.04;
 splashMusic.play();
 
 // Timer gameplay
-let duration=60;
+let duration=5;
 let timeRemaining = duration;
 let minutes = Math.floor(timeRemaining / 60).toString().padStart(2, "0");
 let seconds = (timeRemaining % 60).toString().padStart(2, "0");
@@ -104,7 +104,6 @@ function startGame() {
   playerObj = new Player();
   background = new Background();
   
-  //totalScore = playerObj.getTotalScore();
   playerLife.innerText = `${playerObj.life}`;
   playerCoins.innerText = `${playerObj.coins}`;
   playerKills.innerText = `${playerObj.kills}`;
@@ -196,6 +195,8 @@ function gameOver() {
   resumeTime.innerText=`${120-timeRemaining} s`
   loseTotalScore.innerText=`${getTotalScore()} points!`
   gameOverAudio.play();
+  storeScore(playerName, getTotalScore());
+  showScores(listLoseScores);
   stopMusicGame();
   cleanGame();
   //clearIntervals();
@@ -209,6 +210,8 @@ function gameWin(){
   winResumeTime.innerText=`${120-timeRemaining} s`
   winTotalScore.innerText=`${getTotalScore()} points!`
   winMusic.play();
+  storeScore(playerName, getTotalScore());
+  showScores(listWinScores);
   stopMusicGame();
   cleanGame();
   
@@ -414,6 +417,35 @@ function checkElementsOut(){
     }
   }
 }
+
+//* funciones local Storage
+
+function storeScore(name, score) {
+  const newScore = { name, score };
+
+  let scores = JSON.parse(localStorage.getItem('scores')) || [];
+  scores.push(newScore);
+  localStorage.setItem('scores', JSON.stringify(scores));
+}
+
+
+function showScores(listElement) {
+  // Limpiar la lista de puntuaciones anterior
+  listElement.innerHTML = ''; 
+
+  const scores = JSON.parse(localStorage.getItem('scores')) || [];
+
+  scores.sort((a, b) => b.score - a.score);
+
+  const bestScores = scores.slice(0, 5);
+
+  bestScores.forEach(score => {
+    const li = document.createElement('li');
+    li.textContent = `${score.name} - ${score.score} points`;
+    listElement.appendChild(li);
+  });
+}
+
 
 //* EVENT LISTENERS
 
