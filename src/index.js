@@ -178,7 +178,7 @@ function gameLoop() {
     if (playerObj.life <= 50 && !isLowLifeWarningActive) {
       isLowLifeWarningActive = true; 
       triggerLowLifeOverlay();
-    } else if (playerObj.life > 50) {
+    } else if (playerObj.life > 25) {
       isLowLifeWarningActive = false; 
     }
 }
