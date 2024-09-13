@@ -22,7 +22,6 @@ class Bullet {
   }
 
   move() {
-    // Movimiento condicional hacia la derecha o izquierda
     if (this.direction === 1) {
       this.x += this.speed;
     } else {
@@ -32,20 +31,19 @@ class Bullet {
   }
 
   checkCollisionWithEnemy(enemy) {
-    // Condicionales para detectar colisión con enemigos
     if (
       this.x < enemy.x + enemy.w &&
       this.x + this.w > enemy.x &&
       this.y < enemy.y + enemy.h &&
       this.y + this.h > enemy.y
     ) {
-      return true; // Si se cumple, hay colisión
+      return true;
     }
-    return false; // No hay colisión
+    return false;
   }
 
   remove() {
-    this.node.remove(); // Eliminar del DOM
+    this.node.remove();
   }
 
   getRandomColor() {

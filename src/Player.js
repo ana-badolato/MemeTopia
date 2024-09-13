@@ -21,6 +21,7 @@ class Player {
       right: false,
       left: false,
     };
+
     this.audioHit = new Audio("./audio/hit.mp3");  
     this.audioHit.volume=0.05;
     this.audioBullet = new Audio("./audio/gun.mp3");
@@ -52,6 +53,7 @@ class Player {
       }
     }
 
+    //controlando el movimiento desde esta función en el loop game se consigue que sea fluido y no a pequeños incrementos 
     movement(){
       if (this.keys.left) {
         this.moveLeft();
@@ -83,6 +85,8 @@ class Player {
       }
     }
 
+    //el jugador debe poder saltar pero no repetir el salto una vez en el aire. Sólo debe poder saltar cuando éste se encuentre sobre una plataforma. 
+    //para conseguir un salto fluido y con algo similar a un efecto parabólico, se ha multiplicado -durante el salto- la velocidad de salto por la aceleración. 
     jump() {
       if (!this.isJumping && this.isGrounded) {
         this.isJumping = true;
@@ -130,7 +134,6 @@ class Player {
       this.life -= enemy.type[enemy.randomEnemy].damage;
       playerLife.innerText = `${this.life}`;
       this.shakeEffect();
-      
     }
     if (this.life <= 0) {
       gameOver();
@@ -141,7 +144,6 @@ class Player {
     const newBullet = new Bullet(playerObj);
     this.bulletsArray.push(newBullet);
     this.audioBullet.play();
-
   }
 
   moveBullets() {
@@ -154,12 +156,12 @@ class Player {
     });
   }
 
+  //el jugador se agita cuando recibe un golpe
   shakeEffect() {
     let shakeInterval = setInterval(() => {
       this.node.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
     }, 50);
   
- 
     setTimeout(() => {
       clearInterval(shakeInterval);
       this.node.style.transform = 'translate(0, 0)'; 

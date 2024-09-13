@@ -88,8 +88,6 @@ class Enemy {
     this.node.style.left = `${this.x}px`;
   }
   
-
-
   getRandomEnemy(){
     return Math.floor(Math.random()*this.type.length);
   }

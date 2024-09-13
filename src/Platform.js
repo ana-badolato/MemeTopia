@@ -27,5 +27,4 @@ class Platform {
       this.y+=this.speed;
       this.node.style.top = `${this.y}px`
     }
-
   }

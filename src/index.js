@@ -32,9 +32,7 @@ const restartWinBtnNode = document.querySelector(".restartWinBtn");
 const gameWinResume = document.querySelector("#gameWinResume");
 const winTotalScore=document.querySelector("#winTotalScore");
 
-
 //* VARIABLES GLOBALES DEL JUEGO
-
 
 // Intervalos
 let gameIntervalId = null;
@@ -50,7 +48,6 @@ let platformsFreq = 2200;
 let enemiesArray = [];
 let powerUpsArray = [];
 let background = null;
-
 
 //Control del juego
 let isGameGoing = false; 
@@ -98,7 +95,6 @@ timeRemainingContainer.innerText = `${minutes}:${seconds}`;
 //* Funciones del estado del juego
 
 function startGame() {
-  console.log(playerName); 
 
   gameOverScreenNode.style.display = "none";
   splashScreenNode.style.display = "none";
@@ -137,13 +133,12 @@ function startGame() {
 
   timerIntervalId = setInterval(() => {
     timeRemaining -= 1;
-  
     minutes = Math.floor(timeRemaining / 60)
       .toString()
       .padStart(2, "0");
     seconds = (timeRemaining % 60).toString().padStart(2, "0");
-  
     timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+
     if(timeRemaining <= 5 && timeRemaining>0){
       timeRemainingContainer.style.color = "#ff5733"; 
       startShaking();     
@@ -158,15 +153,14 @@ function gameLoop() {
     background.move(); 
     playerObj.movement();
     playerObj.gravity();
-
     detectCollisionPlayerPlatform();
     detectCollisionPlayerEnemy();
     detectCollisionBulletEnemy(); 
     detectCollisionEnemyPlatform();
     detectCollisionPlayerPowerUp();
-
     playerObj.moveBullets();
- 
+
+    //para cada plataforma, creamos un enemigo encima
     platformsArray.forEach((eachPlatform, index) => {
       eachPlatform.automaticMovement();    
       if (enemiesArray[index]) {
@@ -179,7 +173,8 @@ function gameLoop() {
     });
 
     checkElementsOut();
- 
+    
+    //gestión overlay
     if (playerObj.life <= 50 && !isLowLifeWarningActive) {
       isLowLifeWarningActive = true; 
       triggerLowLifeOverlay();
@@ -271,10 +266,10 @@ function getPlayerName() {
   }
 }
 
+// overlay cuando el player tiene poca vida
 function triggerLowLifeOverlay() {
   let blinkCount = 0; 
   lowLifeOverlay.style.opacity = '1';  
-
 
   const blinkInterval = setInterval(() => {
     if (lowLifeOverlay.style.opacity === '1') {
@@ -292,6 +287,7 @@ function triggerLowLifeOverlay() {
   }, 500); 
 }
 
+// el timer se agita cuando quedan pocos segundos
 function startShaking() {
   let shakeInterval = setInterval(() => {
     timeRemainingContainer.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
@@ -302,6 +298,7 @@ function startShaking() {
     timeRemainingContainer.style.transform = 'translate(0, 0)'; 
   }, 500);
 }
+
 //* Funciones música
 
 function initMusicGame() {
@@ -330,6 +327,8 @@ function stopMusicWin() {
 
 //* Funciones de adición
 
+//un sólo array, las de la dcha se posicionan de forma relativa a las de la izda
+//se añaden los enemigos encima de cada una de las plataformas
 function addPlatform() {
   let randomPositionX = Math.floor(Math.random() * (-150));
 
@@ -358,6 +357,7 @@ function addPowerUp(){
 }
 
 //* Funciones de colisión
+
 function detectCollisionPlayerPlatform() {
   checkPlayerExists();
   let playerIsTouchingPlatform = false;
@@ -463,6 +463,7 @@ function checkElementsOut(){
 
 //* funciones local Storage
 
+//recogemos el score en forma de objeto y lo pasamos a un array  para guardarlo en el local storage
 function storeScore(name, score) {
   const newScore = { name, score };
 
@@ -471,7 +472,7 @@ function storeScore(name, score) {
   localStorage.setItem('scores', JSON.stringify(scores));
 }
 
-
+//recuperamos la información guardada en el local storage y la filtramos para mostrar por pantalla las mejores puntuaciones
 function showScores(listElement) {
   listElement.innerHTML = ''; 
   const scores = JSON.parse(localStorage.getItem('scores')) || [];
@@ -483,7 +484,6 @@ function showScores(listElement) {
     listElement.appendChild(li);
   });
 }
-
 
 //* EVENT LISTENERS
 
@@ -533,7 +533,6 @@ menuWinBtnNode.addEventListener("click", () => {
 restartWinBtnNode.addEventListener("click", () => {
   startGame();
 });
-
 
 window.addEventListener("keydown", (event) => {
   if(isGameGoing){
