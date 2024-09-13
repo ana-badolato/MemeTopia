@@ -32,7 +32,7 @@ class Powerup {
     this.randomPowerUp = this.getRandomPowerUp();
     this.audioPower = new Audio(this.type[this.randomPowerUp].audio);  
     this.audioPower.volume=this.type[this.randomPowerUp].volume;
-    this.node = document.createElement("img");  /
+    this.node = document.createElement("img");  
     this.node.src = this.type[this.randomPowerUp].image;
 
     this.node.style.width = `${this.w}px`;

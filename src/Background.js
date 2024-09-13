@@ -42,12 +42,12 @@ class Background {
 
     // Si uno de los fondos sale de la pantalla, lo recolocamos en la parte superior
     if (pos1 >= gameBoxNode.offsetHeight) {
-      pos1 = pos2 - gameBoxNode.offsetHeight; /
+      pos1 = pos2 - gameBoxNode.offsetHeight; 
     }
     if (pos2 >= gameBoxNode.offsetHeight) {
       pos2 = pos1 - gameBoxNode.offsetHeight; 
     }
-s
+
     this.node1.style.top = `${pos1}px`;
     this.node2.style.top = `${pos2}px`;
   }
