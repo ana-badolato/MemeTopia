@@ -152,10 +152,6 @@ function startGame() {
     }
   }, 1000);
 
-  enemiesArray[0].x = -500; 
-  enemiesArray[0].node.style.left = `${enemiesArray[0].x}px`; 
-  enemiesArray[0].isDead = true; 
-
 }
 
 function gameLoop() {
@@ -391,7 +387,7 @@ function detectCollisionEnemyPlatform(){
 }
 
 function detectCollisionPlayerEnemy(){
-  checkPlayerExists()
+  checkPlayerExists();
   enemiesArray.forEach((eachEnemy)=>{  
   if(checkAnyCollision(playerObj, eachEnemy)){         
     if(!eachEnemy.type.hasAttacked){     

@@ -14,7 +14,7 @@ class Enemy {
       
       {
         name: "troll",
-        damage: 15,
+        damage: 10,
         life: 30,
         imageLeft: "./img/enemy2Left.png",
         imageRight: "./img/enemy2Right.png",
@@ -22,7 +22,7 @@ class Enemy {
       },
       {
         name: "frog",
-        damage: 10,
+        damage: 5,
         life: 20,
         imageLeft: "./img/frogLeft.png",
         imageRight: "./img/frogRight.png",
@@ -30,7 +30,7 @@ class Enemy {
       },
       {
         name: "monkey",
-        damage: 5,
+        damage: 3,
         life: 10,
         imageLeft: "./img/monkeyLeft.png",
         imageRight: "./img/monkeyRight.png",
@@ -118,7 +118,6 @@ class Enemy {
       this.currentDamage = 0;
       this.audioAttack = null;
       this.isDead = true; 
- 
     }, 150)
   }
 }
