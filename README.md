@@ -76,7 +76,7 @@
 [Link](https://trello.com/invite/b/66b87f105af5fa236b579579/ATTI8146e3ad64efc50e338ad33014963c22AB029016/m01-final-project)
 
 ### Slides
-[Link](www.your-slides-url-here.com)
+[Link](https://docs.google.com/presentation/d/1Cfm5wTzw6syW_DHZmomJp9Ytwckq4Osb_Sc_YKpUh2c/edit?usp=sharing)
 
 ## 🎮 Deploy
 [Link](https://ana-badolato.github.io/MemeTopia/)
