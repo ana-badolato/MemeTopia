@@ -61,7 +61,7 @@ let isLowLifeWarningActive = false;
 // Audio
 let gameMusic = new Audio('./audio/marbleSodaMusic.mp3') 
 gameMusic.loop = true; 
-gameMusic.volume = 0.02; 
+gameMusic.volume = 0.01; 
 
 let gameOverAudio = new Audio("./audio/sadViolinAudio.mp3");
 gameOverAudio.loop = false;
@@ -69,11 +69,11 @@ gameOverAudio.volume = 0.01;
 
 let splashMusic = new Audio('./audio/catPolka.mp3') 
 splashMusic.loop = false; 
-splashMusic.volume = 0.02;
+splashMusic.volume = 0.03;
 
 let winMusic = new Audio('./audio/chipi.mp3') 
 winMusic.loop = true; 
-winMusic.volume = 0.05;
+winMusic.volume = 0.2;
 
 let lowLifeAudio = new Audio('./audio/lowLife.mp3') 
 lowLifeAudio.loop = false; 
@@ -86,7 +86,7 @@ buttonAudio.volume = 0.5;
 splashMusic.play();
 
 // Timer gameplay
-let duration=60;
+let duration=10;
 let timeRemaining = duration;
 let minutes = Math.floor(timeRemaining / 60).toString().padStart(2, "0");
 let seconds = (timeRemaining % 60).toString().padStart(2, "0");
