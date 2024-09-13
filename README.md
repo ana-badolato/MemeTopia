@@ -11,7 +11,7 @@
 
 #### 60 seconds? Enough time to make history... or crash and burn.
 
-# ⚙️ Main Functionalities
+## ⚙️ Main Functionalities
 
 - **Movement**:
   - The player moves left with `a` and right with `d`.
@@ -42,14 +42,14 @@
 - **Local storage**:
   - The game saves and displays scores at the end of each match.
 
-# 🛠️ Backlog Functionalities
+## 🛠️ Backlog Functionalities
 
 - **Add shooting mechanics** for enemies.
 - **Special power-ups** for the player.
 - **Increase difficulty** as time progresses.
 - **Improve the UI** for a better player experience.
 
-# 🖥️ Technologies Used
+## 🖥️ Technologies Used
 
 - HTML
 - CSS
@@ -59,7 +59,7 @@
 - Local Storage
 - JS Audio()
 
-# 🚦States
+## 🚦States
 
 - Start Screen
 - Game Screen
@@ -67,7 +67,7 @@
 - Game Win Screen
 
 
-# 🌍 Extra Links 
+## 🌍 Extra Links 
 
 ### Sketch
 [Link](https://www.figma.com/board/YX3qS1F6pwj4kJQhPyBPYV/Memetopia-%2F-Concept?node-id=0-1&t=NXBovHe1RRAQ3v58-1)
@@ -78,9 +78,9 @@
 ### Slides
 [Link](www.your-slides-url-here.com)
 
-# 🎮 Deploy
+## 🎮 Deploy
 [Link](https://ana-badolato.github.io/MemeTopia/)
 
-# 🤩 Special Thanks
+## 🤩 Special Thanks
 ### 🪄 Sala 12 (where the real magic happens)
 ### 🐈🐈‍⬛🧑‍🦰 To my family and cats for their patience
