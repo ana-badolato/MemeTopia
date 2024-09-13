@@ -151,7 +151,6 @@ function startGame() {
       gameWin();
     }
   }, 1000);
-
 }
 
 function gameLoop() {
@@ -390,7 +389,7 @@ function detectCollisionPlayerEnemy(){
   checkPlayerExists();
   enemiesArray.forEach((eachEnemy)=>{  
   if(checkAnyCollision(playerObj, eachEnemy)){         
-    if(!eachEnemy.type.hasAttacked){     
+    if(!eachEnemy.isDead && !eachEnemy.type.hasAttacked){     
       playerObj.getDamage(eachEnemy);
       eachEnemy.type.hasAttacked = true;
     }    
